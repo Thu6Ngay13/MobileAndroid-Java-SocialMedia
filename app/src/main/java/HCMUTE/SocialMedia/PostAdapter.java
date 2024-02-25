@@ -31,7 +31,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
         holder.fullName.setText(posts.get(position).getFullName());
         holder.postingTimeAt.setText(posts.get(position).getPostingTimeAt());
         holder.mode.setImageResource(posts.get(position).getMode());
+        holder.postText.setText(posts.get(position).getPostText());
         holder.postImage.setImageResource(posts.get(position).getPostImage());
+        holder.menu.setImageResource(posts.get(position).getMenu());
+        holder.like.setImageResource(posts.get(position).getLike());
+        holder.comment.setImageResource(posts.get(position).getComment());
+        holder.share.setImageResource(posts.get(position).getShare());
     }
 
     @Override

@@ -14,6 +14,11 @@ public class PostHolder extends RecyclerView.ViewHolder{
     public ImageView mode;
     public TextView postText;
     public ImageView postImage;
+    public ImageView menu;
+    public ImageView like;
+    public ImageView comment;
+    public ImageView share;
+
 
     public PostHolder(@NonNull View itemView) {
         super(itemView);
@@ -23,5 +28,9 @@ public class PostHolder extends RecyclerView.ViewHolder{
         this.mode = itemView.findViewById(R.id.ivMode);
         this.postText = itemView.findViewById(R.id.tvPostText);
         this.postImage = itemView.findViewById(R.id.ivPostImage);
+        this.menu = itemView.findViewById(R.id.ivMenu);
+        this.like = itemView.findViewById(R.id.ibLike);
+        this.comment = itemView.findViewById(R.id.ibComment);
+        this.share = itemView.findViewById(R.id.ibShare);
     }
 }
