@@ -10,11 +10,8 @@ public class PostModel {
     private String postText;
     private int postImage;
     private int menu;
-    private int like;
-    private int comment;
-    private int share;
 
-    public PostModel(int avatar, String fullName, String postingTimeAt, int mode, String postText, int postImage, int menu, int like, int comment, int share) {
+    public PostModel(int avatar, String fullName, String postingTimeAt, int mode, String postText, int postImage, int menu) {
         this.avatar = avatar;
         this.fullName = fullName;
         this.postingTimeAt = postingTimeAt;
@@ -22,9 +19,6 @@ public class PostModel {
         this.postText = postText;
         this.postImage = postImage;
         this.menu = menu;
-        this.like = like;
-        this.comment = comment;
-        this.share = share;
     }
 
     public int getAvatar() {
@@ -81,29 +75,5 @@ public class PostModel {
 
     public void setMenu(int menu) {
         this.menu = menu;
-    }
-
-    public int getLike() {
-        return like;
-    }
-
-    public void setLike(int like) {
-        this.like = like;
-    }
-
-    public int getComment() {
-        return comment;
-    }
-
-    public void setComment(int comment) {
-        this.comment = comment;
-    }
-
-    public int getShare() {
-        return share;
-    }
-
-    public void setShare(int share) {
-        this.share = share;
     }
 }

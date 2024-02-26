@@ -84,7 +84,8 @@
         android:layout_marginEnd="8dp"
         android:src="@drawable/post_image"/>
 
-    <androidx.gridlayout.widget.GridLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/glInteract"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
@@ -95,38 +96,8 @@
         android:layout_marginTop="425dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="2dp"
-        android:background="@color/white"
-        app:rowCount="1"
-        app:columnCount="3">
+        android:background="@color/white">
 
-        <ImageButton
-            android:id="@+id/ibLike"
-            android:background="@drawable/outline"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:layout_column="0"
-            app:layout_row="0"
-            app:srcCompat="@mipmap/ic_like_72_line" />
-
-        <ImageButton
-            android:id="@+id/ibComment"
-            android:background="@drawable/outline"
-            app:layout_column="1"
-            app:layout_columnWeight="1"
-            app:layout_row="0"
-            app:layout_rowWeight="1"
-            app:srcCompat="@mipmap/ic_comment_72_dark" />
-
-        <ImageButton
-            android:id="@+id/ibShare"
-            android:background="@drawable/outline"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1"
-            app:layout_column="2"
-            app:layout_row="0"
-            app:srcCompat="@mipmap/ic_share_72_dark" />
-
-    </androidx.gridlayout.widget.GridLayout>
-
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

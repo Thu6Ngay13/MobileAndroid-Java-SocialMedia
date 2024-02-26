@@ -4,4 +4,8 @@
     <string name="avatar">Avatar</string>
     <string name="posting_time_at">20:20 25–02-2024</string>
     <string name="post_text">Hôm nay trời đẹp quá</string>
+    <string name="like">Like</string>
+    <string name="comment">Comment</string>
+    <string name="share">Share</string>
+
 </resources>
