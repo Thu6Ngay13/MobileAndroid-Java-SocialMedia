@@ -33,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         selectModels = new ArrayList<>();
-        chosen = Select.Home;
-        onClickHome();
-
         ibHome = (ImageButton)findViewById(R.id.ibHome);
         ibFriend = (ImageButton)findViewById(R.id.ibFriend);
         ibNotify = (ImageButton)findViewById(R.id.ibNotify);
@@ -45,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
         selectModels.add(new SelectModel(Select.Friend, ibFriend, R.mipmap.ic_friend_72_line));
         selectModels.add(new SelectModel(Select.Notify, ibNotify, R.mipmap.ic_bell_72_line));
         selectModels.add(new SelectModel(Select.Setting, ibSetting, R.mipmap.ic_setting_72_light));
+
+        onClickHome();
+        chosen = Select.Home;
+        ibHome.setImageResource(R.mipmap.ic_home_72_full);
 
         ibHome.setOnClickListener(new View.OnClickListener() {
             @Override

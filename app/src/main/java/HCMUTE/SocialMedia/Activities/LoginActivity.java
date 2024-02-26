@@ -1,8 +1,10 @@
-package HCMUTE.SocialMedia;
+package HCMUTE.SocialMedia.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import HCMUTE.SocialMedia.R;
 
 public class LoginActivity extends AppCompatActivity {
 
