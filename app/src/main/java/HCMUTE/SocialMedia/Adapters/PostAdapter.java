@@ -2,16 +2,18 @@ package HCMUTE.SocialMedia.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import HCMUTE.SocialMedia.Models.InteractModel;
 import HCMUTE.SocialMedia.Holders.PostHolder;
 import HCMUTE.SocialMedia.Models.PostModel;
 import HCMUTE.SocialMedia.R;
@@ -41,16 +43,38 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
         holder.postText.setText(postModel.getPostText());
         holder.postImage.setImageResource(postModel.getPostImage());
 
-        List<InteractModel> interactModels = new ArrayList<>();
-        interactModels.add(new InteractModel(R.mipmap.ic_like_72_line, "Like"));
-        interactModels.add(new InteractModel(R.mipmap.ic_comment_72_dark, "Comment"));
-        interactModels.add(new InteractModel(R.mipmap.ic_share_72_dark, "Share"));
+        CardView cvLike = (CardView) holder.itemView.findViewById(R.id.cvLike);
+        CardView cvComment = (CardView) holder.itemView.findViewById(R.id.cvComment);
+        CardView cvShare = (CardView) holder.itemView.findViewById(R.id.cvShare);
 
-        RecyclerView recyclerView = holder.itemView.findViewById(R.id.glInteract);
-        GridLayoutManager gridLayout = new GridLayoutManager(context, 3, RecyclerView.VERTICAL, false);
+        cvLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageView ivLike = (ImageView) cvLike.findViewById(R.id.ivLike);
+                if(postModel.getLiked()){
+                    postModel.setLiked(false);
+                    ivLike.setImageResource(R.mipmap.ic_like_72_line);
+                } else {
+                    postModel.setLiked(true);
+                    ivLike.setImageResource(R.mipmap.ic_like_72_full);
+                }
+            }
+        });
 
-        recyclerView.setLayoutManager(gridLayout);
-        recyclerView.setAdapter(new InteractAdapter(context.getApplicationContext(), interactModels));
+        cvComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Comment", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cvShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Share", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
@@ -59,6 +83,4 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
             return posts.size();
         return 0;
     }
-
-
 }

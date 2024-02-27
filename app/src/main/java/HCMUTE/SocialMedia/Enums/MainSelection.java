@@ -1,6 +1,6 @@
 package HCMUTE.SocialMedia.Enums;
 
-public enum Select {
+public enum MainSelection {
     Home,
     Friend,
     Notify,
