@@ -22,5 +22,12 @@
     <string name="notify_3days_ago">3 days ago</string>
     <string name="notify_7days_ago">7 days ago</string>
     <string name="full_name_and_content">AAA <xliff:g id="bbb_ccc" example="BBB CCC">BBB CCC</xliff:g></string>
+    
+    <string name="what_are_you_thinking">What are you thinking?</string>
+    <string name="setting_function_name">Function name</string>
+    <string name="profile">Profile</string>
+    <string name="admin">Admin</string>
+    <string name="policy">Policy</string>
+    <string name="logout">Logout</string>
 
 </resources>

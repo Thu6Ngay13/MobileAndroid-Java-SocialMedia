@@ -16,15 +16,20 @@ import java.util.List;
 import java.util.Random;
 
 import HCMUTE.SocialMedia.Adapters.FriendAdapter;
+import HCMUTE.SocialMedia.Adapters.HomeAdapter;
 import HCMUTE.SocialMedia.Adapters.NotifyAdapter;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
+import HCMUTE.SocialMedia.Adapters.SettingAdapter;
 import HCMUTE.SocialMedia.Enums.MainSelection;
 import HCMUTE.SocialMedia.Models.FriendModel;
 import HCMUTE.SocialMedia.Models.FriendRequestModel;
+import HCMUTE.SocialMedia.Models.HomeModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.NotifyModel;
 import HCMUTE.SocialMedia.Models.PostModel;
 import HCMUTE.SocialMedia.Models.MainSelectionModel;
+import HCMUTE.SocialMedia.Models.SettingCardModel;
+import HCMUTE.SocialMedia.Models.SettingModel;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
 
@@ -115,12 +120,13 @@ public class MainActivity extends AppCompatActivity {
                 ibSetting.setImageResource(R.mipmap.ic_setting_72_dark);
                 oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
 
-                Toast.makeText(MainActivity.this, "Setting", Toast.LENGTH_SHORT).show();
+                onClickSetting();
             }
         });
     }
 
     private void onClickHome(){
+        List<HomeModel> homeModels = new ArrayList<>();
         List<PostModel> postModels = new ArrayList<>();
         for (int i = 0; i < x; i++) {
             postModels.add(new PostModel(
@@ -134,9 +140,10 @@ public class MainActivity extends AppCompatActivity {
             ));
         }
 
+        homeModels.add(new HomeModel(postModels));
         RecyclerView recyclerView = findViewById(R.id.rvMainArea);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new PostAdapter(getApplicationContext(), postModels));
+        recyclerView.setAdapter(new HomeAdapter(getApplicationContext(), homeModels));
     }
 
     private void onClickFriend(){
@@ -199,5 +206,17 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rvMainArea);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new NotifyAdapter(getApplicationContext(), notifyModels));
+    }
+
+    private void onClickSetting(){
+        List<SettingModel> settingModels = new ArrayList<>();
+        List<SettingCardModel> settingCardModels = new ArrayList<>();
+
+        settingCardModels.add(new SettingCardModel(R.mipmap.ic_admin_72_dark, "Admin"));
+        settingModels.add(new SettingModel(R.mipmap.ic_user_72_dark, "Jonhny Deep", settingCardModels));
+
+        RecyclerView recyclerView = findViewById(R.id.rvMainArea);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new SettingAdapter(getApplicationContext(), settingModels));
     }
 }
