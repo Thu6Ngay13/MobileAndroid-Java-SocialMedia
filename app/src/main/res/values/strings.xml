@@ -1,12 +1,14 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Pie</string>
-    <string name="full_name">Johnny Deep</string>
+
     <string name="avatar">Avatar</string>
+    <string name="full_name">Johnny Deep</string>
     <string name="posting_time_at">20:20 25–02-2024</string>
     <string name="post_text">Hôm nay trời đẹp quá</string>
     <string name="like">Like</string>
     <string name="comment">Comment</string>
     <string name="share">Share</string>
+    
     <string name="your_friend">Your friend</string>
     <string name="friend_request">Friend Requests</string>
     <string name="accept">Accept</string>
@@ -14,4 +16,11 @@
     <string name="friend_request_time_at">20:20 25–02-2024</string>
     <string name="view_profile">View profile</string>
     <string name="send_message">Send message</string>
+
+    <string name="notify_time">Time</string>
+    <string name="notify_today">Today</string>
+    <string name="notify_3days_ago">3 days ago</string>
+    <string name="notify_7days_ago">7 days ago</string>
+    <string name="full_name_and_content">AAA <xliff:g id="bbb_ccc" example="BBB CCC">BBB CCC</xliff:g></string>
+
 </resources>

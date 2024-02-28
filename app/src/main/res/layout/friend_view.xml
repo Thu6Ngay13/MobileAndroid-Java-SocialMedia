@@ -41,7 +41,7 @@
     </androidx.gridlayout.widget.GridLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFriend"
+        android:id="@+id/rvFriendArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

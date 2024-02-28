@@ -81,13 +81,13 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendHolder> {
     }
 
     private void onCickYourFriend(@NonNull FriendHolder holder, FriendModel friendModel){
-        RecyclerView recyclerView = holder.itemView.findViewById(R.id.rvFriend);
+        RecyclerView recyclerView = holder.itemView.findViewById(R.id.rvFriendArea);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(new YourFriendAdapter(context.getApplicationContext(), friendModel.getYourFriendModels()));
     }
 
     private void onCickFriendRequest(@NonNull FriendHolder holder, FriendModel friendModel){
-        RecyclerView recyclerView = holder.itemView.findViewById(R.id.rvFriend);
+        RecyclerView recyclerView = holder.itemView.findViewById(R.id.rvFriendArea);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(new FriendRequestAdapter(context.getApplicationContext(), friendModel.getFriendRequestModels()));
     }
