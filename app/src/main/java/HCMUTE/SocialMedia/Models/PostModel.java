@@ -7,16 +7,16 @@ public class PostModel {
     private int mode;
     private String postText;
     private int postImage;
-    private int menu;
+    private boolean liked;
 
-    public PostModel(int avatar, String fullName, String postingTimeAt, int mode, String postText, int postImage, int menu) {
+    public PostModel(int avatar, String fullName, String postingTimeAt, int mode, String postText, int postImage, boolean liked) {
         this.avatar = avatar;
         this.fullName = fullName;
         this.postingTimeAt = postingTimeAt;
         this.mode = mode;
         this.postText = postText;
         this.postImage = postImage;
-        this.menu = menu;
+        this.liked = liked;
     }
 
     public int getAvatar() {
@@ -67,11 +67,11 @@ public class PostModel {
         this.postImage = postImage;
     }
 
-    public int getMenu() {
-        return menu;
+    public boolean getLiked() {
+        return liked;
     }
 
-    public void setMenu(int menu) {
-        this.menu = menu;
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 }

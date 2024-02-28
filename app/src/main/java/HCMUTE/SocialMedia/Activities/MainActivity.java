@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -13,51 +14,56 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import HCMUTE.SocialMedia.Adapters.FriendAdapter;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
-import HCMUTE.SocialMedia.Enums.Select;
+import HCMUTE.SocialMedia.Enums.MainSelection;
+import HCMUTE.SocialMedia.Models.FriendModel;
+import HCMUTE.SocialMedia.Models.FriendRequestModel;
 import HCMUTE.SocialMedia.Models.PostModel;
-import HCMUTE.SocialMedia.Models.SelectModel;
+import HCMUTE.SocialMedia.Models.MainSelectionModel;
+import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
 
 public class MainActivity extends AppCompatActivity {
-    private List<SelectModel> selectModels;
-    private Select chosen;
+    private List<MainSelectionModel> mainSelectionModels;
+    private MainSelection chosen;
     private ImageButton ibHome;
     private ImageButton ibFriend;
     private ImageButton ibNotify;
     private ImageButton ibSetting;
+
+    int x = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        selectModels = new ArrayList<>();
+        mainSelectionModels = new ArrayList<>();
         ibHome = (ImageButton)findViewById(R.id.ibHome);
         ibFriend = (ImageButton)findViewById(R.id.ibFriend);
         ibNotify = (ImageButton)findViewById(R.id.ibNotify);
         ibSetting = (ImageButton)findViewById(R.id.ibSetting);
 
-        selectModels.add(new SelectModel(Select.Home, ibHome, R.mipmap.ic_home_72_line));
-        selectModels.add(new SelectModel(Select.Friend, ibFriend, R.mipmap.ic_friend_72_line));
-        selectModels.add(new SelectModel(Select.Notify, ibNotify, R.mipmap.ic_bell_72_line));
-        selectModels.add(new SelectModel(Select.Setting, ibSetting, R.mipmap.ic_setting_72_light));
+        mainSelectionModels.add(new MainSelectionModel(MainSelection.Home, ibHome, R.mipmap.ic_home_72_line));
+        mainSelectionModels.add(new MainSelectionModel(MainSelection.Friend, ibFriend, R.mipmap.ic_friend_72_line));
+        mainSelectionModels.add(new MainSelectionModel(MainSelection.Notify, ibNotify, R.mipmap.ic_bell_72_line));
+        mainSelectionModels.add(new MainSelectionModel(MainSelection.Setting, ibSetting, R.mipmap.ic_setting_72_light));
 
         onClickHome();
-        chosen = Select.Home;
+        chosen = MainSelection.Home;
         ibHome.setImageResource(R.mipmap.ic_home_72_full);
 
         ibHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectModel oldSelectModel = selectModels.get(chosen.ordinal());
-                if(oldSelectModel.getId() == Select.Home)
+                MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
+                if(oldMainSelectionModel.getId() == MainSelection.Home)
                     return;
 
-
-                chosen = Select.Home;
+                chosen = MainSelection.Home;
                 ibHome.setImageResource(R.mipmap.ic_home_72_full);
-                oldSelectModel.getIb().setImageResource(oldSelectModel.getImg());
+                oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
 
                 onClickHome();
             }
@@ -67,28 +73,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                SelectModel oldSelectModel = selectModels.get(chosen.ordinal());
-                if(oldSelectModel.getId() == Select.Friend)
+                MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
+                if(oldMainSelectionModel.getId() == MainSelection.Friend)
                     return;
 
-                chosen = Select.Friend;
+                chosen = MainSelection.Friend;
                 ibFriend.setImageResource(R.mipmap.ic_friend_72_full);
-                oldSelectModel.getIb().setImageResource(oldSelectModel.getImg());
+                oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
 
-                Toast.makeText(MainActivity.this, "Friend", Toast.LENGTH_SHORT).show();
+                onClickFriend();
             }
         });
 
         ibNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectModel oldSelectModel = selectModels.get(chosen.ordinal());
-                if(oldSelectModel.getId() == Select.Notify)
+                MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
+                if(oldMainSelectionModel.getId() == MainSelection.Notify)
                     return;
                 
-                chosen = Select.Notify;
+                chosen = MainSelection.Notify;
                 ibNotify.setImageResource(R.mipmap.ic_bell_72_full);
-                oldSelectModel.getIb().setImageResource(oldSelectModel.getImg());
+                oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
 
                 Toast.makeText(MainActivity.this, "Notify", Toast.LENGTH_SHORT).show();
             }
@@ -97,13 +103,13 @@ public class MainActivity extends AppCompatActivity {
         ibSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectModel oldSelectModel = selectModels.get(chosen.ordinal());
-                if(oldSelectModel.getId() == Select.Setting)
+                MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
+                if(oldMainSelectionModel.getId() == MainSelection.Setting)
                     return;
 
-                chosen = Select.Setting;
+                chosen = MainSelection.Setting;
                 ibSetting.setImageResource(R.mipmap.ic_setting_72_dark);
-                oldSelectModel.getIb().setImageResource(oldSelectModel.getImg());
+                oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
 
                 Toast.makeText(MainActivity.this, "Setting", Toast.LENGTH_SHORT).show();
             }
@@ -112,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void onClickHome(){
         List<PostModel> postModels = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < x; i++) {
             postModels.add(new PostModel(
                     R.mipmap.ic_user_72_dark,
                     "Jonhny Deep",
@@ -120,13 +126,35 @@ public class MainActivity extends AppCompatActivity {
                     R.mipmap.ic_global_72_dark,
                     "Hôm nay trời đẹp quá",
                     R.drawable.post_image,
-                    R.mipmap.ic_more_72_dark
+                    false
             ));
         }
 
         RecyclerView recyclerView = findViewById(R.id.rvMainArea);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(new PostAdapter(getApplicationContext(), postModels));
+    }
+
+    private void onClickFriend(){
+        List<FriendModel> friendModels = new ArrayList<>();
+        List<FriendRequestModel> friendRequestModels = new ArrayList<>();
+        List<YourFriendModel> yourFriendModels = new ArrayList<>();
+
+        for (int i = 0; i < x; i++) {
+            friendRequestModels.add(new FriendRequestModel(
+                    R.mipmap.ic_user_72_dark,
+                    "Jonhny Deep",
+                    "23:59 25-02-2024"
+            ));
+            yourFriendModels.add(new YourFriendModel(
+                    R.mipmap.ic_user_72_dark,
+                    "Jonhny Deep"
+            ));
+        }
+
+        friendModels.add(new FriendModel(friendRequestModels, yourFriendModels));
+        RecyclerView recyclerView = findViewById(R.id.rvMainArea);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new FriendAdapter(getApplicationContext(), friendModels));
     }
 }
