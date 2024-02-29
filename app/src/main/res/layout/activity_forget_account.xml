@@ -50,7 +50,7 @@
         android:paddingLeft="15dp"/>
 
     <Button
-        android:id="@+id/btnRegister"
+        android:id="@+id/btnFindAccount"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@+id/etEmail"
