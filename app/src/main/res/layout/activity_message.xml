@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.MessageActivity"
+    android:orientation="vertical">
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp">
+
+        <ImageButton
+            android:background="@color/white"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/ic_arrow_left_72_dark"/>
+
+        <ImageButton
+            android:background="@color/white"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/ic_user_72_dark"/>
+
+        <TextView
+            android:background="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/full_name"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_columnWeight="1"/>
+
+        <ImageButton
+            android:background="@color/white"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/ic_phone_72_dark"/>
+
+        <ImageButton
+            android:background="@color/white"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/ic_video_call_72_dark"/>
+
+    </androidx.gridlayout.widget.GridLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMessageArea"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="8dp" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp">
+
+        <EditText
+            android:id="@+id/etTypeMessage"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:inputType="text"
+            android:hint="@string/type_message"
+            android:gravity="center"
+            android:textColorHint="@color/green_dark"
+            android:background="@color/white"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"/>
+
+        <ImageButton
+            android:id="@+id/btSendMessage"
+            android:src="@mipmap/ic_send_72_dark"
+            android:background="@color/white"
+            android:gravity="center"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"/>
+
+    </androidx.gridlayout.widget.GridLayout>
+
+</LinearLayout>
