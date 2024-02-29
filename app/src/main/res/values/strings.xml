@@ -8,7 +8,7 @@
     <string name="like">Like</string>
     <string name="comment">Comment</string>
     <string name="share">Share</string>
-    
+
     <string name="your_friend">Your friend</string>
     <string name="friend_request">Friend Requests</string>
     <string name="accept">Accept</string>
@@ -21,8 +21,8 @@
     <string name="notify_today">Today</string>
     <string name="notify_3days_ago">3 days ago</string>
     <string name="notify_7days_ago">7 days ago</string>
-    <string name="full_name_and_content">AAA <xliff:g id="bbb_ccc" example="BBB CCC">BBB CCC</xliff:g></string>
-    
+    <string name="full_name_and_content">AAA <xliff:g example="BBB CCC" id="bbb_ccc">BBB CCC</xliff:g></string>
+
     <string name="what_are_you_thinking">What are you thinking?</string>
     <string name="setting_function_name">Function name</string>
     <string name="profile">Profile</string>
