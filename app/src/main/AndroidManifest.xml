@@ -22,7 +22,7 @@
             android:name=".Activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".Activities.MessageActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.ForgetAccountActivity"
