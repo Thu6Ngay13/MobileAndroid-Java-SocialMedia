@@ -1,5 +1,6 @@
 package HCMUTE.SocialMedia.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,7 @@ import HCMUTE.SocialMedia.R;
 
 public class MessageActivity extends AppCompatActivity {
 
+    public static final String KEY_NAME = "NAME";
     private String serverName = "192.168.1.10";
     private int serverPort = 1234;
     private EchoClient client;

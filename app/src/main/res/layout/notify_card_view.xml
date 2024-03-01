@@ -18,12 +18,14 @@
         android:src="@mipmap/ic_user_72_dark" />
 
     <androidx.gridlayout.widget.GridLayout
-        android:layout_width="295dp"
+        android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="90dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@+id/ivAvatar"
         app:columnCount="1"
         app:rowCount="2">
 
@@ -35,8 +37,8 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_column="0"
-            app:layout_row="0"
             app:layout_columnWeight="1"
+            app:layout_row="0"
             app:layout_rowWeight="1" />
 
         <TextView
@@ -46,8 +48,8 @@
             android:textSize="16sp"
             android:textStyle="italic"
             app:layout_column="0"
-            app:layout_row="1"
             app:layout_columnWeight="1"
+            app:layout_row="1"
             app:layout_rowWeight="1" />
     </androidx.gridlayout.widget.GridLayout>
 </RelativeLayout>

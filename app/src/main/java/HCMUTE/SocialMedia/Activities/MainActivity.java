@@ -1,10 +1,16 @@
 package HCMUTE.SocialMedia.Activities;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -30,12 +36,25 @@ import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE = 999;
+    private ActivityResultLauncher<Intent> startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult o) {
+            if(o != null && o.getResultCode() == RESULT_OK){
+                if (o.getData() != null && o.getData().getStringExtra(MessageActivity.KEY_NAME) != null){
+                    Log.d("Receipt Data", "onActivityResult: " + o.getData().getStringExtra(MessageActivity.KEY_NAME));
+                }
+            }
+        }
+    });
+
     private List<MainSelectionModel> mainSelectionModels;
     private MainSelectionEnum chosen;
     private ImageButton ibHome;
     private ImageButton ibFriend;
     private ImageButton ibNotify;
     private ImageButton ibSetting;
+    private ImageButton ibMessage;
 
     int x = 10;
 
@@ -49,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         ibFriend = (ImageButton)findViewById(R.id.ibFriend);
         ibNotify = (ImageButton)findViewById(R.id.ibNotify);
         ibSetting = (ImageButton)findViewById(R.id.ibSetting);
+        ibMessage = (ImageButton)findViewById(R.id.ibMessage);
 
         mainSelectionModels.add(new MainSelectionModel(MainSelectionEnum.Home, ibHome, R.mipmap.ic_home_72_line));
         mainSelectionModels.add(new MainSelectionModel(MainSelectionEnum.Friend, ibFriend, R.mipmap.ic_friend_72_line));
@@ -117,6 +137,14 @@ public class MainActivity extends AppCompatActivity {
                 oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
 
                 onClickSetting();
+            }
+        });
+
+
+        ibMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickMessage();
             }
         });
     }
@@ -227,5 +255,15 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rvMainArea);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new SettingAdapter(getApplicationContext(), settingModels));
+    }
+
+    private void onClickMessage(){
+        Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+        Bundle bundle = new Bundle();
+
+        bundle.putString("string", "idx1010");
+        intent.putExtras(bundle);
+
+        startForResult.launch(intent);
     }
 }

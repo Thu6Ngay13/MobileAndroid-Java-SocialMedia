@@ -1,8 +1,10 @@
 package HCMUTE.SocialMedia.Adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +15,7 @@ import HCMUTE.SocialMedia.Enums.MessageEnum;
 import HCMUTE.SocialMedia.Holders.MessageHolder;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.Utils.ImageUtil;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
 
@@ -40,14 +43,37 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
             holder.avatar.setImageResource(messageCardModel.getAvatar());
             holder.messageSendingAt.setText(messageCardModel.getMessageSendingAt());
             holder.textMessage.setText(messageCardModel.getText());
-            holder.mediaMessage.setImageResource(messageCardModel.getMedia());
         }
         else {
             holder.avatar.setImageResource(messageCardModel.getAvatar());
             holder.fullname.setText(messageCardModel.getFullname());
             holder.messageSendingAt.setText(messageCardModel.getMessageSendingAt());
             holder.textMessage.setText(messageCardModel.getText());
-            holder.mediaMessage.setImageResource(messageCardModel.getMedia());
+        }
+
+        if(messageCardModel.getMedia() > 0) {
+            holder.mediaMessage.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    holder.mediaMessage.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                    Resources resources = context.getResources();
+                    int imageResourceId = messageCardModel.getMedia();
+                    int[] dimensions = ImageUtil.getImageDimensions(resources, imageResourceId);
+
+                    int img_width = dimensions[0];
+                    int img_height = dimensions[1];
+
+                    int width = holder.mediaMessage.getWidth();
+                    int height = width * img_height / img_width;
+
+                    holder.mediaMessage.setImageResource(messageCardModel.getMedia());
+                    holder.mediaMessage.getLayoutParams().height = height;
+                    holder.mediaMessage.requestLayout();
+
+                    return true;
+                }
+            });
         }
     }
 
