@@ -1,18 +1,15 @@
 package HCMUTE.SocialMedia.Activities;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageButton;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +23,10 @@ import HCMUTE.SocialMedia.Enums.MainSelectionEnum;
 import HCMUTE.SocialMedia.Models.FriendModel;
 import HCMUTE.SocialMedia.Models.FriendRequestModel;
 import HCMUTE.SocialMedia.Models.HomeModel;
+import HCMUTE.SocialMedia.Models.MainSelectionModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.NotifyModel;
 import HCMUTE.SocialMedia.Models.PostModel;
-import HCMUTE.SocialMedia.Models.MainSelectionModel;
 import HCMUTE.SocialMedia.Models.SettingCardModel;
 import HCMUTE.SocialMedia.Models.SettingModel;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
@@ -37,13 +34,10 @@ import HCMUTE.SocialMedia.R;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 999;
-    private ActivityResultLauncher<Intent> startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult o) {
-            if(o != null && o.getResultCode() == RESULT_OK){
-                if (o.getData() != null && o.getData().getStringExtra(MessageActivity.KEY_NAME) != null){
-                    Log.d("Receipt Data", "onActivityResult: " + o.getData().getStringExtra(MessageActivity.KEY_NAME));
-                }
+    private final ActivityResultLauncher<Intent> startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (o) -> {
+        if(o != null && o.getResultCode() == RESULT_OK){
+            if (o.getData() != null && o.getData().getStringExtra(MessageActivity.KEY_NAME) != null){
+                Log.d("Receipt Data", "onActivityResult: " + o.getData().getStringExtra(MessageActivity.KEY_NAME));
             }
         }
     });
@@ -54,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton ibFriend;
     private ImageButton ibNotify;
     private ImageButton ibSetting;
-    private ImageButton ibMessage;
 
     int x = 10;
 
@@ -64,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mainSelectionModels = new ArrayList<>();
-        ibHome = (ImageButton)findViewById(R.id.ibHome);
-        ibFriend = (ImageButton)findViewById(R.id.ibFriend);
-        ibNotify = (ImageButton)findViewById(R.id.ibNotify);
-        ibSetting = (ImageButton)findViewById(R.id.ibSetting);
-        ibMessage = (ImageButton)findViewById(R.id.ibMessage);
+        ibHome = findViewById(R.id.ibHome);
+        ibFriend = findViewById(R.id.ibFriend);
+        ibNotify = findViewById(R.id.ibNotify);
+        ibSetting = findViewById(R.id.ibSetting);
+        ImageButton ibMessage = findViewById(R.id.ibMessage);
 
         mainSelectionModels.add(new MainSelectionModel(MainSelectionEnum.Home, ibHome, R.mipmap.ic_home_72_line));
         mainSelectionModels.add(new MainSelectionModel(MainSelectionEnum.Friend, ibFriend, R.mipmap.ic_friend_72_line));
@@ -79,74 +72,57 @@ public class MainActivity extends AppCompatActivity {
         chosen = MainSelectionEnum.Home;
         ibHome.setImageResource(R.mipmap.ic_home_72_full);
 
-        ibHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
-                if(oldMainSelectionModel.getId() == MainSelectionEnum.Home)
-                    return;
+        ibHome.setOnClickListener(v -> {
+            MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
+            if(oldMainSelectionModel.getId() == MainSelectionEnum.Home)
+                return;
 
-                chosen = MainSelectionEnum.Home;
-                ibHome.setImageResource(R.mipmap.ic_home_72_full);
-                oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
+            chosen = MainSelectionEnum.Home;
+            ibHome.setImageResource(R.mipmap.ic_home_72_full);
+            oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
 
-                onClickHome();
-            }
+            onClickHome();
         });
 
-        ibFriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ibFriend.setOnClickListener(v -> {
 
-                MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
-                if(oldMainSelectionModel.getId() == MainSelectionEnum.Friend)
-                    return;
+            MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
+            if(oldMainSelectionModel.getId() == MainSelectionEnum.Friend)
+                return;
 
-                chosen = MainSelectionEnum.Friend;
-                ibFriend.setImageResource(R.mipmap.ic_friend_72_full);
-                oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
+            chosen = MainSelectionEnum.Friend;
+            ibFriend.setImageResource(R.mipmap.ic_friend_72_full);
+            oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
 
-                onClickFriend();
-            }
+            onClickFriend();
         });
 
-        ibNotify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
-                if(oldMainSelectionModel.getId() == MainSelectionEnum.Notify)
-                    return;
-                
-                chosen = MainSelectionEnum.Notify;
-                ibNotify.setImageResource(R.mipmap.ic_bell_72_full);
-                oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
+        ibNotify.setOnClickListener(v -> {
+            MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
+            if(oldMainSelectionModel.getId() == MainSelectionEnum.Notify)
+                return;
 
-                onClickNotify();
-            }
+            chosen = MainSelectionEnum.Notify;
+            ibNotify.setImageResource(R.mipmap.ic_bell_72_full);
+            oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
+
+            onClickNotify();
         });
 
-        ibSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
-                if(oldMainSelectionModel.getId() == MainSelectionEnum.Setting)
-                    return;
+        ibSetting.setOnClickListener(v -> {
+            MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
+            if(oldMainSelectionModel.getId() == MainSelectionEnum.Setting)
+                return;
 
-                chosen = MainSelectionEnum.Setting;
-                ibSetting.setImageResource(R.mipmap.ic_setting_72_dark);
-                oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
+            chosen = MainSelectionEnum.Setting;
+            ibSetting.setImageResource(R.mipmap.ic_setting_72_dark);
+            oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
 
-                onClickSetting();
-            }
+            onClickSetting();
         });
 
 
-        ibMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickMessage();
-            }
-        });
+        ibMessage.setOnClickListener(v -> onClickMessage());
     }
 
     private void onClickHome(){
