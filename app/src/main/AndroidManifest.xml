@@ -17,6 +17,9 @@
         android:theme="@style/Theme.MobileAndroidJavaSocialMedia"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.SharePostActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.CommentActivity"
             android:exported="false" />
         <activity
