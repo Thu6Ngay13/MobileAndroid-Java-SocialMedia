@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import HCMUTE.SocialMedia.Adapters.MessageAdapter;
 import HCMUTE.SocialMedia.Client.SocketClient;
@@ -28,7 +26,7 @@ public class MessageActivity extends AppCompatActivity implements SocketClient.M
     private final String serverName = "192.168.1.22";
     private final int serverPort = 1234;
     private boolean socketIsAlready = false;
-    private SocketClient socketClient;
+    private SocketClient socketClient = null;
     private EditText etTypeMessage;
     private ImageButton btSendMessage;
     private List<MessageModel> messageCards;
@@ -54,38 +52,20 @@ public class MessageActivity extends AppCompatActivity implements SocketClient.M
         recyclerView.setAdapter(messageCardAdapter);
 
         btSendMessage.setOnClickListener(v -> onClickSendMessage());
-
-        tryToConnectSocket();
-        onClickSendMessage();
+        connectSocket();
     }
 
-    private void tryToConnectSocket(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                socketIsAlready = (socketClient != null);
-                while (!socketIsAlready){
-                    try {
-                        connectToSocket();
-                        Thread.sleep(300);
-                    } catch (Exception e) {
-                        Log.d("ClienXXX", "tryToConnectSocket failed");
-                    }
-                }
+    private void connectSocket(){
+        try {
+            socketClient = new SocketClient();
+            socketClient.startConnection(serverName, serverPort);
+            socketIsAlready = socketClient.isConnected();
 
-                startMessageReceiver();
-            }
-        }).start();
-    }
-
-    private void connectToSocket(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                socketClient = new SocketClient();
-                socketIsAlready = socketClient.startConnection(serverName, serverPort);
-            }
-        }).start();
+            startMessageReceiver();
+        } catch (Exception e) {
+            socketIsAlready = false;
+            Log.d("MessageActivity", "connectSocket failed");
+        }
     }
 
     private void startMessageReceiver() {
@@ -104,6 +84,8 @@ public class MessageActivity extends AppCompatActivity implements SocketClient.M
         images.add(R.drawable.post_image);
 
         String message = String.valueOf(etTypeMessage.getText());
+        socketClient.sendMessage(message);
+
         updateMesage(
                 MessageEnum.SEND,
                 R.mipmap.ic_user_72_dark,
@@ -113,22 +95,6 @@ public class MessageActivity extends AppCompatActivity implements SocketClient.M
                 images.get(random.nextInt(images.size())),
                 null
         );
-
-        messageCardAdapter.notifyItemInserted(messageCardAdapter.getItemCount() - 1);
-        recyclerView.post(new Runnable() {
-            @Override
-            public void run() {
-                recyclerView.smoothScrollToPosition(messageCardAdapter.getItemCount() - 1);
-            }
-        });
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                socketClient.sendMessage(message);
-                Log.d("ServerXXX", "Send: " + message);
-            }
-        }).start();
     }
 
     @Override
