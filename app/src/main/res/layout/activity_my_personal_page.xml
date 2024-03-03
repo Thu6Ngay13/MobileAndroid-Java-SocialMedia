@@ -14,6 +14,7 @@
         android:padding="10dp">
 
         <ImageButton
+            android:id="@+id/ibBack"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -22,6 +23,7 @@
             android:src="@mipmap/ic_arrow_left_72_dark" />
 
         <LinearLayout
+            android:id="@+id/llSearch"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:orientation="horizontal"

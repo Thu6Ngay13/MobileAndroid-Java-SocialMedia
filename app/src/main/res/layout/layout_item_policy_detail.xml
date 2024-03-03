@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tvPolicyDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="\tChính sách này nhằm bảo vệ cộng đồng người dùng và duy trì môi trường an toàn, tích cực trên ứng dụng mạng xã hội của chúng tôi. Đảm bảo rằng người dùng được thông báo rõ ràng về các quy định này và luôn có sự hỗ trợ khi cần thiết từ phía bạn. Chúng tôi cam kết hỗ trợ sự đa dạng, tôn trọng quan điểm và đảm bảo mọi người đều cảm thấy thoải mái khi sử dụng dịch vụ của chúng tôi."
+        android:paddingLeft="40dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingEnd="20dp"
+        android:textSize="17dp"
+        android:justificationMode="inter_word"/>
+</LinearLayout>
