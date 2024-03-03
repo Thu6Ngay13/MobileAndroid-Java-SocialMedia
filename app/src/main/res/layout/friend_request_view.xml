@@ -18,69 +18,74 @@
         android:src="@mipmap/ic_user_72_dark" />
 
     <androidx.gridlayout.widget.GridLayout
-        android:layout_width="310dp"
+        android:id="@+id/gridLayout"
+        android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="90dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toEndOf="@+id/ivAvatar"
         app:columnCount="2"
         app:rowCount="1">
 
         <TextView
             android:id="@+id/tvFullName"
-            app:layout_column="0"
-            app:layout_columnWeight="1"
-            app:layout_row="0"
-            app:layout_rowWeight="1"
             android:gravity="center"
             android:text="@string/full_name"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            app:layout_column="0"
+            app:layout_columnWeight="1"
+            app:layout_row="0"
+            app:layout_rowWeight="1" />
 
         <TextView
             android:id="@+id/tvRequestTimeAt"
-            app:layout_column="1"
-            app:layout_columnWeight="1"
-            app:layout_row="0"
-            app:layout_rowWeight="1"
             android:gravity="center"
+            android:paddingTop="4dp"
             android:text="@string/friend_request_time_at"
             android:textSize="16sp"
             android:textStyle="italic"
-            android:paddingTop="4dp"/>
+            app:layout_column="1"
+            app:layout_columnWeight="1"
+            app:layout_row="0"
+            app:layout_rowWeight="1" />
     </androidx.gridlayout.widget.GridLayout>
 
     <androidx.gridlayout.widget.GridLayout
-        android:layout_width="310dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="90dp"
-        android:layout_marginTop="38dp"
+        android:layout_below="@+id/gridLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toEndOf="@+id/ivAvatar"
         app:columnCount="2"
         app:rowCount="1">
 
         <Button
             android:id="@+id/btAccept"
-            android:textColor="@color/green_dark"
             android:background="@color/white"
             android:gravity="center"
             android:text="@string/accept"
+            android:textColor="@color/green_dark"
             app:layout_column="0"
             app:layout_columnWeight="1"
             app:layout_row="0"
-            app:layout_rowWeight="1"/>
+            app:layout_rowWeight="1" />
 
         <Button
             android:id="@+id/btDecline"
-            android:textColor="@color/green_dark"
             android:background="@color/white"
             android:text="@string/decline"
+            android:textColor="@color/green_dark"
             app:layout_column="1"
             app:layout_columnWeight="1"
             app:layout_row="0"
-            app:layout_rowWeight="1"/>
+            app:layout_rowWeight="1" />
 
     </androidx.gridlayout.widget.GridLayout>
 </RelativeLayout>

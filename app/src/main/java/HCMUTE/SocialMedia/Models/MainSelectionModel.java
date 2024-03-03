@@ -2,24 +2,24 @@ package HCMUTE.SocialMedia.Models;
 
 import android.widget.ImageButton;
 
-import HCMUTE.SocialMedia.Enums.MainSelection;
+import HCMUTE.SocialMedia.Enums.MainSelectionEnum;
 
 public class MainSelectionModel {
-    private MainSelection id;
+    private MainSelectionEnum id;
     private ImageButton ib;
     private int img;
 
-    public MainSelectionModel(MainSelection id, ImageButton ib, int img) {
+    public MainSelectionModel(MainSelectionEnum id, ImageButton ib, int img) {
         this.id = id;
         this.ib = ib;
         this.img = img;
     }
 
-    public MainSelection getId() {
+    public MainSelectionEnum getId() {
         return id;
     }
 
-    public void setId(MainSelection id) {
+    public void setId(MainSelectionEnum id) {
         this.id = id;
     }
 

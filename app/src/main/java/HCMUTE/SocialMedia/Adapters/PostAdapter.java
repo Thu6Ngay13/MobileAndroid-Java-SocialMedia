@@ -1,10 +1,11 @@
 package HCMUTE.SocialMedia.Adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import java.util.List;
 import HCMUTE.SocialMedia.Holders.PostHolder;
 import HCMUTE.SocialMedia.Models.PostModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.Utils.ImageUtil;
 
 public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
     private Context context;
@@ -41,7 +43,31 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
         holder.postingTimeAt.setText(postModel.getPostingTimeAt());
         holder.mode.setImageResource(postModel.getMode());
         holder.postText.setText(postModel.getPostText());
-        holder.postImage.setImageResource(postModel.getPostImage());
+
+        if(postModel.getPostImage() > 0){
+            holder.postImage.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    holder.postImage.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                    Resources resources = context.getResources();
+                    int imageResourceId = postModel.getPostImage();
+                    int[] dimensions = ImageUtil.getImageDimensions(resources, imageResourceId);
+
+                    int img_width = dimensions[0];
+                    int img_height = dimensions[1];
+
+                    int width = holder.postImage.getWidth();
+                    int height = width * img_height / img_width;
+
+                    holder.postImage.setImageResource(postModel.getPostImage());
+                    holder.postImage.getLayoutParams().height = height;
+                    holder.postImage.requestLayout();
+
+                    return true;
+                }
+            });
+        }
 
         CardView cvLike = (CardView) holder.itemView.findViewById(R.id.cvLike);
         CardView cvComment = (CardView) holder.itemView.findViewById(R.id.cvComment);

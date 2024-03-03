@@ -1,15 +1,15 @@
 package HCMUTE.SocialMedia.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,24 +18,32 @@ import java.util.Random;
 import HCMUTE.SocialMedia.Adapters.FriendAdapter;
 import HCMUTE.SocialMedia.Adapters.HomeAdapter;
 import HCMUTE.SocialMedia.Adapters.NotifyAdapter;
-import HCMUTE.SocialMedia.Adapters.PostAdapter;
 import HCMUTE.SocialMedia.Adapters.SettingAdapter;
-import HCMUTE.SocialMedia.Enums.MainSelection;
+import HCMUTE.SocialMedia.Enums.MainSelectionEnum;
 import HCMUTE.SocialMedia.Models.FriendModel;
 import HCMUTE.SocialMedia.Models.FriendRequestModel;
 import HCMUTE.SocialMedia.Models.HomeModel;
+import HCMUTE.SocialMedia.Models.MainSelectionModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.NotifyModel;
 import HCMUTE.SocialMedia.Models.PostModel;
-import HCMUTE.SocialMedia.Models.MainSelectionModel;
 import HCMUTE.SocialMedia.Models.SettingCardModel;
 import HCMUTE.SocialMedia.Models.SettingModel;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE = 999;
+    private final ActivityResultLauncher<Intent> startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (o) -> {
+        if(o != null && o.getResultCode() == RESULT_OK){
+            if (o.getData() != null && o.getData().getStringExtra(MessageActivity.KEY_NAME) != null){
+                Log.d("Receipt Data", "onActivityResult: " + o.getData().getStringExtra(MessageActivity.KEY_NAME));
+            }
+        }
+    });
+
     private List<MainSelectionModel> mainSelectionModels;
-    private MainSelection chosen;
+    private MainSelectionEnum chosen;
     private ImageButton ibHome;
     private ImageButton ibFriend;
     private ImageButton ibNotify;
@@ -49,95 +57,100 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mainSelectionModels = new ArrayList<>();
-        ibHome = (ImageButton)findViewById(R.id.ibHome);
-        ibFriend = (ImageButton)findViewById(R.id.ibFriend);
-        ibNotify = (ImageButton)findViewById(R.id.ibNotify);
-        ibSetting = (ImageButton)findViewById(R.id.ibSetting);
+        ibHome = findViewById(R.id.ibHome);
+        ibFriend = findViewById(R.id.ibFriend);
+        ibNotify = findViewById(R.id.ibNotify);
+        ibSetting = findViewById(R.id.ibSetting);
+        ImageButton ibMessage = findViewById(R.id.ibMessage);
 
-        mainSelectionModels.add(new MainSelectionModel(MainSelection.Home, ibHome, R.mipmap.ic_home_72_line));
-        mainSelectionModels.add(new MainSelectionModel(MainSelection.Friend, ibFriend, R.mipmap.ic_friend_72_line));
-        mainSelectionModels.add(new MainSelectionModel(MainSelection.Notify, ibNotify, R.mipmap.ic_bell_72_line));
-        mainSelectionModels.add(new MainSelectionModel(MainSelection.Setting, ibSetting, R.mipmap.ic_setting_72_light));
+        mainSelectionModels.add(new MainSelectionModel(MainSelectionEnum.Home, ibHome, R.mipmap.ic_home_72_line));
+        mainSelectionModels.add(new MainSelectionModel(MainSelectionEnum.Friend, ibFriend, R.mipmap.ic_friend_72_line));
+        mainSelectionModels.add(new MainSelectionModel(MainSelectionEnum.Notify, ibNotify, R.mipmap.ic_bell_72_line));
+        mainSelectionModels.add(new MainSelectionModel(MainSelectionEnum.Setting, ibSetting, R.mipmap.ic_setting_72_light));
 
         onClickHome();
-        chosen = MainSelection.Home;
+        chosen = MainSelectionEnum.Home;
         ibHome.setImageResource(R.mipmap.ic_home_72_full);
 
-        ibHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
-                if(oldMainSelectionModel.getId() == MainSelection.Home)
-                    return;
+        ibHome.setOnClickListener(v -> {
+            MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
+            if(oldMainSelectionModel.getId() == MainSelectionEnum.Home)
+                return;
 
-                chosen = MainSelection.Home;
-                ibHome.setImageResource(R.mipmap.ic_home_72_full);
-                oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
+            chosen = MainSelectionEnum.Home;
+            ibHome.setImageResource(R.mipmap.ic_home_72_full);
+            oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
 
-                onClickHome();
-            }
+            onClickHome();
         });
 
-        ibFriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ibFriend.setOnClickListener(v -> {
 
-                MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
-                if(oldMainSelectionModel.getId() == MainSelection.Friend)
-                    return;
+            MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
+            if(oldMainSelectionModel.getId() == MainSelectionEnum.Friend)
+                return;
 
-                chosen = MainSelection.Friend;
-                ibFriend.setImageResource(R.mipmap.ic_friend_72_full);
-                oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
+            chosen = MainSelectionEnum.Friend;
+            ibFriend.setImageResource(R.mipmap.ic_friend_72_full);
+            oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
 
-                onClickFriend();
-            }
+            onClickFriend();
         });
 
-        ibNotify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
-                if(oldMainSelectionModel.getId() == MainSelection.Notify)
-                    return;
-                
-                chosen = MainSelection.Notify;
-                ibNotify.setImageResource(R.mipmap.ic_bell_72_full);
-                oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
+        ibNotify.setOnClickListener(v -> {
+            MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
+            if(oldMainSelectionModel.getId() == MainSelectionEnum.Notify)
+                return;
 
-                onClickNotify();
-            }
+            chosen = MainSelectionEnum.Notify;
+            ibNotify.setImageResource(R.mipmap.ic_bell_72_full);
+            oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
+
+            onClickNotify();
         });
 
-        ibSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
-                if(oldMainSelectionModel.getId() == MainSelection.Setting)
-                    return;
+        ibSetting.setOnClickListener(v -> {
+            MainSelectionModel oldMainSelectionModel = mainSelectionModels.get(chosen.ordinal());
+            if(oldMainSelectionModel.getId() == MainSelectionEnum.Setting)
+                return;
 
-                chosen = MainSelection.Setting;
-                ibSetting.setImageResource(R.mipmap.ic_setting_72_dark);
-                oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
+            chosen = MainSelectionEnum.Setting;
+            ibSetting.setImageResource(R.mipmap.ic_setting_72_dark);
+            oldMainSelectionModel.getIb().setImageResource(oldMainSelectionModel.getImg());
 
-                onClickSetting();
-            }
+            onClickSetting();
         });
+
+
+        ibMessage.setOnClickListener(v -> onClickMessage());
     }
 
     private void onClickHome(){
         List<HomeModel> homeModels = new ArrayList<>();
         List<PostModel> postModels = new ArrayList<>();
         for (int i = 0; i < x; i++) {
-            postModels.add(new PostModel(
-                    R.mipmap.ic_user_72_dark,
-                    "Jonhny Deep",
-                    "23:59 25-02-2024",
-                    R.mipmap.ic_global_72_dark,
-                    "Hôm nay trời đẹp quá",
-                    R.drawable.post_image,
-                    false
-            ));
+            if(i % 2 == 0){
+                postModels.add(new PostModel(
+                        R.mipmap.ic_user_72_dark,
+                        "Jonhny Deep",
+                        "23:59 25-02-2024",
+                        R.mipmap.ic_global_72_dark,
+                        "Hôm nay trời đẹp quá",
+                        0,
+                        false
+                ));
+            }
+            else {
+                postModels.add(new PostModel(
+                        R.mipmap.ic_user_72_dark,
+                        "Jonhny Deep",
+                        "23:59 25-02-2024",
+                        R.mipmap.ic_global_72_dark,
+                        "Hôm nay trời đẹp quá",
+                        R.drawable.post_image,
+                        false
+                ));
+            }
         }
 
         homeModels.add(new HomeModel(postModels));
@@ -218,5 +231,15 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rvMainArea);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new SettingAdapter(getApplicationContext(), settingModels));
+    }
+
+    private void onClickMessage(){
+        Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+        Bundle bundle = new Bundle();
+
+        bundle.putString("string", "idx1010");
+        intent.putExtras(bundle);
+
+        startForResult.launch(intent);
     }
 }
