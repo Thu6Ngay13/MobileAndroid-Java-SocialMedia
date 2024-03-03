@@ -1,6 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    android:id="@+id/clPersonalPageArea"
+    android:orientation="vertical">
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rowCount="4"
+        app:columnCount="1"
+        android:background="@color/white">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civAvatar"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/ic_user_72_dark"
+            app:civ_border_color="@color/green_dark"
+            app:layout_column="0"
+            app:layout_row="0"
+            app:layout_columnSpan="1"
+            app:layout_gravity="center"
+            android:layout_margin="10dp"
+            app:civ_border_width="2dp"/>
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:text="Cao Thị Thu Thủy"
+            android:textSize="20dp"
+            app:layout_column="0"
+            app:layout_row="1"
+            app:layout_columnSpan="1"
+            app:layout_gravity="center"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvCountFriend"
+            android:text="147 friends"
+            android:textSize="10dp"
+            app:layout_column="0"
+            app:layout_columnSpan="1"
+            app:layout_gravity="center"
+            app:layout_row="2"
+            android:layout_margin="5dp"/>
+        <Button
+            android:id="@+id/btnEditProfile"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_column="0"
+            app:layout_columnSpan="1"
+            app:layout_gravity="center"
+            app:layout_row="3"
+            android:text="✎ Edit profile"/>
+    </androidx.gridlayout.widget.GridLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="7dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:text="Friends"
+                android:textStyle="bold"
+                android:paddingLeft="17dp"
+                android:paddingTop="5dp"
+                app:layout_column="0"
+                app:layout_row="0"
+                android:textSize="18dp"/>
+
+            <TextView
+                android:id="@+id/btnSeeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="7dp"
+                android:layout_weight="1"
+                android:text="Find Friends"
+                android:textColor="@color/green_dark"
+                android:textStyle="bold"
+                android:gravity="bottom|right"
+                android:paddingRight="10dp"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/tvFriends"
+            android:text="147 friends"
+            android:textSize="13dp"
+            android:paddingLeft="17dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvYourFriend"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/white">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="7dp"
+        android:orientation="vertical"
+        android:paddingBottom="7dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Posts"
+            android:textStyle="bold"
+            android:paddingLeft="17dp"
+            android:paddingTop="5dp"
+            app:layout_column="0"
+            app:layout_row="0"
+            android:textSize="18dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civAvatarSmall"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="2"
+                android:background="@color/white"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:src="@drawable/post_image" />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:id="@+id/ibTextPosting"
+                android:layout_width="200dp"
+                android:text="What's on your mind?"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:paddingLeft="10dp"/>
+
+            <ImageButton
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/ibImagePosting"
+                android:layout_width="50dp"
+                android:gravity="center"
+                android:background="@color/white"
+                android:src="@mipmap/ic_image_72_dark"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPostArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>
