@@ -17,6 +17,9 @@
         android:theme="@style/Theme.MobileAndroidJavaSocialMedia"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.AdminBanAccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.AdminActivity"
             android:exported="false" />
         <activity
