@@ -39,4 +39,10 @@
     <string name="seen">Seen</string>
     <string name="Received">Received</string>
 
+    <string name="mode_name">Public</string>
+    <string-array name="filter_comments">
+        <item>All comments</item>
+        <item>Newest</item>
+    </string-array>
+
 </resources>

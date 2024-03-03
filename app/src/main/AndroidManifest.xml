@@ -20,6 +20,30 @@
             android:name=".Activities.ConversationActivity"
             android:exported="false" />
         <activity
+            android:name=".Activities.SharePostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.CommentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.AdminBanAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.AdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.CreatePostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.PoliciesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.PolicyDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.MyPersonalPageActivity"
             android:exported="false" />
         <activity
@@ -50,7 +74,7 @@
             android:name=".Activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".Activities.GroupActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
