@@ -9,22 +9,25 @@
 
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp">
 
         <ImageButton
+            android:id="@+id/ibBack"
             android:background="@color/white"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@mipmap/ic_arrow_left_72_dark"/>
 
         <ImageButton
+            android:id="@+id/ibAvatar"
             android:background="@color/white"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@mipmap/ic_user_72_dark"/>
 
         <TextView
+            android:id="@+id/tvFullName"
             android:background="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
@@ -59,7 +62,7 @@
 
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp">
 
         <EditText

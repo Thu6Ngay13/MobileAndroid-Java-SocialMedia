@@ -27,6 +27,7 @@ public class MessageActivity extends AppCompatActivity implements SocketClient.M
     private final int serverPort = 1234;
     private boolean socketIsAlready = false;
     private SocketClient socketClient = null;
+    private ImageButton ibBack;
     private EditText etTypeMessage;
     private ImageButton btSendMessage;
     private List<MessageModel> messageCards;
@@ -41,6 +42,7 @@ public class MessageActivity extends AppCompatActivity implements SocketClient.M
 
         etTypeMessage = findViewById(R.id.etTypeMessage);
         btSendMessage = findViewById(R.id.btSendMessage);
+        ibBack = findViewById(R.id.ibBack);
 
         messageCards = new ArrayList<>();
         recyclerView = findViewById(R.id.rvMessageArea);
@@ -52,6 +54,7 @@ public class MessageActivity extends AppCompatActivity implements SocketClient.M
         recyclerView.setAdapter(messageCardAdapter);
 
         btSendMessage.setOnClickListener(v -> onClickSendMessage());
+        ibBack.setOnClickListener(v -> finish());
         connectSocket();
     }
 

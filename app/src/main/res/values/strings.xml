@@ -32,6 +32,7 @@
     <string name="logout">Logout</string>
 
     <string name="you">You</string>
+    <string name="conversation">Conversation</string>
     <string name="type_message">Type message</string>
     <string name="content_message">Content message </string>
     <string name="message_sending_at">20:20 25–02-2024</string>

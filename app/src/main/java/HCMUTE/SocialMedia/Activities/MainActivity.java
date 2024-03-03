@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton ibNotify;
     private ImageButton ibSetting;
 
+    private ImageButton ibMessage;
+
     int x = 10;
 
     @Override
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         ibFriend = findViewById(R.id.ibFriend);
         ibNotify = findViewById(R.id.ibNotify);
         ibSetting = findViewById(R.id.ibSetting);
-        ImageButton ibMessage = findViewById(R.id.ibMessage);
+        ibMessage = findViewById(R.id.ibMessage);
 
         mainSelectionModels.add(new MainSelectionModel(MainSelectionEnum.Home, ibHome, R.mipmap.ic_home_72_line));
         mainSelectionModels.add(new MainSelectionModel(MainSelectionEnum.Friend, ibFriend, R.mipmap.ic_friend_72_line));
@@ -234,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onClickMessage(){
-        Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
         Bundle bundle = new Bundle();
 
         bundle.putString("string", "idx1010");
