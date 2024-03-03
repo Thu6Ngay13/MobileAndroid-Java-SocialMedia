@@ -34,7 +34,7 @@
             android:name=".Activities.MessageActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.VerifyNewAccountActivity"
+            android:name=".Activities.CreateNewPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.ForgetAccountActivity"
