@@ -5,16 +5,18 @@
       <entry key="app">
         <State>
           <multipleDevicesSelectedInDropDown value="true" />
-          <targetsSelectedWithDialog>
+          <runningDeviceTargetsSelectedWithDialog>
             <Target>
-              <type value="QUICK_BOOT_TARGET" />
+              <type value="RUNNING_DEVICE_TARGET" />
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\wwhac\.android\avd\Android_13.0_-_API_33_-_5.7_inch_-_3.avd" />
+                  <value value="C:\Users\wwhac\.android\avd\Android_13.0_-_API_33_-_5.7_inch_-_1.avd" />
                 </Key>
               </deviceKey>
             </Target>
+          </runningDeviceTargetsSelectedWithDialog>
+          <targetsSelectedWithDialog>
             <Target>
               <type value="QUICK_BOOT_TARGET" />
               <deviceKey>
