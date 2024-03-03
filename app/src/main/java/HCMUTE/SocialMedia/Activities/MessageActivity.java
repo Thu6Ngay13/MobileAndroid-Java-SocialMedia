@@ -1,13 +1,11 @@
 package HCMUTE.SocialMedia.Activities;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import HCMUTE.SocialMedia.Adapters.MessageAdapter;
 import HCMUTE.SocialMedia.Client.SocketClient;
@@ -63,8 +59,8 @@ public class MessageActivity extends AppCompatActivity implements SocketClient.M
         try {
             socketClient = new SocketClient();
             socketClient.startConnection(serverName, serverPort);
+            socketIsAlready = socketClient.isConnected();
 
-            socketIsAlready = true;
             startMessageReceiver();
         } catch (Exception e) {
             socketIsAlready = false;

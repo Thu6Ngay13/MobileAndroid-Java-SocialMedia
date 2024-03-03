@@ -3,24 +3,24 @@ package HCMUTE.SocialMedia.Client;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.SocketTimeoutException;
 
 public class SocketClient {
     public interface MessageListener {
         void onMessageReceived(String message);
     }
     private Socket clientSocket;
-    private boolean running ;
+    private boolean running;
     private PrintWriter out;
     private BufferedReader in;
     private MessageListener messageListener;
 
     public SocketClient() {
+        clientSocket = new Socket();
         running = false;
         out = null;
         in = null;
@@ -33,13 +33,17 @@ public class SocketClient {
                 while (!running){
                     try {
                         Thread.sleep(3000);
-                        clientSocket = new Socket(ip, port);
+                        clientSocket.connect(new InetSocketAddress(ip, port), 3000);
                         out = new PrintWriter(clientSocket.getOutputStream(), true);
                         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                         running = isConnected();
                         onRunning();
-                    } catch (Exception e) {
+                    } catch (SocketTimeoutException e){
+                        running = false;
+                        clientSocket = new Socket();
+                    }
+                    catch (Exception e) {
                         running = false;
                         Log.d("SocketClient", "startConnection failed " + e.getMessage());
                     }

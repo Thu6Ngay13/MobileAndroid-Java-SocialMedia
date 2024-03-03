@@ -4,23 +4,7 @@
     <value>
       <entry key="app">
         <State>
-<<<<<<< HEAD
           <multipleDevicesSelectedInDropDown value="true" />
-          <runningDeviceTargetsSelectedWithDialog>
-=======
-          <runningDeviceTargetSelectedWithDropDown>
->>>>>>> 93dcf829b07cc074c0b2bf90f92b3e5d6c3e4c09
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-<<<<<<< HEAD
-                  <value value="C:\Users\wwhac\.android\avd\Android_13.0_-_API_33_-_5.7_inch_-_1.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetsSelectedWithDialog>
           <targetsSelectedWithDialog>
             <Target>
               <type value="QUICK_BOOT_TARGET" />
@@ -31,24 +15,7 @@
                 </Key>
               </deviceKey>
             </Target>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\wwhac\.android\avd\Copy_of_Android_13.0_-_API_33_-_5.7_inch_-_2.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
           </targetsSelectedWithDialog>
-=======
-                  <value value="C:\Users\DELL\.android\avd\Pixel_3_XL_API_33.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-03-03T03:37:04.887825700Z" />
->>>>>>> 93dcf829b07cc074c0b2bf90f92b3e5d6c3e4c09
         </State>
       </entry>
     </value>
