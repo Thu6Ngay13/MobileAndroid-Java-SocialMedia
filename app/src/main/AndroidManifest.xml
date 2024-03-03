@@ -16,6 +16,15 @@
         android:theme="@style/Theme.MobileAndroidJavaSocialMedia"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.MyPersonalPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.YourPersonalPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.VerifyNewAccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.VerifyOldAccountActivity"
             android:exported="false" />
         <activity
@@ -25,7 +34,7 @@
             android:name=".Activities.MessageActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.VerifyNewAccountActivity"
+            android:name=".Activities.CreateNewPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.ForgetAccountActivity"
