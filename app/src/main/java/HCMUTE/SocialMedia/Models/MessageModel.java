@@ -1,10 +1,10 @@
 package HCMUTE.SocialMedia.Models;
 
-import HCMUTE.SocialMedia.Enums.MessageEnum;
+import HCMUTE.SocialMedia.Enums.TypeReceiveMessageEnum;
 
 public class MessageModel {
 
-    private final MessageEnum viewType;
+    private final TypeReceiveMessageEnum viewType;
     private int avatar;
     private String fullname;
     private String messageSendingAt;
@@ -12,7 +12,7 @@ public class MessageModel {
     private int media;
     private Boolean seen;
 
-    public MessageModel(MessageEnum viewType, int avatar, String fullname, String messageSendingAt, String text, int media, Boolean seen) {
+    public MessageModel(TypeReceiveMessageEnum viewType, int avatar, String fullname, String messageSendingAt, String text, int media, Boolean seen) {
         this.viewType = viewType;
         this.avatar = avatar;
         this.fullname = fullname;
@@ -22,7 +22,7 @@ public class MessageModel {
         this.seen = seen;
     }
 
-    public MessageEnum getViewType() {
+    public TypeReceiveMessageEnum getViewType() {
         return viewType;
     }
 

@@ -9,9 +9,11 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
+import HCMUTE.SocialMedia.Enums.TypeReceiveMessageEnum;
+
 public class SocketClient {
     public interface MessageListener {
-        void onMessageReceived(String message);
+        void onMessageReceived(TypeReceiveMessageEnum typeReceive, String message);
     }
     private Socket clientSocket;
     private boolean running;
@@ -26,7 +28,7 @@ public class SocketClient {
         in = null;
     }
 
-    public void startConnection(String ip, int port) {
+    public void startConnection(String username, String ip, int port) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -36,9 +38,7 @@ public class SocketClient {
                         clientSocket.connect(new InetSocketAddress(ip, port), 3000);
                         out = new PrintWriter(clientSocket.getOutputStream(), true);
                         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
                         running = isConnected();
-                        onRunning();
                     } catch (SocketTimeoutException e){
                         running = false;
                         clientSocket = new Socket();
@@ -47,8 +47,10 @@ public class SocketClient {
                         running = false;
                         Log.d("SocketClient", "startConnection failed " + e.getMessage());
                     }
-
                 }
+
+                sendMessage("username," + username);
+                onRunning();
             }
         }).start();
     }
@@ -58,10 +60,21 @@ public class SocketClient {
             try {
                 while (running) {
                     Thread.sleep(300);
-                    String serverMessage = in.readLine();
-                    if (serverMessage != null && messageListener != null) {
-                        messageListener.onMessageReceived(serverMessage);
-                    }
+                    String inputLine = in.readLine();
+
+                    if (inputLine == null || messageListener == null)
+                        return;
+
+                    String[] serverMessageInfos = inputLine.split(",");
+                    TypeReceiveMessageEnum typeReceive = TypeReceiveMessageEnum.fromString(serverMessageInfos[0]);
+
+                    if (typeReceive == null)
+                        return;
+
+                    if(serverMessageInfos[2].equals("Y"))
+                        messageListener.onMessageReceived(typeReceive, serverMessageInfos[1]);
+                    else if(serverMessageInfos[2].equals("N"))
+                        messageListener.onMessageReceived(typeReceive, "");
                 }
             } catch (Exception e) {
                 Log.d("SocketClient", "onRunning failed " + e.getMessage());
@@ -69,12 +82,13 @@ public class SocketClient {
         }).start();
     }
 
-    public void sendMessage(String msg) {
+    public void sendMessage(String messageInfos) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    out.println(msg);
+                    out.println(messageInfos);
+                    out.flush();
                 } catch (Exception e) {
                     Log.d("SocketClient", "sendMessage failed");
                 }
@@ -110,6 +124,10 @@ public class SocketClient {
 
     public boolean isClosed(){
         return clientSocket.isClosed();
+    }
+
+    public boolean isConnectedFailed(){
+        return (!clientSocket.isClosed() && !clientSocket.isConnected());
     }
 
     public void setMessageListener(MessageListener listener) {

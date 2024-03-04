@@ -16,16 +16,15 @@ import java.util.Random;
 
 import HCMUTE.SocialMedia.Adapters.MessageAdapter;
 import HCMUTE.SocialMedia.Client.SocketClient;
-import HCMUTE.SocialMedia.Enums.MessageEnum;
+import HCMUTE.SocialMedia.Enums.TypeReceiveMessageEnum;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.R;
 
 public class MessageActivity extends AppCompatActivity implements SocketClient.MessageListener {
-
     public static final String KEY_NAME = "NAME";
     private final String serverName = "192.168.1.22";
     private final int serverPort = 1234;
-    private boolean socketIsAlready = false;
+    private String username = "John";
     private SocketClient socketClient = null;
     private ImageButton ibBack;
     private EditText etTypeMessage;
@@ -61,12 +60,9 @@ public class MessageActivity extends AppCompatActivity implements SocketClient.M
     private void connectSocket(){
         try {
             socketClient = new SocketClient();
-            socketClient.startConnection(serverName, serverPort);
-            socketIsAlready = socketClient.isConnected();
-
+            socketClient.startConnection(username, serverName, serverPort);
             startMessageReceiver();
         } catch (Exception e) {
-            socketIsAlready = false;
             Log.d("MessageActivity", "connectSocket failed");
         }
     }
@@ -76,21 +72,25 @@ public class MessageActivity extends AppCompatActivity implements SocketClient.M
     }
 
     private void onClickSendMessage() {
-        if (!socketIsAlready) {
+        if (socketClient.isConnectedFailed()) {
             Toast.makeText(getApplicationContext(), "Try later", Toast.LENGTH_LONG).show();
+            connectSocket();
             return;
         }
+
+        String message = String.valueOf(etTypeMessage.getText());
+//      String messageInfos = "send-to-global," + message;
+//      String messageInfos = "send-to-group," + message + "," + "Mary-Suzi";
+        String messageInfos = "send-to-person," + message + "," + "Mary";
+        socketClient.sendMessage(messageInfos);
 
         Random random = new Random();
         List<Integer> images = new ArrayList<>();
         images.add(0);
         images.add(R.drawable.post_image);
 
-        String message = String.valueOf(etTypeMessage.getText());
-        socketClient.sendMessage(message);
-
         updateMesage(
-                MessageEnum.SEND,
+                TypeReceiveMessageEnum.YOU,
                 R.mipmap.ic_user_72_dark,
                 null,
                 "23:59 25-02-2024",
@@ -101,10 +101,10 @@ public class MessageActivity extends AppCompatActivity implements SocketClient.M
     }
 
     @Override
-    public void onMessageReceived(String message) {
+    public void onMessageReceived(TypeReceiveMessageEnum typeReceive, String message) {
         runOnUiThread(() -> {
             updateMesage(
-                    MessageEnum.RECEIVE,
+                    typeReceive,
                     R.mipmap.ic_user_72_dark,
                     "Johny Deep",
                     "23:59 25-02-2024",
@@ -115,7 +115,7 @@ public class MessageActivity extends AppCompatActivity implements SocketClient.M
         });
     }
 
-    private void updateMesage(MessageEnum viewType, int avatar, String fullname, String messageSendingAt, String text, int media, Boolean seen) {
+    private void updateMesage(TypeReceiveMessageEnum viewType, int avatar, String fullname, String messageSendingAt, String text, int media, Boolean seen) {
         messageCards.add(new MessageModel(
                 viewType,
                 avatar,
