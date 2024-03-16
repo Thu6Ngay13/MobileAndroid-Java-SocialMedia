@@ -3,19 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvTextMessage"
+    <ImageView
+        android:id="@+id/ivMediaMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="2dp"
         android:padding="4dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:text="@string/content_message"
-        android:textColor="@color/black"
-        android:background="@drawable/custom_message"
-        android:textSize="18sp" />
+        android:scaleType="fitStart" />
 
     <TextView
         android:id="@+id/tvMessageSendingAt"
@@ -23,14 +18,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="2dp"
+        android:layout_below="@+id/ivMediaMessage"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:layout_below="@+id/tvTextMessage"
         android:text="@string/message_sending_at"
         android:textColor="@color/black"
         android:textSize="12sp"
         android:textStyle="italic" />
-
 
 
 </RelativeLayout>

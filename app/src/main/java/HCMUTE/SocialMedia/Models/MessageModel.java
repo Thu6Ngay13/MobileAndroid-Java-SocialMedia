@@ -1,37 +1,27 @@
 package HCMUTE.SocialMedia.Models;
 
-import HCMUTE.SocialMedia.Enums.TypeReceiveMessageEnum;
+import android.graphics.Bitmap;
+
+import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
 
 public class MessageModel {
-
-    private final TypeReceiveMessageEnum viewType;
-    private int avatar;
+    private final TypeMessageEnum viewType;
     private String fullname;
     private String messageSendingAt;
     private String text;
-    private int media;
+    private Bitmap media;
     private Boolean seen;
 
-    public MessageModel(TypeReceiveMessageEnum viewType, int avatar, String fullname, String messageSendingAt, String text, int media, Boolean seen) {
+    public MessageModel(TypeMessageEnum viewType, String fullname, String messageSendingAt, String text, Bitmap media) {
         this.viewType = viewType;
-        this.avatar = avatar;
         this.fullname = fullname;
         this.messageSendingAt = messageSendingAt;
         this.text = text;
         this.media = media;
-        this.seen = seen;
     }
 
-    public TypeReceiveMessageEnum getViewType() {
+    public TypeMessageEnum getViewType() {
         return viewType;
-    }
-
-    public int getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(int avatar) {
-        this.avatar = avatar;
     }
 
     public String getFullname() {
@@ -58,11 +48,11 @@ public class MessageModel {
         this.text = text;
     }
 
-    public int getMedia() {
+    public Bitmap getMedia() {
         return media;
     }
 
-    public void setMedia(int media) {
+    public void setMedia(Bitmap media) {
         this.media = media;
     }
 
