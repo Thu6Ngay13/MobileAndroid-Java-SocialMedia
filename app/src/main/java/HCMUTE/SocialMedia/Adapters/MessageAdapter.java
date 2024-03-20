@@ -1,21 +1,18 @@
 package HCMUTE.SocialMedia.Adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import HCMUTE.SocialMedia.Enums.TypeReceiveMessageEnum;
+import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
 import HCMUTE.SocialMedia.Holders.MessageHolder;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.R;
-import HCMUTE.SocialMedia.Utils.ImageUtil;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
 
@@ -30,53 +27,32 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
     @NonNull
     @Override
     public MessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType == TypeReceiveMessageEnum.YOU.ordinal())
+        if(viewType == TypeMessageEnum.SENDER_MESSAGE.ordinal())
             return new MessageHolder(LayoutInflater.from(context).inflate(R.layout.you_message_card_view, parent, false));
-        else
+        else if(viewType == TypeMessageEnum.SENDER_MEDIA.ordinal())
+            return new MessageHolder(LayoutInflater.from(context).inflate(R.layout.you_message_media_card_view, parent, false));
+        else if(viewType == TypeMessageEnum.RECEIVER_MESSAGE.ordinal())
             return new MessageHolder(LayoutInflater.from(context).inflate(R.layout.friend_message_card_view, parent, false));
+        else
+            return new MessageHolder(LayoutInflater.from(context).inflate(R.layout.friend_message_media_card_view, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
         MessageModel messageCardModel = messages.get(position);
-        if(messageCardModel.getViewType() == TypeReceiveMessageEnum.YOU){
-            holder.avatar.setImageResource(messageCardModel.getAvatar());
-            holder.messageSendingAt.setText(messageCardModel.getMessageSendingAt());
+        holder.messageSendingAt.setText(messageCardModel.getMessageSendingAt());
+
+        if(messageCardModel.getViewType() == TypeMessageEnum.SENDER_MESSAGE){
             holder.textMessage.setText(messageCardModel.getText());
         }
-        else if (messageCardModel.getViewType() == TypeReceiveMessageEnum.FRIEND){
-            holder.avatar.setImageResource(messageCardModel.getAvatar());
-            holder.fullname.setText(messageCardModel.getFullname());
-            holder.messageSendingAt.setText(messageCardModel.getMessageSendingAt());
+        else if(messageCardModel.getViewType() == TypeMessageEnum.SENDER_MEDIA){
+            holder.mediaMessage.setImageBitmap(messageCardModel.getMedia());
+        }
+        else if(messageCardModel.getViewType() == TypeMessageEnum.RECEIVER_MESSAGE){
             holder.textMessage.setText(messageCardModel.getText());
         }
-        else {
-            return;
-        }
-
-        if(messageCardModel.getMedia() > 0) {
-            holder.mediaMessage.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    holder.mediaMessage.getViewTreeObserver().removeOnPreDrawListener(this);
-
-                    Resources resources = context.getResources();
-                    int imageResourceId = messageCardModel.getMedia();
-                    int[] dimensions = ImageUtil.getImageDimensions(resources, imageResourceId);
-
-                    int img_width = dimensions[0];
-                    int img_height = dimensions[1];
-
-                    int width = holder.mediaMessage.getWidth();
-                    int height = width * img_height / img_width;
-
-                    holder.mediaMessage.setImageResource(messageCardModel.getMedia());
-                    holder.mediaMessage.getLayoutParams().height = height;
-                    holder.mediaMessage.requestLayout();
-
-                    return true;
-                }
-            });
+        else if(messageCardModel.getViewType() == TypeMessageEnum.RECEIVER_MEDIA){
+            holder.mediaMessage.setImageBitmap(messageCardModel.getMedia());
         }
     }
 

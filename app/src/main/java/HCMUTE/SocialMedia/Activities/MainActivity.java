@@ -2,11 +2,8 @@ package HCMUTE.SocialMedia.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageButton;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,23 +31,13 @@ import HCMUTE.SocialMedia.R;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 999;
-    private final ActivityResultLauncher<Intent> startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), (o) -> {
-        if(o != null && o.getResultCode() == RESULT_OK){
-            if (o.getData() != null && o.getData().getStringExtra(MessageActivity.KEY_NAME) != null){
-                Log.d("Receipt Data", "onActivityResult: " + o.getData().getStringExtra(MessageActivity.KEY_NAME));
-            }
-        }
-    });
-
     private List<MainSelectionModel> mainSelectionModels;
     private MainSelectionEnum chosen;
     private ImageButton ibHome;
     private ImageButton ibFriend;
     private ImageButton ibNotify;
     private ImageButton ibSetting;
-
     private ImageButton ibMessage;
-
     int x = 10;
 
     @Override
@@ -237,11 +224,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void onClickMessage(){
         Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
-        Bundle bundle = new Bundle();
-
-        bundle.putString("string", "idx1010");
-        intent.putExtras(bundle);
-
-        startForResult.launch(intent);
+        startActivity(intent);
     }
 }
