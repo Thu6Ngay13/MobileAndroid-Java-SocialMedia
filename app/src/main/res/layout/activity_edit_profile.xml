@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/ibBack"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:src="@mipmap/ic_arrow_left_72_dark" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:text="Edit profile"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:paddingLeft="10dp"/>
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/ic_check_90_dark"
+            android:background="@color/white"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+    <ListView
+        android:id="@+id/lvProfile"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="9"
+        android:background="@color/white"
+        android:scrollbars="none">
+    </ListView>
+</LinearLayout>

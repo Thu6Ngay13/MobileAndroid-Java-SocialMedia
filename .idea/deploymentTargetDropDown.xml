@@ -4,7 +4,21 @@
     <value>
       <entry key="app">
         <State>
+<<<<<<< HEAD
           <multipleDevicesSelectedInDropDown value="true" />
+=======
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\wwhac\.android\avd\1_1.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetsSelectedWithDialog>
+>>>>>>> 3e32cfc98f0fde0a95065065d3da9e60a7297a09
           <targetsSelectedWithDialog>
             <Target>
               <type value="QUICK_BOOT_TARGET" />
@@ -15,7 +29,8 @@
                 </Key>
               </deviceKey>
             </Target>
-          </targetsSelectedWithDialog>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-03-12T18:00:18.224304700Z" />
         </State>
       </entry>
     </value>
