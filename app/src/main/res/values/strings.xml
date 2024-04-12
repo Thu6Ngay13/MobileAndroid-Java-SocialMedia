@@ -45,4 +45,6 @@
         <item>Newest</item>
     </string-array>
 
+    <string name="report_port">Report this port</string>
+
 </resources>

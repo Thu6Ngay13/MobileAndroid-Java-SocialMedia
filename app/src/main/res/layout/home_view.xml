@@ -28,7 +28,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:text="@string/what_are_you_thinking"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="italic"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />

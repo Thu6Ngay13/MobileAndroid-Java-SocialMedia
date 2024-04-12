@@ -3,10 +3,13 @@ package HCMUTE.SocialMedia.Adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -72,6 +75,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
         CardView cvLike = (CardView) holder.itemView.findViewById(R.id.cvLike);
         CardView cvComment = (CardView) holder.itemView.findViewById(R.id.cvComment);
         CardView cvShare = (CardView) holder.itemView.findViewById(R.id.cvShare);
+        ImageView ivMenu = (ImageView) holder.itemView.findViewById(R.id.ivMenu);
 
         cvLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +105,28 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
             }
         });
 
+        ivMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
+        });
+
+    }
+
+    private void showPopupMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(context, view);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_post, popupMenu.getMenu());
+
+        // Xử lý sự kiện khi item trong menu được chọn
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return false;
+            }
+        });
+
+        popupMenu.show();
     }
 
     @Override

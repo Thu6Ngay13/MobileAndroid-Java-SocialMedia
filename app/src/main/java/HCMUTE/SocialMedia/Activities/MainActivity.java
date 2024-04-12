@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
         List<NotifyCardModel> notifyCardModelTodays = new ArrayList<>();
         List<NotifyCardModel> notifyCardModel3DaysAgos = new ArrayList<>();
         List<String> contents = new ArrayList<>();
+
         contents.add("đã thích bài viết của bạn");
         contents.add("đã chia sẽ bài viết của bạn");
         contents.add("đã mời bạn tham gia nhóm Hai Con Mèo Màu Xanh Lá Cây");

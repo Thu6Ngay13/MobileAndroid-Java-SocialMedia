@@ -22,7 +22,7 @@
             android:name=".Activities.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".Activities.ViewProfileActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.ConversationActivity"
@@ -82,7 +82,7 @@
             android:name=".Activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.ViewProfileActivity"
+            android:name=".Activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
