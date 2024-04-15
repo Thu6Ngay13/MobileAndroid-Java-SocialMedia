@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import HCMUTE.SocialMedia.Adapters.FriendAdapter;
 import HCMUTE.SocialMedia.Adapters.HomeAdapter;
@@ -23,11 +22,17 @@ import HCMUTE.SocialMedia.Models.HomeModel;
 import HCMUTE.SocialMedia.Models.MainSelectionModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.NotifyModel;
-import HCMUTE.SocialMedia.Models.PostModel;
+import HCMUTE.SocialMedia.Models.PostCardModel;
+import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.SettingCardModel;
 import HCMUTE.SocialMedia.Models.SettingModel;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.Retrofit.APIService;
+import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 999;
@@ -116,36 +121,37 @@ public class MainActivity extends AppCompatActivity {
 
     private void onClickHome(){
         List<HomeModel> homeModels = new ArrayList<>();
-        List<PostModel> postModels = new ArrayList<>();
-        for (int i = 0; i < x; i++) {
-            if(i % 2 == 0){
-                postModels.add(new PostModel(
-                        R.mipmap.ic_user_72_dark,
-                        "Jonhny Deep",
-                        "23:59 25-02-2024",
-                        R.mipmap.ic_global_72_dark,
-                        "Hôm nay trời đẹp quá",
-                        0,
-                        false
-                ));
-            }
-            else {
-                postModels.add(new PostModel(
-                        R.mipmap.ic_user_72_dark,
-                        "Jonhny Deep",
-                        "23:59 25-02-2024",
-                        R.mipmap.ic_global_72_dark,
-                        "Hôm nay trời đẹp quá",
-                        R.drawable.post_image,
-                        false
-                ));
-            }
-        }
+        List<PostCardModel> postCardModels = new ArrayList<>();
 
-        homeModels.add(new HomeModel(postModels));
-        RecyclerView recyclerView = findViewById(R.id.rvMainArea);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new HomeAdapter(getApplicationContext(), homeModels));
+        //G0i Interface trong APIService
+        APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getPostsWithUsername("binhbinh").enqueue(new Callback<ResponseModel<PostCardModel>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<PostCardModel>> call, Response<ResponseModel<PostCardModel>> response) {
+                if (response.isSuccessful()) {
+                    ResponseModel<PostCardModel> responseModel = response.body();
+                    if (responseModel != null && responseModel.isSuccess()){
+                        List<PostCardModel> responseModelResult = responseModel.getResult();
+                        postCardModels.addAll(responseModelResult);
+                    }
+
+                    homeModels.add(new HomeModel(postCardModels));
+                    RecyclerView recyclerView = findViewById(R.id.rvMainArea);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    recyclerView.setAdapter(new HomeAdapter(getApplicationContext(), homeModels));
+                } else {
+                    int statusCode = response.code();
+                    // handle request errors depending on status code
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<PostCardModel>> call, Throwable t) {
+
+            }
+        });
+
+
     }
 
     private void onClickFriend(){
@@ -175,40 +181,36 @@ public class MainActivity extends AppCompatActivity {
         List<NotifyModel> notifyModels = new ArrayList<>();
         List<NotifyCardModel> notifyCardModelTodays = new ArrayList<>();
         List<NotifyCardModel> notifyCardModel3DaysAgos = new ArrayList<>();
-        List<String> contents = new ArrayList<>();
 
-        contents.add("đã thích bài viết của bạn");
-        contents.add("đã chia sẽ bài viết của bạn");
-        contents.add("đã mời bạn tham gia nhóm Hai Con Mèo Màu Xanh Lá Cây");
-        contents.add("đã gửi yêu cầu kết bạn đến bạn");
-        contents.add("đã bình luận vào bào viết của bạn");
+        //G0i Interface trong APIService
+        APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getNotificationReceiptsWithUsername("binhbinh").enqueue(new Callback<ResponseModel<NotifyCardModel>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<NotifyCardModel>> call, Response<ResponseModel<NotifyCardModel>> response) {
+                if (response.isSuccessful()) {
+                    ResponseModel<NotifyCardModel> responseModel = response.body();
+                    if (responseModel != null && responseModel.isSuccess()){
+                        List<NotifyCardModel> notifyCardModels = responseModel.getResult();
+                        notifyCardModelTodays.addAll(notifyCardModels);
+                    }
 
-        for (int i = 0; i < x; i++) {
-            Random random = new Random();
-            notifyCardModelTodays.add(new NotifyCardModel(
-                    R.mipmap.ic_user_72_dark,
-                    "Jonhny Deep",
-                    contents.get(random.nextInt(contents.size())),
-                    "23:59 28-02-2024"
-            ));
-        }
+                    notifyModels.add(new NotifyModel("Today", notifyCardModelTodays));
+                    notifyModels.add(new NotifyModel("3 days ago", notifyCardModel3DaysAgos));
 
-        for (int i = 0; i < x; i++) {
-            Random random = new Random();
-            notifyCardModel3DaysAgos.add(new NotifyCardModel(
-                    R.mipmap.ic_user_72_dark,
-                    "Jonhny Deep",
-                    contents.get(random.nextInt(contents.size())),
-                    "23:59 25-02-2024"
-            ));
-        }
+                    RecyclerView recyclerView = findViewById(R.id.rvMainArea);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    recyclerView.setAdapter(new NotifyAdapter(getApplicationContext(), notifyModels));
+                } else {
+                    int statusCode = response.code();
+                    // handle request errors depending on status code
+                }
+            }
 
-        notifyModels.add(new NotifyModel("Today", notifyCardModelTodays));
-        notifyModels.add(new NotifyModel("3 days ago", notifyCardModel3DaysAgos));
+            @Override
+            public void onFailure(Call<ResponseModel<NotifyCardModel>> call, Throwable t) {
 
-        RecyclerView recyclerView = findViewById(R.id.rvMainArea);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new NotifyAdapter(getApplicationContext(), notifyModels));
+            }
+        });
     }
 
     private void onClickSetting(){

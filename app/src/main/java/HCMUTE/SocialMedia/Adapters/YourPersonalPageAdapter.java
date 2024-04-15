@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,16 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import HCMUTE.SocialMedia.Activities.YourPersonalPageActivity;
-import HCMUTE.SocialMedia.Models.PostModel;
+import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
 
 public class YourPersonalPageAdapter extends RecyclerView.Adapter<YourPersonalPageAdapter.YourPersonalPageHolder>{
     private Context context;
     private List<YourFriendModel> yourFriends;
-    private List<PostModel> posts;
-    public YourPersonalPageAdapter(Context context, List<YourFriendModel> yourFriends, List<PostModel> posts){
+    private List<PostCardModel> posts;
+    public YourPersonalPageAdapter(Context context, List<YourFriendModel> yourFriends, List<PostCardModel> posts){
         this.context = context;
         this.yourFriends = yourFriends;
         this.posts = posts;

@@ -1,13 +1,10 @@
 package HCMUTE.SocialMedia.Adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -16,18 +13,19 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import HCMUTE.SocialMedia.Holders.PostHolder;
-import HCMUTE.SocialMedia.Models.PostModel;
+import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.R;
-import HCMUTE.SocialMedia.Utils.ImageUtil;
 
 public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
     private Context context;
-    private List<PostModel> posts;
+    private List<PostCardModel> posts;
 
-    public PostAdapter(Context context, List<PostModel> posts) {
+    public PostAdapter(Context context, List<PostCardModel> posts) {
         this.context = context;
         this.posts = posts;
     }
@@ -40,36 +38,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull PostHolder holder, int position) {
-        PostModel postModel = posts.get(position);
-        holder.avatar.setImageResource(postModel.getAvatar());
-        holder.fullName.setText(postModel.getFullName());
-        holder.postingTimeAt.setText(postModel.getPostingTimeAt());
-        holder.mode.setImageResource(postModel.getMode());
-        holder.postText.setText(postModel.getPostText());
+        PostCardModel postCardModel = posts.get(position);
+        holder.fullName.setText(postCardModel.getFullName());
+        holder.postingTimeAt.setText(postCardModel.getPostingTimeAt());
+        holder.mode.setImageResource((int)postCardModel.getMode());
+        holder.postText.setText(postCardModel.getPostText());
 
-        if(postModel.getPostImage() > 0){
-            holder.postImage.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    holder.postImage.getViewTreeObserver().removeOnPreDrawListener(this);
+        Glide.with(context)
+                .load(postCardModel.getAvatar())
+                .into(holder.avatar);
 
-                    Resources resources = context.getResources();
-                    int imageResourceId = postModel.getPostImage();
-                    int[] dimensions = ImageUtil.getImageDimensions(resources, imageResourceId);
+        if (postCardModel.getPostMedia().endsWith(".jpg"))
+            Glide.with(context)
+                    .load(postCardModel.getPostMedia())
+                    .into(holder.postImage);
+        else{
 
-                    int img_width = dimensions[0];
-                    int img_height = dimensions[1];
-
-                    int width = holder.postImage.getWidth();
-                    int height = width * img_height / img_width;
-
-                    holder.postImage.setImageResource(postModel.getPostImage());
-                    holder.postImage.getLayoutParams().height = height;
-                    holder.postImage.requestLayout();
-
-                    return true;
-                }
-            });
         }
 
         CardView cvLike = (CardView) holder.itemView.findViewById(R.id.cvLike);
@@ -81,11 +65,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
             @Override
             public void onClick(View v) {
                 ImageView ivLike = (ImageView) cvLike.findViewById(R.id.ivLike);
-                if(postModel.getLiked()){
-                    postModel.setLiked(false);
+                if(postCardModel.isLiked()){
+                    postCardModel.setLiked(false);
                     ivLike.setImageResource(R.mipmap.ic_like_72_line);
                 } else {
-                    postModel.setLiked(true);
+                    postCardModel.setLiked(true);
                     ivLike.setImageResource(R.mipmap.ic_like_72_full);
                 }
             }
@@ -118,7 +102,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
         PopupMenu popupMenu = new PopupMenu(context, view);
         popupMenu.getMenuInflater().inflate(R.menu.menu_post, popupMenu.getMenu());
 
-        // Xử lý sự kiện khi item trong menu được chọn
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {

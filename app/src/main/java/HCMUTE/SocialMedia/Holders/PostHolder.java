@@ -2,8 +2,8 @@ package HCMUTE.SocialMedia.Holders;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +17,7 @@ public class PostHolder extends RecyclerView.ViewHolder{
     public ImageView mode;
     public TextView postText;
     public ImageView postImage;
+    public VideoView postVideo;
 
     public PostHolder(@NonNull View itemView) {
         super(itemView);
@@ -26,5 +27,6 @@ public class PostHolder extends RecyclerView.ViewHolder{
         this.mode = itemView.findViewById(R.id.ivMode);
         this.postText = itemView.findViewById(R.id.tvPostText);
         this.postImage = itemView.findViewById(R.id.ivPostImage);
+        this.postVideo = itemView.findViewById(R.id.ivPostVideo);
     }
 }

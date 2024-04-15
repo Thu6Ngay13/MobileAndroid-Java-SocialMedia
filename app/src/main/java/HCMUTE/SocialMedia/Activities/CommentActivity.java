@@ -10,15 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Adapters.CommentCardAdapter;
-import HCMUTE.SocialMedia.Adapters.FriendAdapter;
-import HCMUTE.SocialMedia.Adapters.HomeAdapter;
 import HCMUTE.SocialMedia.Models.CommentCardModel;
-import HCMUTE.SocialMedia.Models.CommentModel;
-import HCMUTE.SocialMedia.Models.FriendModel;
-import HCMUTE.SocialMedia.Models.FriendRequestModel;
-import HCMUTE.SocialMedia.Models.HomeModel;
-import HCMUTE.SocialMedia.Models.PostModel;
-import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
 
 public class CommentActivity extends AppCompatActivity {

@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import HCMUTE.SocialMedia.Holders.NotifyCardHolder;
@@ -37,16 +39,19 @@ public class NotifyCardAdapter extends RecyclerView.Adapter<NotifyCardHolder> {
     @Override
     public void onBindViewHolder(@NonNull NotifyCardHolder holder, int position) {
         NotifyCardModel notifyCardModel = notifyCards.get(position);
-        holder.avatar.setImageResource(notifyCardModel.getAvatar());
-
+        Glide.with(context)
+                .load(notifyCardModel.getAvatar())
+                .into(holder.avatar);
 
         String fullName = notifyCardModel.getFullName();
-        String content = notifyCardModel.getContent();
+        String content = notifyCardModel.getText();
         SpannableString fullNameAndContent = new SpannableString(fullName + " " + content);
-//      FullName
+
+        //      FullName
         fullNameAndContent.setSpan(new StyleSpan(Typeface.BOLD), 0, fullName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         fullNameAndContent.setSpan(new TextAppearanceSpan(context, R.style.notify_fullname), 0, fullName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//      Content
+
+        //      Content
         fullNameAndContent.setSpan(new TextAppearanceSpan(context, R.style.notify_content), fullName.length() + 1, fullNameAndContent.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         holder.fullNameAndContent.setText(fullNameAndContent);

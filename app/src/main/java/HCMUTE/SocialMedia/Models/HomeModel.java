@@ -3,17 +3,17 @@ package HCMUTE.SocialMedia.Models;
 import java.util.List;
 
 public class HomeModel {
-    private List<PostModel> postModels;
+    private List<PostCardModel> postCardModels;
 
-    public HomeModel(List<PostModel> postModels) {
-        this.postModels = postModels;
+    public HomeModel(List<PostCardModel> postCardModels) {
+        this.postCardModels = postCardModels;
     }
 
-    public List<PostModel> getPostModels() {
-        return postModels;
+    public List<PostCardModel> getPostModels() {
+        return postCardModels;
     }
 
-    public void setPostModels(List<PostModel> postModels) {
-        this.postModels = postModels;
+    public void setPostModels(List<PostCardModel> postCardModels) {
+        this.postCardModels = postCardModels;
     }
 }

@@ -11,15 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import HCMUTE.SocialMedia.Models.PostModel;
+import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
 
 public class MyPersonalPageAdapter extends RecyclerView.Adapter<MyPersonalPageAdapter.MyPersonalPageHolder>{
     private Context context;
     private List<YourFriendModel> yourFriends;
-    private List<PostModel> posts;
-    public MyPersonalPageAdapter(Context context, List<YourFriendModel> yourFriends, List<PostModel> posts){
+    private List<PostCardModel> posts;
+    public MyPersonalPageAdapter(Context context, List<YourFriendModel> yourFriends, List<PostCardModel> posts){
         this.context = context;
         this.yourFriends = yourFriends;
         this.posts = posts;

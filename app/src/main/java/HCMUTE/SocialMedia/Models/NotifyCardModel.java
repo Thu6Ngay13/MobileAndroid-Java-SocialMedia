@@ -1,24 +1,36 @@
 package HCMUTE.SocialMedia.Models;
 
 public class NotifyCardModel {
-    private int avatar;
+    private String avatar;
+    private String username;
     private String fullName;
-    private String content;
+    private String text;
+    private Boolean isSeen;
     private String notifyTimeAt;
 
-    public NotifyCardModel(int avatar, String fullName, String content, String notifyTimeAt) {
+    public NotifyCardModel(String avatar, String username, String fullName, String text, Boolean isSeen, String notifyTimeAt) {
         this.avatar = avatar;
+        this.username = username;
         this.fullName = fullName;
-        this.content = content;
+        this.text = text;
+        this.isSeen = isSeen;
         this.notifyTimeAt = notifyTimeAt;
     }
 
-    public int getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(int avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFullName() {
@@ -29,12 +41,20 @@ public class NotifyCardModel {
         this.fullName = fullName;
     }
 
-    public String getContent() {
-        return content;
+    public String getText() {
+        return text;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Boolean getSeen() {
+        return isSeen;
+    }
+
+    public void setSeen(Boolean seen) {
+        isSeen = seen;
     }
 
     public String getNotifyTimeAt() {

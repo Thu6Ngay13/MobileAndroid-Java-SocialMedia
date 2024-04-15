@@ -1,30 +1,40 @@
 package HCMUTE.SocialMedia.Models;
 
-public class PostModel {
-    private int avatar;
+public class PostCardModel {
+    private String avatar;
+    private String username;
     private String fullName;
     private String postingTimeAt;
-    private int mode;
+    private long mode;
     private String postText;
-    private int postImage;
+    private String postMedia;
     private boolean liked;
 
-    public PostModel(int avatar, String fullName, String postingTimeAt, int mode, String postText, int postImage, boolean liked) {
+    public PostCardModel(String avatar, String username, String fullName, String postingTimeAt, long mode, String postText, String postMedia, boolean liked) {
         this.avatar = avatar;
+        this.username = username;
         this.fullName = fullName;
         this.postingTimeAt = postingTimeAt;
         this.mode = mode;
         this.postText = postText;
-        this.postImage = postImage;
+        this.postMedia = postMedia;
         this.liked = liked;
     }
 
-    public int getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(int avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFullName() {
@@ -43,11 +53,11 @@ public class PostModel {
         this.postingTimeAt = postingTimeAt;
     }
 
-    public int getMode() {
+    public long getMode() {
         return mode;
     }
 
-    public void setMode(int mode) {
+    public void setMode(long mode) {
         this.mode = mode;
     }
 
@@ -59,15 +69,15 @@ public class PostModel {
         this.postText = postText;
     }
 
-    public int getPostImage() {
-        return postImage;
+    public String getPostMedia() {
+        return postMedia;
     }
 
-    public void setPostImage(int postImage) {
-        this.postImage = postImage;
+    public void setPostMedia(String postMedia) {
+        this.postMedia = postMedia;
     }
 
-    public boolean getLiked() {
+    public boolean isLiked() {
         return liked;
     }
 

@@ -10,10 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import HCMUTE.SocialMedia.Adapters.HomeAdapter;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
-import HCMUTE.SocialMedia.Models.HomeModel;
-import HCMUTE.SocialMedia.Models.PostModel;
+import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.R;
 
 public class GroupActivity extends AppCompatActivity {
@@ -24,22 +22,23 @@ public class GroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
 
-        List<PostModel> postModels = new ArrayList<>();
+        List<PostCardModel> postCardModels = new ArrayList<>();
         for (int i = 0; i < x; i++) {
-            postModels.add(new PostModel(
-                    R.mipmap.ic_user_72_dark,
+            postCardModels.add(new PostCardModel(
+                    "avaterurl",
+                    "username",
                     "Jonhny Deep",
                     "23:59 25-02-2024",
                     R.mipmap.ic_global_72_dark,
                     "Hôm nay trời đẹp quá",
-                    R.drawable.post_image,
+                    "postMedia",
                     false
             ));
         }
 
         RecyclerView recyclerView = findViewById(R.id.rvGroupArea);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new PostAdapter(getApplicationContext(), postModels));
+        recyclerView.setAdapter(new PostAdapter(getApplicationContext(), postCardModels));
     }
 
 }
