@@ -6,7 +6,7 @@
     android:layout_marginBottom="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivAvatar"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -33,6 +33,7 @@
             android:id="@+id/tvFullNameAndContent"
             android:layout_height="50dp"
             android:gravity="center_vertical"
+            android:textColor="@color/black"
             android:text="@string/full_name_and_content"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -45,6 +46,7 @@
             android:id="@+id/tvNotifyTimeAt"
             android:gravity="center_vertical"
             android:text="@string/friend_request_time_at"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="italic"
             app:layout_column="0"

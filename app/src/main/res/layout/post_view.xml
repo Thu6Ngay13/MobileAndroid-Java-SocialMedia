@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:background="@color/white"
     android:layout_marginBottom="8dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivAvatar"
         android:layout_width="75dp"
         android:layout_height="75dp"
@@ -86,21 +85,10 @@
         android:layout_marginTop="2dp"
         android:scaleType="fitStart"/>
 
-    <VideoView
-        android:id="@+id/ivPostVideo"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@+id/ivPostImage"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="2dp"/>
-
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/ivPostVideo"
+        android:layout_below="@+id/ivPostImage"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="2dp"

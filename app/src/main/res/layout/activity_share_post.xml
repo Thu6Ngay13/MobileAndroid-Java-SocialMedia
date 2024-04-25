@@ -81,7 +81,7 @@
                 app:rowCount="1">
 
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/ivAvatar"
                     android:layout_width="100dp"
                     android:background="@color/white"

@@ -27,6 +27,5 @@ public class PostHolder extends RecyclerView.ViewHolder{
         this.mode = itemView.findViewById(R.id.ivMode);
         this.postText = itemView.findViewById(R.id.tvPostText);
         this.postImage = itemView.findViewById(R.id.ivPostImage);
-        this.postVideo = itemView.findViewById(R.id.ivPostVideo);
     }
 }
