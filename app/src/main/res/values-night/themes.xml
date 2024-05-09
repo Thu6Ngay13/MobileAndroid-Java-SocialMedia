@@ -1,7 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MobileAndroidJavaSocialMedia" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<resources>
+    <style name="Theme.MobileAndroidJavaSocialMedia" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/green_dark</item>
+        <item name="buttonStyle">@drawable/custom_button</item>
+
+        <item name="android:textColor">@color/black</item>
+        <item name="android:itemBackground">@color/white</item>
     </style>
+
 </resources>

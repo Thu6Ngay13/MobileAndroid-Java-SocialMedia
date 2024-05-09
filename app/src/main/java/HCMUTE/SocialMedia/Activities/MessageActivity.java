@@ -40,7 +40,8 @@ import io.socket.emitter.Emitter;
 
 public class MessageActivity extends AppCompatActivity {
     private final String TAG = "MessageActivity";
-    private final String SERVER_PATH = "ws://192.168.1.22:1234";
+    private final String SERVER_PATH = "ws://192.168.254.201:1234";
+
     private Socket socketClient;
     private ImageButton ibBack;
     private EditText etTypeMessage;

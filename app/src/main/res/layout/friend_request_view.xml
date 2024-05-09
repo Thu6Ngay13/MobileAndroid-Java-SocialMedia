@@ -6,7 +6,7 @@
     android:layout_marginBottom="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivAvatar"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -68,10 +68,9 @@
 
         <Button
             android:id="@+id/btAccept"
-            android:background="@color/white"
             android:gravity="center"
             android:text="@string/accept"
-            android:textColor="@color/green_dark"
+            android:textColor="@color/white"
             app:layout_column="0"
             app:layout_columnWeight="1"
             app:layout_row="0"
@@ -79,9 +78,8 @@
 
         <Button
             android:id="@+id/btDecline"
-            android:background="@color/white"
             android:text="@string/decline"
-            android:textColor="@color/green_dark"
+            android:textColor="@color/white"
             app:layout_column="1"
             app:layout_columnWeight="1"
             app:layout_row="0"

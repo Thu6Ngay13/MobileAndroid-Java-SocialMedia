@@ -41,20 +41,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
         PostCardModel postCardModel = posts.get(position);
         holder.fullName.setText(postCardModel.getFullName());
         holder.postingTimeAt.setText(postCardModel.getPostingTimeAt());
-        holder.mode.setImageResource((int)postCardModel.getMode());
+
+//        holder.mode.setImageResource((int) postCardModel.getMode());
         holder.postText.setText(postCardModel.getPostText());
 
+        //        postCardModel.getPostMedia().endsWith(".jpg");
         Glide.with(context)
                 .load(postCardModel.getAvatar())
                 .into(holder.avatar);
 
-        if (postCardModel.getPostMedia().endsWith(".jpg"))
-            Glide.with(context)
-                    .load(postCardModel.getPostMedia())
-                    .into(holder.postImage);
-        else{
-
-        }
+        Glide.with(context)
+                .load(postCardModel.getPostMedia())
+                .into(holder.postImage);
 
         CardView cvLike = (CardView) holder.itemView.findViewById(R.id.cvLike);
         CardView cvComment = (CardView) holder.itemView.findViewById(R.id.cvComment);
@@ -65,7 +63,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
             @Override
             public void onClick(View v) {
                 ImageView ivLike = (ImageView) cvLike.findViewById(R.id.ivLike);
-                if(postCardModel.isLiked()){
+                if (postCardModel.isLiked()) {
                     postCardModel.setLiked(false);
                     ivLike.setImageResource(R.mipmap.ic_like_72_line);
                 } else {

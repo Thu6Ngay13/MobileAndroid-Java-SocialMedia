@@ -14,6 +14,4 @@ public interface APIService {
 
     @GET("post/{username}")
     Call<ResponseModel<PostCardModel>> getPostsWithUsername(@Path("username") String username);
-
-    //    @FormUrlEncoded
 }

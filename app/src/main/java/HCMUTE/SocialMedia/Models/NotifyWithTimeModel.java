@@ -2,11 +2,11 @@ package HCMUTE.SocialMedia.Models;
 
 import java.util.List;
 
-public class NotifyModel {
+public class NotifyWithTimeModel {
     private String NotifyTime;
     private List<NotifyCardModel> notifyCardModels;
 
-    public NotifyModel(String notifyTime, List<NotifyCardModel> notifyCardModels) {
+    public NotifyWithTimeModel(String notifyTime, List<NotifyCardModel> notifyCardModels) {
         NotifyTime = notifyTime;
         this.notifyCardModels = notifyCardModels;
     }

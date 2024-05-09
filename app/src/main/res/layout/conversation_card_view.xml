@@ -5,7 +5,7 @@
     android:layout_marginBottom="8dp"
     android:background="@color/white">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivAvatar"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -18,6 +18,7 @@
         android:layout_height="80dp"
         android:gravity="center"
         android:text="@string/full_name"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
 
