@@ -11,4 +11,11 @@
         <item name="android:textStyle">italic</item>
         <item name="android:color">@color/black</item>
     </style>
+
+    <style name="DatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:background">@color/green_dark</item>
+        <item name="colorAccent">#71B38F</item>
+    </style>
+
+
 </resources>
