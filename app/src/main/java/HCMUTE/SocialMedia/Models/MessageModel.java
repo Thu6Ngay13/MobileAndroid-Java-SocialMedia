@@ -5,12 +5,12 @@ import android.graphics.Bitmap;
 import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
 
 public class MessageModel {
-    private final TypeMessageEnum viewType;
     private String fullname;
-    private String messageSendingAt;
-    private String text;
     private Bitmap media;
+    private String messageSendingAt;
     private Boolean seen;
+    private String text;
+    private final TypeMessageEnum viewType;
 
     public MessageModel(TypeMessageEnum viewType, String fullname, String messageSendingAt, String text, Bitmap media) {
         this.viewType = viewType;
@@ -21,11 +21,11 @@ public class MessageModel {
     }
 
     public TypeMessageEnum getViewType() {
-        return viewType;
+        return this.viewType;
     }
 
     public String getFullname() {
-        return fullname;
+        return this.fullname;
     }
 
     public void setFullname(String fullname) {
@@ -33,7 +33,7 @@ public class MessageModel {
     }
 
     public String getMessageSendingAt() {
-        return messageSendingAt;
+        return this.messageSendingAt;
     }
 
     public void setMessageSendingAt(String messageSendingAt) {
@@ -41,7 +41,7 @@ public class MessageModel {
     }
 
     public String getText() {
-        return text;
+        return this.text;
     }
 
     public void setText(String text) {
@@ -49,7 +49,7 @@ public class MessageModel {
     }
 
     public Bitmap getMedia() {
-        return media;
+        return this.media;
     }
 
     public void setMedia(Bitmap media) {
@@ -57,10 +57,11 @@ public class MessageModel {
     }
 
     public Boolean isSeen() {
-        return seen;
+        return this.seen;
     }
 
     public void setSeen(Boolean seen) {
         this.seen = seen;
     }
+
 }

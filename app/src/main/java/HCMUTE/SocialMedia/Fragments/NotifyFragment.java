@@ -41,9 +41,9 @@ public class NotifyFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<NotifyWithTimeModel> notifyWithTimeModels = new ArrayList<>();
-        List<NotifyCardModel> notifyCardModelTodays = new ArrayList<>();
-        List<NotifyCardModel> notifyCardModel3DaysAgos = new ArrayList<>();
+        final List<NotifyWithTimeModel> notifyWithTimeModels = new ArrayList<>();
+        final List<NotifyCardModel> notifyCardModelTodays = new ArrayList<>();
+        final List<NotifyCardModel> notifyCardModel3DaysAgos = new ArrayList<>();
 
         //G0i Interface trong APIService
         APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
@@ -71,7 +71,6 @@ public class NotifyFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseModel<NotifyCardModel>> call, Throwable t) {
-
             }
         });
     }

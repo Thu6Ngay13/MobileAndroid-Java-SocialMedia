@@ -1,13 +1,10 @@
 package HCMUTE.SocialMedia.Adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.util.Log;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,9 +15,8 @@ import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
 import HCMUTE.SocialMedia.Holders.MessageHolder;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.R;
-import HCMUTE.SocialMedia.Utils.ImageUtil;
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
+public class MessageAdapter extends RecyclerView.Adapter<MessageHolder>{
 
     private Context context;
     private List<MessageModel> messages;
@@ -107,4 +103,48 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
             return messages.size();
         return 0;
     }
+
+    public void addItems(List<MessageModel> messageModels, RecyclerView recyclerView){
+        if (messageModels.isEmpty()) return;
+
+        AsyncTaskUI asyncTaskUI = new AsyncTaskUI(messageModels, recyclerView);
+        asyncTaskUI.execute();
+    }
+
+    private class AsyncTaskUI extends AsyncTask<Void, Integer, Void> {
+        private List<MessageModel> messageModels;
+        private RecyclerView recyclerView;
+
+        public AsyncTaskUI(List<MessageModel> messageModels, RecyclerView recyclerView) {
+            this.messageModels = messageModels;
+            this.recyclerView = recyclerView;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            publishProgress();
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            messages.addAll(messageModels);
+            notifyItemInserted(getItemCount() - 1);
+            recyclerView.scrollToPosition(getItemCount() - 1);
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+        }
+    }
+
 }
+
+

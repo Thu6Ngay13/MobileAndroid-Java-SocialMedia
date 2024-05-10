@@ -1,16 +1,28 @@
 package HCMUTE.SocialMedia.Models;
 
-public class FriendRequestModel {
+import HCMUTE.SocialMedia.Enums.TypeFriendEnum;
+
+public class FriendModel {
+	private TypeFriendEnum viewType;
     private String avatar;
     private String username;
     private String fullName;
     private String requestTimeAt;
 
-    public FriendRequestModel(String avatar, String username, String fullName, String requestTimeAt) {
+    public FriendModel(TypeFriendEnum viewType, String avatar, String username, String fullName, String requestTimeAt) {
+        this.viewType = viewType;
         this.avatar = avatar;
         this.username = username;
         this.fullName = fullName;
         this.requestTimeAt = requestTimeAt;
+    }
+
+    public TypeFriendEnum getViewType() {
+        return viewType;
+    }
+
+    public void setViewType(TypeFriendEnum viewType) {
+        this.viewType = viewType;
     }
 
     public String getAvatar() {

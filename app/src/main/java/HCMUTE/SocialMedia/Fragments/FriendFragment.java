@@ -2,6 +2,10 @@ package HCMUTE.SocialMedia.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,24 +14,23 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import HCMUTE.SocialMedia.Adapters.FriendRequestAdapter;
-import HCMUTE.SocialMedia.Adapters.YourFriendAdapter;
-import HCMUTE.SocialMedia.Models.FriendRequestModel;
-import HCMUTE.SocialMedia.Models.YourFriendModel;
+import HCMUTE.SocialMedia.Adapters.FriendAdapter;
+import HCMUTE.SocialMedia.Models.FriendModel;
+import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.Retrofit.APIService;
+import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FriendFragment extends Fragment {
-    private boolean yourFriendNow;
-    private Button btYourFriend;
     private Button btRequestedFriend;
+    private Button btYourFriend;
+    private boolean yourFriendNow;
 
     public FriendFragment() { }
 
@@ -45,58 +48,83 @@ public class FriendFragment extends Fragment {
         onCickYourFriend(view, getContext());
 
         btYourFriend.setOnClickListener(v -> {
-            if(yourFriendNow) return;
+            if (yourFriendNow) return;
             onCickYourFriend(view, getContext());
         });
 
         btRequestedFriend.setOnClickListener(v -> {
-            if(!yourFriendNow) return;
+            if (!yourFriendNow) return;
             onCickFriendRequest(view, getContext());
         });
     }
 
-    private void onCickYourFriend(View view, Context context){
-        btYourFriend.setTextColor(ContextCompat.getColor(context, R.color.white));
-        btYourFriend.setBackgroundColor(ContextCompat.getColor(context, R.color.green_dark));
+    private void onCickYourFriend(View view, Context context) {
+        this.btYourFriend.setTextColor(ContextCompat.getColor(context, R.color.white));
+        this.btYourFriend.setBackgroundColor(ContextCompat.getColor(context, R.color.green_dark));
+        this.btRequestedFriend.setTextColor(ContextCompat.getColor(context, R.color.green_dark));
+        this.btRequestedFriend.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
 
-        btRequestedFriend.setTextColor(ContextCompat.getColor(context, R.color.green_dark));
-        btRequestedFriend.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        this.yourFriendNow = true;
+        final List<FriendModel> FriendModels = new ArrayList<>();
 
-        yourFriendNow = true;
-        List<YourFriendModel> yourFriendModels1 = new ArrayList<>();
+        APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getYourFriendsWithUsername("vanE.12.31").enqueue(new Callback<ResponseModel<FriendModel>>() { // from class: HCMUTE.SocialMedia.Fragments.FriendFragment.1
+            @Override
+            public void onResponse(Call<ResponseModel<FriendModel>> call, Response<ResponseModel<FriendModel>> response) {
+                if (response.isSuccessful()) {
+                    ResponseModel<FriendModel> responseModel = response.body();
+                    if (responseModel != null && responseModel.isSuccess()) {
+                        List<FriendModel> responseModelResult = responseModel.getResult();
+                        FriendModels.addAll(responseModelResult);
+                    }
+                    RecyclerView recyclerView1 = (RecyclerView) view.findViewById(R.id.rvFriendArea);
+                    recyclerView1.setLayoutManager(new LinearLayoutManager(context));
+                    recyclerView1.setAdapter(new FriendAdapter(context, FriendModels));
+                } else {
+                    int statusCode = response.code();
+                    // handle request errors depending on status code
+                }
+            }
 
-        for (int i = 0; i < 5; i++) {
-            yourFriendModels1.add(new YourFriendModel(
-                    R.mipmap.ic_user_72_dark,
-                    "Jonhny Deep"
-            ));
-        }
+            @Override
+            public void onFailure(Call<ResponseModel<FriendModel>> call, Throwable t) {
+            }
+        });
 
-        RecyclerView recyclerView1 = view.findViewById(R.id.rvFriendArea);
-        recyclerView1.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView1.setAdapter(new YourFriendAdapter(context, yourFriendModels1));
     }
 
-    private void onCickFriendRequest(View view, Context context){
-        btYourFriend.setTextColor(ContextCompat.getColor(context, R.color.green_dark));
-        btYourFriend.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+    private void onCickFriendRequest(View view, Context context) {
+        this.btYourFriend.setTextColor(ContextCompat.getColor(context, R.color.green_dark));
+        this.btYourFriend.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+        this.btRequestedFriend.setTextColor(ContextCompat.getColor(context, R.color.white));
+        this.btRequestedFriend.setBackgroundColor(ContextCompat.getColor(context, R.color.green_dark));
 
-        btRequestedFriend.setTextColor(ContextCompat.getColor(context, R.color.white));
-        btRequestedFriend.setBackgroundColor(ContextCompat.getColor(context, R.color.green_dark));
+        this.yourFriendNow = false;
+        final List<FriendModel> FriendModels = new ArrayList<>();
 
-        yourFriendNow = false;
-        List<FriendRequestModel> friendRequestModels = new ArrayList<>();
+        APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getFriendRequestsWithUsername("vanE.12.31").enqueue(new Callback<ResponseModel<FriendModel>>() { // from class: HCMUTE.SocialMedia.Fragments.FriendFragment.2
+            @Override
+            public void onResponse(Call<ResponseModel<FriendModel>> call, Response<ResponseModel<FriendModel>> response) {
+                if (response.isSuccessful()) {
+                    ResponseModel<FriendModel> responseModel = response.body();
+                    if (responseModel != null && responseModel.isSuccess()) {
+                        List<FriendModel> responseModelResult = responseModel.getResult();
+                        FriendModels.addAll(responseModelResult);
+                    }
+                    RecyclerView recyclerView1 = (RecyclerView) view.findViewById(R.id.rvFriendArea);
+                    recyclerView1.setLayoutManager(new LinearLayoutManager(context));
+                    recyclerView1.setAdapter(new FriendAdapter(context, FriendModels));
+                } else {
+                    int statusCode = response.code();
+                    // handle request errors depending on status code
+                }
+            }
 
-        for (int i = 0; i < 5; i++) {
-            friendRequestModels.add(new FriendRequestModel(
-                    R.mipmap.ic_user_72_dark,
-                    "Jonhny Deep",
-                    "23:59 25-02-2024"
-            ));
-        }
+            @Override
+            public void onFailure(Call<ResponseModel<FriendModel>> call, Throwable t) {
+            }
+        });
 
-        RecyclerView recyclerView12 = view.findViewById(R.id.rvFriendArea);
-        recyclerView12.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView12.setAdapter(new FriendRequestAdapter(context, friendRequestModels));
     }
 }

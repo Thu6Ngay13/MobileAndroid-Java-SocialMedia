@@ -26,7 +26,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
-    public HomeFragment() { }
+    public HomeFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,7 +53,6 @@ public class HomeFragment extends Fragment {
                     RecyclerView recyclerView = view.findViewById(R.id.rvPostArea);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     recyclerView.setAdapter(new PostAdapter(getContext(), postCardModels));
-
                 } else {
                     int statusCode = response.code();
                     // handle request errors depending on status code
@@ -62,7 +61,6 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseModel<PostCardModel>> call, Throwable t) {
-
             }
         });
     }
