@@ -5,19 +5,39 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import HCMUTE.SocialMedia.Helpers.StringHelper;
+import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.Requests.RegisterRequest;
+import HCMUTE.SocialMedia.Responses.RegisterResponse;
+import HCMUTE.SocialMedia.Retrofit.APIService;
+import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -25,12 +45,26 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btnCreateAccount;
     private TextView tvGoToLogin;
     private Calendar calendar;
+    private CheckBox cbShowPassword;
+    private RelativeLayout pbWait;
+    private APIService apiService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initialize();
-
+        cbShowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                    etPasswordAgain.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else {
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    etPasswordAgain.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
         // Go to login if you had your account.
         tvGoToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +75,14 @@ public class RegisterActivity extends AppCompatActivity {
         btnCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                creatAccount();
+                pbWait.setVisibility(View.VISIBLE);
+                RegisterRequest registerRequest = new RegisterRequest();
+                registerRequest.setUsername(etUsername.getText().toString());
+                registerRequest.setEmail(etEmail.getText().toString());
+                registerRequest.setFullname(etFullName.getText().toString());
+                registerRequest.setDateOfBirth(etBirthday.getText().toString() + "T00:00:00");
+                registerRequest.setPassword(etPasswordAgain.getText().toString());
+                creatAccount(registerRequest);
             }
         });
         calendar = Calendar.getInstance();
@@ -54,19 +95,48 @@ public class RegisterActivity extends AppCompatActivity {
         etPassword = (EditText) findViewById(R.id.etPassword);
         etPasswordAgain = (EditText) findViewById(R.id.etPasswordAgain);
         btnCreateAccount = (Button) findViewById(R.id.btnRegister);
-        tvGoToLogin = (TextView) findViewById(R.id.tvLogin);
+        tvGoToLogin = (TextView) findViewById(R.id.tvGoToLogin);
+        String textWithUnderline = "<u>Login</u>";
+        tvGoToLogin.setText(Html.fromHtml(textWithUnderline));
+        cbShowPassword = findViewById(R.id.cbShowPassword);
+        pbWait = findViewById(R.id.pbWait);
+        pbWait.setVisibility(View.GONE);
     }
     private void goToLogin(){
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivities(new Intent[]{intent});
         finish();
     }
-    private void creatAccount(){
+    private void creatAccount(RegisterRequest request){
         if (!validateFullName() || !validateEmail() || !validateBirthday()
                 || !validateUsername()|| !validatePassword()){
             return;
         }
-        Toast.makeText(this, "Create account successfully", Toast.LENGTH_SHORT).show();
+        apiService = RetrofitClient.getRetrofit().create(APIService.class);
+        Call<RegisterResponse> call = apiService.register(request);
+        call.enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(RegisterActivity.this, "Create account successful", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, VerifyNewAccountActivity.class);
+                    intent.putExtra("registeredEmail", request.getEmail());
+                    startActivity(intent);
+                    pbWait.setVisibility(View.GONE);
+                    finish();
+                }
+                else {
+                    Toast.makeText(RegisterActivity.this, "An error occurred please try again later ...", Toast.LENGTH_SHORT).show();
+                }
+                pbWait.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                pbWait.setVisibility(View.GONE);
+            }
+        });
     }
     public void showDatePickerDialog(View view) {
         int year = calendar.get(Calendar.YEAR);
@@ -86,7 +156,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void updateEditTextBirthday() {
-        String dateFormat = "dd/MM/yyyy";
+        String dateFormat = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.getDefault());
 
         etBirthday.setText(simpleDateFormat.format(calendar.getTime()));
@@ -145,7 +215,7 @@ public class RegisterActivity extends AppCompatActivity {
             etPassword.setError("Length of password must be longer than 8 characters");
             return false;
         }else if (!password.equals(passwordAgain)){
-            etPasswordAgain.setError("Confirm field is different from pssword");
+            etPasswordAgain.setError("Confirm field is different from password");
             return false;
         }else {
             etPassword.setError(null);
