@@ -19,23 +19,24 @@ import retrofit2.http.Path;
 
 public interface APIService {
 
-    @GET("post/{username}")
-    Call<ResponseModel<PostCardModel>> getPostsWithUsername(@Path("username") String str);
+    @Multipart
+    @POST("post/{username}")
+    Call<ResponseModel<PostCardModel>> getPostsWithUsername(@Path("username") String username, @Part("page") int page, @Part("pageSize") int pageSize);
 
     @GET("friend/yourfriend/{username}")
-    Call<ResponseModel<FriendModel>> getYourFriendsWithUsername(@Path("username") String str);
+    Call<ResponseModel<FriendModel>> getYourFriendsWithUsername(@Path("username") String username);
 
     @GET("friend/friendrequest/{username}")
-    Call<ResponseModel<FriendModel>> getFriendRequestsWithUsername(@Path("username") String str);
+    Call<ResponseModel<FriendModel>> getFriendRequestsWithUsername(@Path("username") String username);
 
     @GET("notification/{username}")
-    Call<ResponseModel<NotifyCardModel>> getNotificationReceiptsWithUsername(@Path("username") String str);
+    Call<ResponseModel<NotifyCardModel>> getNotificationReceiptsWithUsername(@Path("username") String username);
 
     @GET("conversation/{username}")
-    Call<ResponseModel<ConversationCardModel>> getConversationsWithUsername(@Path("username") String str);
+    Call<ResponseModel<ConversationCardModel>> getConversationsWithUsername(@Path("username") String username);
 
     @GET("message/{conversationId}/{username}")
-    Call<ResponseModel<MessageModel>> getMessagesWithConversationIdAndUsername(@Path("conversationId") long j, @Path("username") String str);
+    Call<ResponseModel<MessageModel>> getMessagesWithConversationIdAndUsername(@Path("conversationId") long conversationId, @Path("username") String username);
 
     @Multipart
     @POST("message/sendmessage")

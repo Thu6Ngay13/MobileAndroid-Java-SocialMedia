@@ -59,13 +59,13 @@ public class MessageActivity extends AppCompatActivity {
     public static final int MY_REQUEST_CODE = 100;
     private static final String SERVER_PATH = "ws://192.168.1.10:1234";
     private static final String TAG = "MessageActivity";
+    private static final String USERNAME = "abc";
 
     public static String[] storage_permissions = {"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE"};
     public static String[] storage_permissions_33 = {"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_AUDIO", "android.permission.READ_MEDIA_VIDEO"};
 
     private Socket socketClient;
     private long conversationId;
-    private String username;
 
     private ImageButton btSendMedia;
     private ImageButton btSendMessage;
@@ -81,7 +81,6 @@ public class MessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
-        connectToSocketServer();
 
         messageCards = new ArrayList<>();
         recyclerView = findViewById(R.id.rvMessageArea);
@@ -89,10 +88,6 @@ public class MessageActivity extends AppCompatActivity {
         messageCardAdapter = new MessageAdapter(getApplicationContext(), messageCards);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(messageCardAdapter);
-
-        Intent intent = getIntent();
-        conversationId = intent.getLongExtra("conversationId", -1L);
-        getMessage();
 
         ibBack = findViewById(R.id.ibBack);
         etTypeMessage = findViewById(R.id.etTypeMessage);
@@ -108,6 +103,12 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
         btSendMessage.setOnClickListener(v -> onClickSendMessage());
+
+        Intent intent = getIntent();
+        conversationId = intent.getLongExtra("conversationId", -1L);
+
+        getMessage();
+        connectToSocketServer();
     }
 
     @Override
@@ -144,15 +145,8 @@ public class MessageActivity extends AppCompatActivity {
             socketClient = IO.socket(SERVER_PATH);
             socketClient.connect();
 
-            List<String> usernames = new ArrayList<>();
-            usernames.add("John");
-            usernames.add("Marry");
-            usernames.add("Caty");
-            Random random = new Random();
-            username = usernames.get(random.nextInt(usernames.size()));
-
             JSONObject newClient = new JSONObject();
-            newClient.put("username", username);
+            newClient.put("username", USERNAME);
 
             socketClient.emit("new", newClient);
             socketClient.on("receive", onReceiveMessage);
@@ -163,7 +157,9 @@ public class MessageActivity extends AppCompatActivity {
 
     private final Emitter.Listener onReceiveMessage = args -> {
         try {
-            JSONObject jsonReceive = (JSONObject) args[0];
+            JSONObject jsonReceive = new JSONObject(args[0].toString());
+            Log.d("", "" + jsonReceive.toString());
+
             String typeReceiveString = jsonReceive.getString("typeSender");
             TypeMessageEnum typeReceive = TypeMessageEnum.fromString(typeReceiveString);
             if (typeReceive == null) return;
@@ -171,13 +167,10 @@ public class MessageActivity extends AppCompatActivity {
             String fullname = jsonReceive.getString("fullname");
             String messageSendingAt = jsonReceive.getString("messageSendingAt");
             String message = jsonReceive.getString("message");
-
-            String mediaBase64String = jsonReceive.getString("media");
-            byte[] bytes = Base64.decode(mediaBase64String, Base64.DEFAULT);
-            Bitmap media = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            String mediaURL = jsonReceive.getString("media");
 
             List<MessageModel> messageModels = new ArrayList<>();
-            messageModels.add(new MessageModel(typeReceive, fullname, messageSendingAt, message, media));
+            messageModels.add(new MessageModel(typeReceive, fullname, messageSendingAt, message, mediaURL));
             messageCardAdapter.addItems(messageModels, recyclerView);
         } catch (JSONException e) {
             Log.d(TAG, "Failed on onReceiveMessage: " + e.getMessage());
@@ -188,25 +181,20 @@ public class MessageActivity extends AppCompatActivity {
         try {
             String message = String.valueOf(etTypeMessage.getText()).trim();
             String messageSendingAt = Calendar.getInstance().getTime().toString();
-            if (message.isEmpty()) return;
 
+            if (message.isEmpty()) return;
             etTypeMessage.setText("");
-            List<MessageModel> messageModels = new ArrayList<>();
-            messageModels.add(new MessageModel(TypeMessageEnum.SENDER_MESSAGE, "", messageSendingAt, message, null));
-            messageCardAdapter.addItems(messageModels, recyclerView);
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("typeSender", "MESSAGE");
             jsonObject.put("conversationId", conversationId);
-            jsonObject.put("username", username);
-            jsonObject.put("fullname", username);
+            jsonObject.put("username", USERNAME);
+            jsonObject.put("fullname", USERNAME);
             jsonObject.put("messageSendingAt", messageSendingAt);
             jsonObject.put("message", message);
             jsonObject.put("media", "");
 
-            socketClient.emit("message", jsonObject);
             saveToServer(jsonObject, null);
-
         } catch (Exception e) {
             Log.d(TAG, "Failed on onClickSendMessage: " + e.getMessage());
         }
@@ -218,33 +206,18 @@ public class MessageActivity extends AppCompatActivity {
             if (o != null && o.getResultCode() == RESULT_OK && o.getData() != null && o.getData().getData() != null) {
                 try {
                     Uri selectedFileUri = o.getData().getData();
-                    ContentResolver cR = getContentResolver();
-
-                    InputStream is = cR.openInputStream(selectedFileUri);
-                    Bitmap media = BitmapFactory.decodeStream(is);
-
-                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                    media.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
-                    String mediaBase64String = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
-
                     String messageSendingAt = Calendar.getInstance().getTime().toString();
-
-                    List<MessageModel> messageModels = new ArrayList<>();
-                    messageModels.add(new MessageModel(TypeMessageEnum.SENDER_MEDIA, "", messageSendingAt, "", media));
-                    messageCardAdapter.addItems(messageModels, recyclerView);
 
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("typeSender", "MEDIA");
                     jsonObject.put("conversationId", conversationId);
-                    jsonObject.put("username", username);
-                    jsonObject.put("fullname", username);
+                    jsonObject.put("username", USERNAME);
+                    jsonObject.put("fullname", USERNAME);
                     jsonObject.put("messageSendingAt", messageSendingAt);
                     jsonObject.put("message", "");
-                    jsonObject.put("media", mediaBase64String);
+                    jsonObject.put("media", "");
 
-                    socketClient.emit("message", jsonObject);
                     saveToServer(jsonObject, selectedFileUri);
-
                 } catch (Exception e) {
                     Log.d(TAG, "Failed in startForResult" + e.getMessage());
                 }

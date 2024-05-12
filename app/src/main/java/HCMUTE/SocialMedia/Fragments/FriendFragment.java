@@ -32,7 +32,8 @@ public class FriendFragment extends Fragment {
     private Button btYourFriend;
     private boolean yourFriendNow;
 
-    public FriendFragment() { }
+    public FriendFragment() {
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

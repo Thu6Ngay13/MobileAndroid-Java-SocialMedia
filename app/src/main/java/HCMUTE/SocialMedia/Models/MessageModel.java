@@ -6,18 +6,18 @@ import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
 
 public class MessageModel {
     private String fullname;
-    private Bitmap media;
+    private String mediaURL;
     private String messageSendingAt;
     private Boolean seen;
     private String text;
     private final TypeMessageEnum viewType;
 
-    public MessageModel(TypeMessageEnum viewType, String fullname, String messageSendingAt, String text, Bitmap media) {
+    public MessageModel(TypeMessageEnum viewType, String fullname, String messageSendingAt, String text, String mediaURL) {
         this.viewType = viewType;
         this.fullname = fullname;
         this.messageSendingAt = messageSendingAt;
         this.text = text;
-        this.media = media;
+        this.mediaURL = mediaURL;
     }
 
     public TypeMessageEnum getViewType() {
@@ -48,12 +48,12 @@ public class MessageModel {
         this.text = text;
     }
 
-    public Bitmap getMedia() {
-        return this.media;
+    public String getMediaURL() {
+        return this.mediaURL;
     }
 
-    public void setMedia(Bitmap media) {
-        this.media = media;
+    public void setMediaURL(String media) {
+        this.mediaURL = media;
     }
 
     public Boolean isSeen() {

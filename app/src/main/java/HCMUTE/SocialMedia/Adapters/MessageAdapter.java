@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
@@ -16,7 +18,7 @@ import HCMUTE.SocialMedia.Holders.MessageHolder;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.R;
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageHolder>{
+public class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
 
     private Context context;
     private List<MessageModel> messages;
@@ -29,11 +31,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageHolder>{
     @NonNull
     @Override
     public MessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType == TypeMessageEnum.SENDER_MESSAGE.ordinal())
+        if (viewType == TypeMessageEnum.SENDER_MESSAGE.ordinal())
             return new MessageHolder(LayoutInflater.from(context).inflate(R.layout.you_message_card_view, parent, false));
-        else if(viewType == TypeMessageEnum.SENDER_MEDIA.ordinal())
+        else if (viewType == TypeMessageEnum.SENDER_MEDIA.ordinal())
             return new MessageHolder(LayoutInflater.from(context).inflate(R.layout.you_message_media_card_view, parent, false));
-        else if(viewType == TypeMessageEnum.RECEIVER_MESSAGE.ordinal())
+        else if (viewType == TypeMessageEnum.RECEIVER_MESSAGE.ordinal())
             return new MessageHolder(LayoutInflater.from(context).inflate(R.layout.friend_message_card_view, parent, false));
         else
             return new MessageHolder(LayoutInflater.from(context).inflate(R.layout.friend_message_media_card_view, parent, false));
@@ -44,56 +46,24 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageHolder>{
         MessageModel messageCardModel = messages.get(position);
         holder.messageSendingAt.setText(messageCardModel.getMessageSendingAt());
 
-        if(messageCardModel.getViewType() == TypeMessageEnum.SENDER_MESSAGE){
+        if (!messageCardModel.getText().isEmpty()){
             holder.textMessage.setText(messageCardModel.getText());
         }
-        else if(messageCardModel.getViewType() == TypeMessageEnum.SENDER_MEDIA && messageCardModel.getMedia() != null){
+
+        if (!messageCardModel.getMediaURL().isEmpty()) {
             holder.mediaMessage.post(new Runnable() {
                 @Override
                 public void run() {
-                    holder.mediaMessage.requestLayout();
-                    Bitmap imageResourceId = messageCardModel.getMedia();
-
-                    int img_width = imageResourceId.getWidth();
-                    int img_height = imageResourceId.getHeight();
-
-                    int width = holder.mediaMessage.getWidth();
-                    int height = width * img_height / img_width;
-                    holder.mediaMessage.getLayoutParams().height = height;
-                    holder.mediaMessage.requestLayout();
-
-                    holder.mediaMessage.setImageBitmap(imageResourceId);
-                    holder.mediaMessage.getLayoutParams().height = height;
-                }
-            });
-        }
-        else if(messageCardModel.getViewType() == TypeMessageEnum.RECEIVER_MESSAGE){
-            holder.textMessage.setText(messageCardModel.getText());
-        }
-        else if(messageCardModel.getViewType() == TypeMessageEnum.RECEIVER_MEDIA && messageCardModel.getMedia() != null){
-            holder.mediaMessage.post(new Runnable() {
-                @Override
-                public void run() {
-                    holder.mediaMessage.requestLayout();
-                    Bitmap imageResourceId = messageCardModel.getMedia();
-
-                    int img_width = imageResourceId.getWidth();
-                    int img_height = imageResourceId.getHeight();
-
-                    int width = holder.mediaMessage.getWidth();
-                    int height = width * img_height / img_width;
-                    holder.mediaMessage.getLayoutParams().height = height;
-                    holder.mediaMessage.requestLayout();
-
-                    holder.mediaMessage.setImageBitmap(imageResourceId);
-                    holder.mediaMessage.getLayoutParams().height = height;
+                    Glide.with(context)
+                            .load(messageCardModel.getMediaURL())
+                            .into(holder.mediaMessage);
                 }
             });
         }
     }
 
     @Override
-    public int getItemViewType(int position){
+    public int getItemViewType(int position) {
         return messages.get(position).getViewType().ordinal();
     }
 
@@ -104,7 +74,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageHolder>{
         return 0;
     }
 
-    public void addItems(List<MessageModel> messageModels, RecyclerView recyclerView){
+    public void addItems(List<MessageModel> messageModels, RecyclerView recyclerView) {
         if (messageModels.isEmpty()) return;
 
         AsyncTaskUI asyncTaskUI = new AsyncTaskUI(messageModels, recyclerView);
@@ -144,7 +114,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageHolder>{
             super.onPostExecute(unused);
         }
     }
-
 }
 
 

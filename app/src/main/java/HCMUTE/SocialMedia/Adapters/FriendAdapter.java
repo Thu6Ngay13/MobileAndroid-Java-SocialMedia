@@ -17,7 +17,7 @@ import HCMUTE.SocialMedia.Holders.FriendHolder;
 import HCMUTE.SocialMedia.Models.FriendModel;
 import HCMUTE.SocialMedia.R;
 
-public class FriendAdapter extends RecyclerView.Adapter<FriendHolder>{
+public class FriendAdapter extends RecyclerView.Adapter<FriendHolder> {
     private Context context;
     private List<FriendModel> friendModels;
 
@@ -25,8 +25,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendHolder>{
         this.context = context;
         this.friendModels = friendModels;
     }
-    
-    @Override 
+
+    @Override
     public FriendHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TypeFriendEnum.YOUR_FRIEND.ordinal()) {
             return new FriendHolder(LayoutInflater.from(this.context).inflate(R.layout.your_friend_view, parent, false));
@@ -46,13 +46,12 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendHolder>{
         if (friendModel.getViewType() == TypeFriendEnum.YOUR_FRIEND) {
             Button btViewProfile = (Button) holder.itemView.findViewById(R.id.btViewProfile);
             Button btSendMessage = (Button) holder.itemView.findViewById(R.id.btSendMessage);
-            btViewProfile.setOnClickListener(new View.OnClickListener() { // from class: HCMUTE.SocialMedia.Adapters.FriendAdapter.1
+            btViewProfile.setOnClickListener(new View.OnClickListener() {
                 @Override // android.view.View.OnClickListener
                 public void onClick(View v) {
                 }
             });
-            btSendMessage.setOnClickListener(new View.OnClickListener() { // from class: HCMUTE.SocialMedia.Adapters.FriendAdapter.2
-                @Override // android.view.View.OnClickListener
+            btSendMessage.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                 }
             });

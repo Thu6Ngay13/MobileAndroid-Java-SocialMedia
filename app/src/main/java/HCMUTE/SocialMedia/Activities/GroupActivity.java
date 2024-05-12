@@ -25,6 +25,7 @@ public class GroupActivity extends AppCompatActivity {
         List<PostCardModel> postCardModels = new ArrayList<>();
         for (int i = 0; i < x; i++) {
             postCardModels.add(new PostCardModel(
+                    1,
                     "avaterurl",
                     "username",
                     "Jonhny Deep",
