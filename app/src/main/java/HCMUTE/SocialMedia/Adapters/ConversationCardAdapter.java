@@ -1,16 +1,15 @@
 package HCMUTE.SocialMedia.Adapters;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -20,8 +19,6 @@ import HCMUTE.SocialMedia.Models.ConversationCardModel;
 import HCMUTE.SocialMedia.R;
 
 public class ConversationCardAdapter extends RecyclerView.Adapter<ConversationCardHolder> {
-
-    public static final String KEY_NAME = "NAME";
     private Context context;
     private List<ConversationCardModel> conversationCards;
 
@@ -39,15 +36,15 @@ public class ConversationCardAdapter extends RecyclerView.Adapter<ConversationCa
     @Override
     public void onBindViewHolder(@NonNull ConversationCardHolder holder, int position) {
         ConversationCardModel conversationCardModel = conversationCards.get(position);
-        holder.avatar.setImageResource(conversationCardModel.getAvatar());
-        holder.fullname.setText(conversationCardModel.getFullname());
+        Glide.with(this.context).load(conversationCardModel.getConversationAvatar()).into(holder.avatar);
+        holder.fullname.setText(conversationCardModel.getConversationName());
 
         holder.itemView.setOnClickListener((o) -> {
             Intent intent = new Intent(context, MessageActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             Bundle bundle = new Bundle();
-            bundle.putString("string", "idx1010");
+            bundle.putLong("conversationId", conversationCardModel.getConversationId());
             intent.putExtras(bundle);
 
             context.startActivity(intent);

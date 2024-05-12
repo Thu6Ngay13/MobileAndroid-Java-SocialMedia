@@ -1,6 +1,9 @@
 package HCMUTE.SocialMedia.Models;
 
+import HCMUTE.SocialMedia.Enums.TypeViewLoad;
+
 public class PostCardModel {
+    private long postId;
     private String avatar;
     private String username;
     private String fullName;
@@ -10,7 +13,8 @@ public class PostCardModel {
     private String postMedia;
     private boolean liked;
 
-    public PostCardModel(String avatar, String username, String fullName, String postingTimeAt, long mode, String postText, String postMedia, boolean liked) {
+    public PostCardModel(long postId, String avatar, String username, String fullName, String postingTimeAt, long mode, String postText, String postMedia, boolean liked) {
+        this.postId = postId;
         this.avatar = avatar;
         this.username = username;
         this.fullName = fullName;
@@ -19,6 +23,14 @@ public class PostCardModel {
         this.postText = postText;
         this.postMedia = postMedia;
         this.liked = liked;
+    }
+
+    public long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(long postId) {
+        this.postId = postId;
     }
 
     public String getAvatar() {

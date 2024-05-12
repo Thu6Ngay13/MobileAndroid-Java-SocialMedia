@@ -1,27 +1,37 @@
 package HCMUTE.SocialMedia.Models;
 
 public class ConversationCardModel {
-    private int avatar;
-    private String fullname;
+    private long conversationId;
+    private String conversationAvatar;
+    private String conversationName;
 
-    public ConversationCardModel(int avatar, String fullname) {
-        this.avatar = avatar;
-        this.fullname = fullname;
+    public ConversationCardModel(long conversationId, String conversationAvatar, String conversationName) {
+        this.conversationId = conversationId;
+        this.conversationAvatar = conversationAvatar;
+        this.conversationName = conversationName;
     }
 
-    public int getAvatar() {
-        return avatar;
+    public long getConversationId() {
+        return conversationId;
     }
 
-    public void setAvatar(int avatar) {
-        this.avatar = avatar;
+    public void setConversationId(long conversationId) {
+        this.conversationId = conversationId;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getConversationAvatar() {
+        return conversationAvatar;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setConversationAvatar(String conversationAvatar) {
+        this.conversationAvatar = conversationAvatar;
+    }
+
+    public String getConversationName() {
+        return conversationName;
+    }
+
+    public void setConversationName(String conversationName) {
+        this.conversationName = conversationName;
     }
 }

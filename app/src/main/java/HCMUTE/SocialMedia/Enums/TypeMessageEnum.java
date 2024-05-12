@@ -9,16 +9,17 @@ public enum TypeMessageEnum {
     RECEIVER_MEDIA;
 
     public static TypeMessageEnum fromString(String value) {
-        try{
-            for (TypeMessageEnum type : TypeMessageEnum.values()) {
+        try {
+            for (TypeMessageEnum type : values()) {
                 if (type.name().equalsIgnoreCase(value.toUpperCase())) {
                     return type;
                 }
             }
-        }
-        catch (Exception e) {
+            return null;
+        } catch (Exception e) {
             Log.d("TypeMessageEnum", "fromString failed " + e.getMessage());
+            return null;
         }
-        return null;
     }
+
 }

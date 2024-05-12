@@ -1,6 +1,8 @@
 package HCMUTE.SocialMedia.Fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +27,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
+    private List<PostCardModel> postCardModels;
+    private RecyclerView recyclerView;
+    private PostAdapter postAdapter;
+    private boolean isLoading = false;
+    private int page = 0;
+    private static final int pageSize = 5;
 
-    public HomeFragment() { }
+    public HomeFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -36,23 +44,32 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<PostCardModel> postCardModels = new ArrayList<>();
+        postCardModels = new ArrayList<>();
+        recyclerView = view.findViewById(R.id.rvPostArea);
 
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        postAdapter = new PostAdapter(getContext(), postCardModels);
+        recyclerView.setAdapter(postAdapter);
+
+        nextPost();
+        initScrollListener();
+    }
+
+    private void nextPost(){
         //Goi Interface trong APIService
         APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getPostsWithUsername("binhbinh").enqueue(new Callback<ResponseModel<PostCardModel>>() {
+        apiService.getPostsWithUsername("abc", page, pageSize).enqueue(new Callback<ResponseModel<PostCardModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<PostCardModel>> call, Response<ResponseModel<PostCardModel>> response) {
                 if (response.isSuccessful()) {
                     ResponseModel<PostCardModel> responseModel = response.body();
                     if (responseModel != null && responseModel.isSuccess()) {
                         List<PostCardModel> responseModelResult = responseModel.getResult();
-                        postCardModels.addAll(responseModelResult);
+                        postAdapter.addItems(responseModelResult, recyclerView);
+                        page++;
                     }
-
-                    RecyclerView recyclerView = view.findViewById(R.id.rvPostArea);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    recyclerView.setAdapter(new PostAdapter(getContext(), postCardModels));
 
                 } else {
                     int statusCode = response.code();
@@ -62,8 +79,47 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseModel<PostCardModel>> call, Throwable t) {
-
             }
         });
+    }
+
+    private void initScrollListener(){
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (!isLoading) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == postCardModels.size()-1) {
+                        loadMore();
+                        isLoading = true;
+                    }
+                }
+            }
+        });
+    }
+
+    private void loadMore() {
+        postCardModels.add(null);
+        postAdapter.notifyItemInserted(postCardModels.size()-1);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                postCardModels.remove(postCardModels.size() - 1);
+                int scrollPosition = postCardModels.size();
+                postAdapter.notifyItemRemoved(scrollPosition);
+
+                nextPost();
+                isLoading = false;
+            }
+        }, 1000);
     }
 }

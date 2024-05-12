@@ -5,27 +5,27 @@ import android.graphics.Bitmap;
 import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
 
 public class MessageModel {
-    private final TypeMessageEnum viewType;
     private String fullname;
+    private String mediaURL;
     private String messageSendingAt;
-    private String text;
-    private Bitmap media;
     private Boolean seen;
+    private String text;
+    private final TypeMessageEnum viewType;
 
-    public MessageModel(TypeMessageEnum viewType, String fullname, String messageSendingAt, String text, Bitmap media) {
+    public MessageModel(TypeMessageEnum viewType, String fullname, String messageSendingAt, String text, String mediaURL) {
         this.viewType = viewType;
         this.fullname = fullname;
         this.messageSendingAt = messageSendingAt;
         this.text = text;
-        this.media = media;
+        this.mediaURL = mediaURL;
     }
 
     public TypeMessageEnum getViewType() {
-        return viewType;
+        return this.viewType;
     }
 
     public String getFullname() {
-        return fullname;
+        return this.fullname;
     }
 
     public void setFullname(String fullname) {
@@ -33,7 +33,7 @@ public class MessageModel {
     }
 
     public String getMessageSendingAt() {
-        return messageSendingAt;
+        return this.messageSendingAt;
     }
 
     public void setMessageSendingAt(String messageSendingAt) {
@@ -41,26 +41,27 @@ public class MessageModel {
     }
 
     public String getText() {
-        return text;
+        return this.text;
     }
 
     public void setText(String text) {
         this.text = text;
     }
 
-    public Bitmap getMedia() {
-        return media;
+    public String getMediaURL() {
+        return this.mediaURL;
     }
 
-    public void setMedia(Bitmap media) {
-        this.media = media;
+    public void setMediaURL(String media) {
+        this.mediaURL = media;
     }
 
     public Boolean isSeen() {
-        return seen;
+        return this.seen;
     }
 
     public void setSeen(Boolean seen) {
         this.seen = seen;
     }
+
 }

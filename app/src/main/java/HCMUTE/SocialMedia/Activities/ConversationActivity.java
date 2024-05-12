@@ -14,7 +14,13 @@ import java.util.List;
 
 import HCMUTE.SocialMedia.Adapters.ConversationCardAdapter;
 import HCMUTE.SocialMedia.Models.ConversationCardModel;
+import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.Retrofit.APIService;
+import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConversationActivity extends AppCompatActivity {
 
@@ -28,13 +34,33 @@ public class ConversationActivity extends AppCompatActivity {
         ibBack = findViewById(R.id.ibBack);
         ibBack.setOnClickListener(v -> finish());
 
-        List<ConversationCardModel> conversationCards = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            conversationCards.add(new ConversationCardModel(R.mipmap.ic_user_72_dark, "Johnny Deep"));
-        }
+        final List<ConversationCardModel> conversationCards = new ArrayList<>();
 
-        RecyclerView recyclerView = findViewById(R.id.rvConversationArea);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ConversationCardAdapter(getApplicationContext(), conversationCards));
+        APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getConversationsWithUsername("abc").enqueue(new Callback<ResponseModel<ConversationCardModel>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<ConversationCardModel>> call, Response<ResponseModel<ConversationCardModel>> response) {
+                if (response.isSuccessful()) {
+                    ResponseModel<ConversationCardModel> responseModel = response.body();
+                    if (responseModel != null && responseModel.isSuccess()) {
+                        List<ConversationCardModel> responseModelResult = responseModel.getResult();
+                        conversationCards.addAll(responseModelResult);
+                    }
+
+                    RecyclerView recyclerView = (RecyclerView) ConversationActivity.this.findViewById(R.id.rvConversationArea);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(ConversationActivity.this.getApplicationContext()));
+                    recyclerView.setAdapter(new ConversationCardAdapter(ConversationActivity.this.getApplicationContext(), conversationCards));
+
+                } else {
+                    int statusCode = response.code();
+                    // handle request errors depending on status code
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<ConversationCardModel>> call, Throwable t) {
+            }
+        });
+
     }
 }
