@@ -83,13 +83,13 @@
             android:name=".Activities.ForgetAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.LoginActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activities.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
