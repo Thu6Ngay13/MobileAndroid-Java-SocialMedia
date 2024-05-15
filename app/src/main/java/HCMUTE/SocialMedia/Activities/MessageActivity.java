@@ -42,6 +42,7 @@ import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.RealTime.SocketIOServerRealTime;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
 import HCMUTE.SocialMedia.Utils.RealPathUtil;
@@ -57,14 +58,12 @@ import retrofit2.Response;
 
 public class MessageActivity extends AppCompatActivity {
     public static final int MY_REQUEST_CODE = 100;
-    private static final String SERVER_PATH = "ws://192.168.1.10:1234";
     private static final String TAG = "MessageActivity";
     private static final String USERNAME = "abc";
 
     public static String[] storage_permissions = {"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE"};
     public static String[] storage_permissions_33 = {"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_AUDIO", "android.permission.READ_MEDIA_VIDEO"};
 
-    private Socket socketClient;
     private long conversationId;
 
     private ImageButton btSendMedia;
@@ -114,12 +113,12 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        socketClient.close();
+        SocketIOServerRealTime.offMessage(onReceiveMessage);
     }
 
     private void getMessage() {
         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getMessagesWithConversationIdAndUsername(this.conversationId, "abc").enqueue(new Callback<ResponseModel<MessageModel>>() {
+        apiService.getMessagesWithConversationIdAndUsername(this.conversationId, USERNAME).enqueue(new Callback<ResponseModel<MessageModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<MessageModel>> call, Response<ResponseModel<MessageModel>> response) {
                 if (response.isSuccessful()) {
@@ -141,18 +140,7 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void connectToSocketServer() {
-        try {
-            socketClient = IO.socket(SERVER_PATH);
-            socketClient.connect();
-
-            JSONObject newClient = new JSONObject();
-            newClient.put("username", USERNAME);
-
-            socketClient.emit("new", newClient);
-            socketClient.on("receive", onReceiveMessage);
-        } catch (Exception e) {
-            Log.d(TAG, "Failed on connectToSocketServer: " + e.getMessage());
-        }
+        SocketIOServerRealTime.onMessage(onReceiveMessage);
     }
 
     private final Emitter.Listener onReceiveMessage = args -> {
