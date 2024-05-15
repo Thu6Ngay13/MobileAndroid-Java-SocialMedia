@@ -8,7 +8,7 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-public class SocketIOServerRealTime {
+public class SocketIO {
     private static final String SERVER_PATH = "ws://192.168.1.10:1234";
     private static final String TAG = "ServerRealTime";
     private static final String USERNAME = "abc";
@@ -31,10 +31,10 @@ public class SocketIOServerRealTime {
                     System.out.println("Connected to server");
                     try {
                         JSONObject newClient = new JSONObject();
-                        newClient.put("username", SocketIOServerRealTime.USERNAME);
-                        SocketIOServerRealTime.socketClient.emit("new", newClient);
+                        newClient.put("username", SocketIO.USERNAME);
+                        SocketIO.socketClient.emit("new", newClient);
                     } catch (Exception e) {
-                        Log.d(SocketIOServerRealTime.TAG, "Failed on connectToServer when Socket.EVENT_CONNECT: " + e.getMessage());
+                        Log.d(SocketIO.TAG, "Failed on connectToServer when Socket.EVENT_CONNECT: " + e.getMessage());
                     }
                 }
             });

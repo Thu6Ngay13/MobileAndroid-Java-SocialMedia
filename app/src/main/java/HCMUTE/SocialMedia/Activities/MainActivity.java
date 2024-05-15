@@ -17,7 +17,7 @@ import java.util.Objects;
 
 import HCMUTE.SocialMedia.Adapters.MainPager2Adapter;
 import HCMUTE.SocialMedia.R;
-import HCMUTE.SocialMedia.RealTime.SocketIOServerRealTime;
+import HCMUTE.SocialMedia.RealTime.SocketIO;
 import HCMUTE.SocialMedia.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SocketIOServerRealTime.connectToServer();
+        SocketIO.connectToServer();
         setupTabs();
         ibMessage = (ImageButton) findViewById(R.id.ibMessage);
         ibMessage.setOnClickListener(view -> onClickMessage());

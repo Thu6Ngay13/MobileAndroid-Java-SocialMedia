@@ -1,20 +1,15 @@
 package HCMUTE.SocialMedia.Activities;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -29,25 +24,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 import HCMUTE.SocialMedia.Adapters.MessageAdapter;
 import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
-import HCMUTE.SocialMedia.RealTime.SocketIOServerRealTime;
+import HCMUTE.SocialMedia.RealTime.SocketIO;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
 import HCMUTE.SocialMedia.Utils.RealPathUtil;
-import io.socket.client.IO;
-import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -113,7 +103,7 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SocketIOServerRealTime.offMessage(onReceiveMessage);
+        SocketIO.offMessage(onReceiveMessage);
     }
 
     private void getMessage() {
@@ -140,7 +130,7 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void connectToSocketServer() {
-        SocketIOServerRealTime.onMessage(onReceiveMessage);
+        SocketIO.onMessage(onReceiveMessage);
     }
 
     private final Emitter.Listener onReceiveMessage = args -> {
