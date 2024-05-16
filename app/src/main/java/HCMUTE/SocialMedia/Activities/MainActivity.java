@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         this.activityMainBinding.customTabLayout.addTab(settingTab);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        this.mainPager2Adapter = new MainPager2Adapter(fragmentManager, getLifecycle());
+        this.mainPager2Adapter = new MainPager2Adapter(fragmentManager, getLifecycle(), getApplicationContext());
         this.activityMainBinding.viewPager2.setAdapter(this.mainPager2Adapter);
         this.activityMainBinding.customTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() { // from class: HCMUTE.SocialMedia.Activities.MainActivity.1
             @Override

@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
     private static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJST0xFIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sInN1YiI6ImFiY0BnbWFpbC5jb20iLCJpYXQiOjE3MTU1MDg1NzIsImV4cCI6MTcxNTU5NDk3Mn0.n40hIILkl3YnkjeTTXWY17RGJlLrAQOuEcL_k56D3yY";
-    private static final String BASE_URL = "http://192.168.110.114:8181/api/";
+    private static final String BASE_URL = "http://172.172.3.177:8181/api/";
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofit() {

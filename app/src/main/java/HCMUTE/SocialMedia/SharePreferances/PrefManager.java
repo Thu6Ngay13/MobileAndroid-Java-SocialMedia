@@ -61,7 +61,5 @@ public class PrefManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        Intent intent = new Intent(ctx, LoginActivity.class);
-        ctx.startActivities(new Intent[]{intent});
     }
 }
