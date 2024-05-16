@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Adapters.NotifyWithTimeAdapter;
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.NotifyWithTimeModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
@@ -47,7 +48,7 @@ public class NotifyFragment extends Fragment {
 
         //G0i Interface trong APIService
         APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getNotificationReceiptsWithUsername("binhbinh").enqueue(new Callback<ResponseModel<NotifyCardModel>>() {
+        apiService.getNotificationReceiptsWithUsername(Const.USERNAME).enqueue(new Callback<ResponseModel<NotifyCardModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<NotifyCardModel>> call, Response<ResponseModel<NotifyCardModel>> response) {
                 if (response.isSuccessful()) {

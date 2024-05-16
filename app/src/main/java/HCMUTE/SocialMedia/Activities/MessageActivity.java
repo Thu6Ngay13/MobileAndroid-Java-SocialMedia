@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Adapters.MessageAdapter;
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
@@ -49,7 +50,6 @@ import retrofit2.Response;
 public class MessageActivity extends AppCompatActivity {
     public static final int MY_REQUEST_CODE = 100;
     private static final String TAG = "MessageActivity";
-    private static final String USERNAME = "abc";
 
     public static String[] storage_permissions = {"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE"};
     public static String[] storage_permissions_33 = {"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_AUDIO", "android.permission.READ_MEDIA_VIDEO"};
@@ -108,7 +108,7 @@ public class MessageActivity extends AppCompatActivity {
 
     private void getMessage() {
         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getMessagesWithConversationIdAndUsername(this.conversationId, USERNAME).enqueue(new Callback<ResponseModel<MessageModel>>() {
+        apiService.getMessagesWithConversationIdAndUsername(this.conversationId,  Const.USERNAME).enqueue(new Callback<ResponseModel<MessageModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<MessageModel>> call, Response<ResponseModel<MessageModel>> response) {
                 if (response.isSuccessful()) {
@@ -166,8 +166,8 @@ public class MessageActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("typeSender", "MESSAGE");
             jsonObject.put("conversationId", conversationId);
-            jsonObject.put("username", USERNAME);
-            jsonObject.put("fullname", USERNAME);
+            jsonObject.put("username",  Const.USERNAME);
+            jsonObject.put("fullname",  Const.USERNAME);
             jsonObject.put("messageSendingAt", messageSendingAt);
             jsonObject.put("message", message);
             jsonObject.put("media", "");
@@ -189,8 +189,8 @@ public class MessageActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("typeSender", "MEDIA");
                     jsonObject.put("conversationId", conversationId);
-                    jsonObject.put("username", USERNAME);
-                    jsonObject.put("fullname", USERNAME);
+                    jsonObject.put("username",  Const.USERNAME);
+                    jsonObject.put("fullname",  Const.USERNAME);
                     jsonObject.put("messageSendingAt", messageSendingAt);
                     jsonObject.put("message", "");
                     jsonObject.put("media", "");

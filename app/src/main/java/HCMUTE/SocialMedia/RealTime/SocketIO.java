@@ -4,14 +4,13 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
+import HCMUTE.SocialMedia.Consts.Const;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class SocketIO {
-    private static final String SERVER_PATH = "ws://192.168.1.10:1234";
     private static final String TAG = "ServerRealTime";
-    private static final String USERNAME = "abc";
     private static Socket socketClient;
 
     public static void connectToServer() {
@@ -21,7 +20,7 @@ public class SocketIO {
             options.reconnectionAttempts = Integer.MAX_VALUE;
             options.reconnectionDelay = 3000L;
 
-            Socket socket = IO.socket(SERVER_PATH, options);
+            Socket socket = IO.socket(Const.SERVER_SOCKETIO, options);
             socketClient = socket;
 
             socket.connect();
@@ -31,7 +30,7 @@ public class SocketIO {
                     System.out.println("Connected to server");
                     try {
                         JSONObject newClient = new JSONObject();
-                        newClient.put("username", SocketIO.USERNAME);
+                        newClient.put("username", Const.USERNAME);
                         SocketIO.socketClient.emit("new", newClient);
                     } catch (Exception e) {
                         Log.d(SocketIO.TAG, "Failed on connectToServer when Socket.EVENT_CONNECT: " + e.getMessage());
