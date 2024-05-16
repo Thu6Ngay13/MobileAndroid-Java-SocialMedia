@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -20,6 +22,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +59,11 @@ public class MessageActivity extends AppCompatActivity {
     public static String[] storage_permissions_33 = {"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_AUDIO", "android.permission.READ_MEDIA_VIDEO"};
 
     private long conversationId;
+    private String conversationAvatar;
+    private String conversationName;
+
+    private ImageView ivAvatar;
+    private TextView tvFullName;
 
     private ImageButton btSendMedia;
     private ImageButton btSendMessage;
@@ -95,6 +104,14 @@ public class MessageActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         conversationId = intent.getLongExtra("conversationId", -1L);
+        conversationAvatar = intent.getStringExtra("conversationAvatar");
+        conversationName = intent.getStringExtra("conversationName");
+
+        ivAvatar = findViewById(R.id.ivAvatar);
+        tvFullName = findViewById(R.id.tvFullName);
+
+        Glide.with(getApplicationContext()).load(conversationAvatar).into(ivAvatar);
+        tvFullName.setText(conversationName);
 
         getMessage();
         connectToSocketServer();
@@ -136,7 +153,6 @@ public class MessageActivity extends AppCompatActivity {
     private final Emitter.Listener onReceiveMessage = args -> {
         try {
             JSONObject jsonReceive = new JSONObject(args[0].toString());
-            Log.d("", "" + jsonReceive.toString());
 
             String typeReceiveString = jsonReceive.getString("typeSender");
             TypeMessageEnum typeReceive = TypeMessageEnum.fromString(typeReceiveString);

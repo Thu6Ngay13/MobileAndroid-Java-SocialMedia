@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -13,14 +15,18 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 
+import org.json.JSONException;
+
 import java.util.Objects;
 
 import HCMUTE.SocialMedia.Adapters.MainPager2Adapter;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.RealTime.SocketIO;
 import HCMUTE.SocialMedia.databinding.ActivityMainBinding;
+import io.socket.emitter.Emitter;
 
 public class MainActivity extends AppCompatActivity {
+    private final String TAG = "MainActivity";
     private ActivityMainBinding activityMainBinding;
     private MainPager2Adapter mainPager2Adapter;
     private ImageButton ibMessage;
@@ -92,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
         ((Drawable) Objects.requireNonNull(notifyTab.getIcon())).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.black), PorterDuff.Mode.SRC_IN);
         ((Drawable) Objects.requireNonNull(settingTab.getIcon())).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.black), PorterDuff.Mode.SRC_IN);
     }
-
 
     private void onClickMessage() {
         Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);

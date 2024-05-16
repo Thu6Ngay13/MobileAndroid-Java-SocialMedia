@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +36,8 @@ public class SettingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ((ImageView) view.findViewById(R.id.ibAvatar)).setImageResource(R.mipmap.ic_user_72_dark);
-        ((TextView) view.findViewById(R.id.tvFullname)).setText("Jonhny Deep");
+        Glide.with(getContext()).load(Const.AVATAR).into(((ImageView)view.findViewById(R.id.ibAvatar)));
+        ((TextView) view.findViewById(R.id.tvFullname)).setText(Const.FULLNAME);
 
         if(Const.ROLE.equals("ADMIN")){
             List<SettingCardModel> settingCardModels = new ArrayList<>();

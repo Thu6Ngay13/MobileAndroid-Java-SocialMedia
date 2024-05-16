@@ -29,7 +29,7 @@
         android:layout_toEndOf="@+id/ivAvatar"
         android:gravity="center"
         android:text="@string/full_name"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <androidx.gridlayout.widget.GridLayout

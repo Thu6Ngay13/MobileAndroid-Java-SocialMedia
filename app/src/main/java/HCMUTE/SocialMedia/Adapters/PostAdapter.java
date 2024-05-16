@@ -27,6 +27,7 @@ import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.Utils.ProcessTime;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,7 +57,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             PostHolder postHolder = (PostHolder) holder;
             PostCardModel postCardModel = posts.get(position);
             postHolder.fullName.setText(postCardModel.getFullName());
-            postHolder.postingTimeAt.setText(postCardModel.getPostingTimeAt());
+
+            String timeInput = postCardModel.getPostingTimeAt();
+            List<String> timeResult = ProcessTime.getTimeFromString(timeInput);
+            String timeShow = timeResult.get(0) + "-" + timeResult.get(1) + "-" + timeResult.get(2) + " " + timeResult.get(3) + ":" + timeResult.get(4);
+            postHolder.postingTimeAt.setText(timeShow);
 
             //        holder.mode.setImageResource((int) postCardModel.getMode());
             postHolder.postText.setText(postCardModel.getPostText());

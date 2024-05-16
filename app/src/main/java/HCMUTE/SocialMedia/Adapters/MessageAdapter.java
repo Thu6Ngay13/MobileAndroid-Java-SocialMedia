@@ -17,6 +17,7 @@ import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
 import HCMUTE.SocialMedia.Holders.MessageHolder;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.Utils.ProcessTime;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
 
@@ -44,7 +45,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
     @Override
     public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
         MessageModel messageCardModel = messages.get(position);
-        holder.messageSendingAt.setText(messageCardModel.getMessageSendingAt());
+
+        String timeInput = messageCardModel.getMessageSendingAt();
+        List<String> timeResult = ProcessTime.getTimeFromString(timeInput);
+        String timeShow = timeResult.get(0) + "-" + timeResult.get(1) + "-" + timeResult.get(2) + " " + timeResult.get(3) + ":" + timeResult.get(4) + ":" + timeResult.get(5);
+        holder.messageSendingAt.setText(timeShow);
 
         if (!messageCardModel.getText().isEmpty()){
             holder.textMessage.setText(messageCardModel.getText());

@@ -2,6 +2,7 @@ package HCMUTE.SocialMedia.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.Utils.ProcessTime;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -82,6 +84,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendHolder> {
 
                                     Bundle bundle = new Bundle();
                                     bundle.putLong("conversationId", conversationCardModel.getConversationId());
+                                    bundle.putString("conversationAvatar", conversationCardModel.getConversationAvatar());
+                                    bundle.putString("conversationName", conversationCardModel.getConversationName());
                                     intent.putExtras(bundle);
 
                                     context.startActivity(intent);
@@ -102,7 +106,11 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendHolder> {
             return;
         }
         if (friendModel.getViewType() == TypeFriendEnum.FRIEND_REQUEST) {
-            holder.requestTimeAt.setText(friendModel.getRequestTimeAt());
+            String timeInput = friendModel.getRequestTimeAt();
+            List<String> timeResult = ProcessTime.getTimeFromString(timeInput);
+            String timeShow = timeResult.get(0) + "-" + timeResult.get(1) + "-" + timeResult.get(2) + " " + timeResult.get(3) + ":" + timeResult.get(4);
+            holder.requestTimeAt.setText(timeShow);
+
             Button btAccept = (Button) holder.itemView.findViewById(R.id.btAccept);
             Button btDecline = (Button) holder.itemView.findViewById(R.id.btDecline);
             btAccept.setOnClickListener(new View.OnClickListener() {
@@ -115,11 +123,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendHolder> {
                             if (response.isSuccessful()) {
                                 ResponseModel<String> responseModel = response.body();
 
-                                friendModels.remove(friendModel);
-                                notifyAll();
-
                                 String[] fullname = friendModel.getFullName().split(" ");
                                 Toast.makeText(context, "You and " + fullname[fullname.length -1] + " have become friends", Toast.LENGTH_SHORT).show();
+
+                                removeItem(friendModel, null);
                             } else {
                                 int statusCode = response.code();
                                 // handle request errors depending on status code
@@ -142,11 +149,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendHolder> {
                             if (response.isSuccessful()) {
                                 ResponseModel<String> responseModel = response.body();
 
-                                friendModels.remove(friendModel);
-                                notifyAll();
-
                                 String[] fullname = friendModel.getFullName().split(" ");
                                 Toast.makeText(context, "You declined " + fullname[fullname.length -1] + "'s friend request", Toast.LENGTH_SHORT).show();
+
+                                removeItem(friendModel, null);
                             } else {
                                 int statusCode = response.code();
                                 // handle request errors depending on status code
@@ -174,6 +180,47 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendHolder> {
             return list.size();
         }
         return 0;
+    }
+
+    public void removeItem(FriendModel friendModel, RecyclerView recyclerView) {
+        if (friendModel == null) return;
+
+        AsyncTaskUI asyncTaskUI = new AsyncTaskUI(friendModel, recyclerView);
+        asyncTaskUI.execute();
+    }
+
+    private class AsyncTaskUI extends AsyncTask<Void, Integer, Void> {
+        private FriendModel friendModel;
+        private RecyclerView recyclerView;
+
+        public AsyncTaskUI(FriendModel friendModel, RecyclerView recyclerView) {
+            this.friendModel = friendModel;
+            this.recyclerView = recyclerView;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            publishProgress();
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            int idx = friendModels.indexOf(friendModel);
+            friendModels.remove(friendModel);
+            notifyItemRemoved(idx);
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+        }
     }
 
 }

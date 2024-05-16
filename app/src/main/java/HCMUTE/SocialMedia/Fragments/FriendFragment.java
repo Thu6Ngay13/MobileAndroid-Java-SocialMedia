@@ -1,6 +1,7 @@
 package HCMUTE.SocialMedia.Fragments;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -129,4 +130,6 @@ public class FriendFragment extends Fragment {
         });
 
     }
+
+
 }

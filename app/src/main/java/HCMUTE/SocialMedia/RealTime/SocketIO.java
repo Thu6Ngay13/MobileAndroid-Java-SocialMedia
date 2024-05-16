@@ -1,6 +1,8 @@
 package HCMUTE.SocialMedia.RealTime;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -15,6 +17,7 @@ public class SocketIO {
 
     public static void connectToServer() {
         try {
+
             IO.Options options = new IO.Options();
             options.reconnection = true;
             options.reconnectionAttempts = Integer.MAX_VALUE;
@@ -31,7 +34,18 @@ public class SocketIO {
                     try {
                         JSONObject newClient = new JSONObject();
                         newClient.put("username", Const.USERNAME);
+
                         SocketIO.socketClient.emit("new", newClient);
+                        socketClient.on("receivePushNotify", new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+                                try {
+
+                                } catch (Exception e) {
+                                    Log.d(TAG, "Failed on onReceiveMessage: " + e.getMessage());
+                                }
+                            }
+                        });
                     } catch (Exception e) {
                         Log.d(SocketIO.TAG, "Failed on connectToServer when Socket.EVENT_CONNECT: " + e.getMessage());
                     }
