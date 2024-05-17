@@ -27,24 +27,46 @@ import retrofit2.http.Query;
 
 public interface APIService {
 
-    @Multipart
-    @POST("post/{username}")
-    Call<ResponseModel<PostCardModel>> getPostsWithUsername(@Path("username") String username, @Part("page") int page, @Part("pageSize") int pageSize);
+    //    Call API POST
+    @GET("post/{username}/{page}/{pageSize}")
+    Call<ResponseModel<PostCardModel>> getPostsWithUsername(@Path("username") String username, @Path("page") int page, @Path("pageSize") int pageSize);
 
+    @POST("post/{username}/like/{postId}")
+    Call<ResponseModel<String>> likePost(@Path("username") String username, @Path("postId") long postId);
+
+    @POST("post/{username}/share/{postId}")
+    Call<ResponseModel<String>> sharePost(@Path("username") String username, @Path("postId") long postId);
+
+    @POST("post/{username}/unlike/{postId}")
+    Call<ResponseModel<String>> unlikePost(@Path("username") String username, @Path("postId") long postId);
+
+    //    Call API FRIEND
     @GET("friend/yourfriend/{username}")
     Call<ResponseModel<FriendModel>> getYourFriendsWithUsername(@Path("username") String username);
 
     @GET("friend/friendrequest/{username}")
     Call<ResponseModel<FriendModel>> getFriendRequestsWithUsername(@Path("username") String username);
 
+    @POST("friend/friendrequest/{username1}/accept/{username2}")
+    Call<ResponseModel<String>> acceptFriend(@Path("username1") String username1, @Path("username2") String username2);
+
+    @POST("friend/friendrequest/{username1}/decline/{username2}")
+    Call<ResponseModel<String>> declineFriend(@Path("username1") String username1, @Path("username2") String username2);
+
+    //    Call API NOTIFY
     @GET("notification/{username}")
     Call<ResponseModel<NotifyCardModel>> getNotificationReceiptsWithUsername(@Path("username") String username);
 
+    //    Call API Conversation
     @GET("conversation/{username}")
     Call<ResponseModel<ConversationCardModel>> getConversationsWithUsername(@Path("username") String username);
 
+    //    Call API MESSAGE
     @GET("message/{conversationId}/{username}")
     Call<ResponseModel<MessageModel>> getMessagesWithConversationIdAndUsername(@Path("conversationId") long conversationId, @Path("username") String username);
+
+    @GET("message/{username1}/withfriend/{username2}")
+    Call<ResponseModel<String>> getMessageWithFriend(@Path("username1") String username1, @Path("username2") String username2);
 
     @Multipart
     @POST("message/sendmessage")
@@ -57,10 +79,13 @@ public interface APIService {
     @GET("post/{username}")
     Call<ResponseModel<PostCardModel>> getPostsWithUsername(@Path("username") String username);
 
+    //    Call API ACCOUNT
     @POST("v1/auth/register")
     Call<RegisterResponse> register(@Body RegisterRequest request);
+
     @GET("v1/auth/register/confirm")
     Call<OtpResponse> confirmToken(@Query("token") String token);
+
     @POST("v1/auth/authenticate")
     Call<AuthResponse> authenticate(@Body AuthRequest request);
     @GET("comment/{postId}")

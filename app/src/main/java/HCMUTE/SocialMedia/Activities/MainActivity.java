@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +17,7 @@ import java.util.Objects;
 
 import HCMUTE.SocialMedia.Adapters.MainPager2Adapter;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.RealTime.SocketIO;
 import HCMUTE.SocialMedia.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,10 +26,12 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton ibMessage;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SocketIO.connectToServer();
         setupTabs();
         ibMessage = (ImageButton) findViewById(R.id.ibMessage);
         ibMessage.setOnClickListener(view -> onClickMessage());
