@@ -105,6 +105,7 @@
     </androidx.gridlayout.widget.GridLayout>
 
     <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/glLogout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"

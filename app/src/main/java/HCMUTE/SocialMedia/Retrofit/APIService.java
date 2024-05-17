@@ -7,6 +7,8 @@ import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
+import HCMUTE.SocialMedia.Requests.AuthRequest;
+import HCMUTE.SocialMedia.Responses.AuthResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import HCMUTE.SocialMedia.Requests.RegisterRequest;
@@ -59,7 +61,8 @@ public interface APIService {
     Call<RegisterResponse> register(@Body RegisterRequest request);
     @GET("v1/auth/register/confirm")
     Call<OtpResponse> confirmToken(@Query("token") String token);
-
+    @POST("v1/auth/authenticate")
+    Call<AuthResponse> authenticate(@Body AuthRequest request);
     @GET("comment/{postId}")
     Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);
 }
