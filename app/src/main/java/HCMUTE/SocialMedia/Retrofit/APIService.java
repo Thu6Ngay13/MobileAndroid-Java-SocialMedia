@@ -1,5 +1,8 @@
 package HCMUTE.SocialMedia.Retrofit;
 
+import java.util.Map;
+
+import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.CommentCardModel;
 import HCMUTE.SocialMedia.Models.ConversationCardModel;
 import HCMUTE.SocialMedia.Models.FriendModel;
@@ -8,7 +11,10 @@ import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Requests.AuthRequest;
+import HCMUTE.SocialMedia.Requests.ResetPasswordRequest;
 import HCMUTE.SocialMedia.Responses.AuthResponse;
+import HCMUTE.SocialMedia.Responses.ResetPasswordResponse;
+import HCMUTE.SocialMedia.Responses.SimpleResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import HCMUTE.SocialMedia.Requests.RegisterRequest;
@@ -88,6 +94,14 @@ public interface APIService {
 
     @POST("v1/auth/authenticate")
     Call<AuthResponse> authenticate(@Body AuthRequest request);
+    @POST("v1/auth/find-account")
+    Call<SimpleResponse<AccountCardModel>> findByEmail(@Query("email") String email);
+    @POST("v1/auth/send-email")
+    Call<SimpleResponse<String>> sendEmail(@Body Map<String, String> reqBody);
+    @POST("v1/auth/reset-password")
+    Call<ResetPasswordResponse> resetPassword(@Body ResetPasswordRequest request);
+    @GET("user/my-account/{username}")
+    Call<SimpleResponse<AccountCardModel>> getAccountByUsername(@Path("username") String username);
     @GET("comment/{postId}")
     Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);
     @POST("post/create")

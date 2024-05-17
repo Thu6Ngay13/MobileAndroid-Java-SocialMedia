@@ -1,5 +1,7 @@
 package HCMUTE.SocialMedia.Adapters;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,8 +15,10 @@ import HCMUTE.SocialMedia.Fragments.SettingFragment;
 
 public class MainPager2Adapter extends FragmentStateAdapter {
 
-    public MainPager2Adapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    private Context context;
+    public MainPager2Adapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, Context context) {
         super(fragmentManager, lifecycle);
+        this.context = context;
     }
 
     @NonNull
@@ -27,7 +31,7 @@ public class MainPager2Adapter extends FragmentStateAdapter {
             return new NotifyFragment();
         }
         else if (position == 3) {
-            return new SettingFragment();
+            return new SettingFragment(context);
         }
         else {
             return new HomeFragment();

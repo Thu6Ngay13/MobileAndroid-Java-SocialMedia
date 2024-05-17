@@ -1,51 +1,45 @@
 package HCMUTE.SocialMedia.Models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import HCMUTE.SocialMedia.Enums.Role;
 
-public class AccountCardModel {
-    private String accessToken;
-    private String fullName;
+public class AccountCardModel implements Serializable {
     private String username;
-    private String email;
-    private String avatarurl;
-    private String location;
-    private LocalDateTime dateOfBirth;
-    private String description;
+    private String fullname;
     private String gender;
+    private String avatarURL;
+    private String email;
+    private String phoneNumber;
+    private String description;
+    private String company;
+    private String location;
+    private boolean isSingle;
     private Role role;
+    private long countFriend;
+    private List<AccountCardModel> friends;
+    private List<PostCardModel> posts;
 
     public AccountCardModel() {
     }
 
-    public AccountCardModel(String accessToken, String fullName, String username, String email, String avatarurl, String location, LocalDateTime dateOfBirth, String description, String gender, Role role) {
-        this.accessToken = accessToken;
-        this.fullName = fullName;
+    public AccountCardModel(String username, String fullname, String gender, String avatarURL, String email, String phoneNumber, String description, String company, String location, boolean isSingle, Role role, long countFriend, List<AccountCardModel> friends, List<PostCardModel> posts) {
         this.username = username;
-        this.email = email;
-        this.avatarurl = avatarurl;
-        this.location = location;
-        this.dateOfBirth = dateOfBirth;
-        this.description = description;
+        this.fullname = fullname;
         this.gender = gender;
+        this.avatarURL = avatarURL;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.description = description;
+        this.company = company;
+        this.location = location;
+        this.isSingle = isSingle;
         this.role = role;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+        this.countFriend = countFriend;
+        this.friends = friends;
+        this.posts = posts;
     }
 
     public String getUsername() {
@@ -56,44 +50,12 @@ public class AccountCardModel {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAvatarurl() {
-        return avatarurl;
-    }
-
-    public void setAvatarurl(String avatarurl) {
-        this.avatarurl = avatarurl;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public LocalDateTime getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDateTime dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getGender() {
@@ -104,11 +66,110 @@ public class AccountCardModel {
         this.gender = gender;
     }
 
+    public String getAvatarURL() {
+        return avatarURL;
+    }
+
+    public void setAvatarURL(String avatarURL) {
+        this.avatarURL = avatarURL;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public boolean isSingle() {
+        return isSingle;
+    }
+
+    public void setSingle(boolean single) {
+        isSingle = single;
+    }
+
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public long getCountFriend() {
+        return countFriend;
+    }
+
+    public void setCountFriend(long countFriend) {
+        this.countFriend = countFriend;
+    }
+
+    public List<AccountCardModel> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<AccountCardModel> friends) {
+        this.friends = friends;
+    }
+
+    public List<PostCardModel> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<PostCardModel> posts) {
+        this.posts = posts;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountCardModel{" +
+                "username='" + username + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", gender='" + gender + '\'' +
+                ", avatarURL='" + avatarURL + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", description='" + description + '\'' +
+                ", company='" + company + '\'' +
+                ", location='" + location + '\'' +
+                ", isSingle=" + isSingle +
+                ", role=" + role +
+                ", countFriend=" + countFriend +
+                ", friends=" + friends +
+                '}';
     }
 }

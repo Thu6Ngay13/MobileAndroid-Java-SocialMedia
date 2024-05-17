@@ -1,11 +1,13 @@
 package HCMUTE.SocialMedia.SharePreferances;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
 import HCMUTE.SocialMedia.Activities.LoginActivity;
 import HCMUTE.SocialMedia.Enums.Role;
+import HCMUTE.SocialMedia.Models.AccountCardModel;
 
 public class PrefManager {
     private static final String SHARED_PREF_NAME = "LoginDetails";
@@ -13,6 +15,8 @@ public class PrefManager {
     private static final String KEY_EMAIL = "keyemail";
     private static final String KEY_ACCESS_TOKEN = "keyaccesstoken";
     private static final String KEY_ROLE = "keyrole";
+    private static final String KEY_AVATAR = "keyavatar";
+    private static final String KEY_FULLNAME = "keyavatar";
     private static PrefManager mIntance;
     private static Context ctx;
 
@@ -25,18 +29,29 @@ public class PrefManager {
         }
         return mIntance;
     }
-    public void login(String username, String email, String accessToken, String role){
+    public void login(String username, String email, String accessToken, String role, String avatarURL, String fullname){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_USERNAME, username);
         editor.putString(KEY_EMAIL, email);
         editor.putString(KEY_ACCESS_TOKEN, accessToken);
         editor.putString(KEY_ROLE, role);
+        if (avatarURL != null){
+            editor.putString(KEY_AVATAR, avatarURL);
+        }
+        else {
+            editor.putString(KEY_AVATAR, "https://drive.google.com/uc?export=view&id=1LZuoz5KlfRIOJiolzkcGDva0GaCN_NCl");
+        }
+        editor.putString(KEY_FULLNAME, fullname);
         editor.apply();
     }
     public boolean isLoggedIn(){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_USERNAME, null) != null;
+    }
+    public String getUsername(){
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_USERNAME, "");
     }
     public String getAccessToken(){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -62,7 +77,5 @@ public class PrefManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        Intent intent = new Intent(ctx, LoginActivity.class);
-        ctx.startActivities(new Intent[]{intent});
     }
 }

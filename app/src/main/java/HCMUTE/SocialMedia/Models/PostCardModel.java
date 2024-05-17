@@ -13,6 +13,9 @@ public class PostCardModel {
     private String postMedia;
     private boolean liked;
 
+    public PostCardModel() {
+    }
+
     public PostCardModel(String avatar, String username, String fullName, String postingTimeAt, long mode, String postText, String postMedia, boolean liked) {
         this.avatar = avatar;
         this.username = username;

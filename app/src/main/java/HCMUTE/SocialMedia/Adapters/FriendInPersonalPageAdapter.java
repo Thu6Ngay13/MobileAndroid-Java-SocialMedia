@@ -1,6 +1,7 @@
 package HCMUTE.SocialMedia.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
+import HCMUTE.SocialMedia.Activities.YourPersonalPageActivity;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -21,6 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FriendInPersonalPageAdapter extends RecyclerView.Adapter<FriendInPersonalPageAdapter.FriendHolder> {
     private Context context;
     private List<YourFriendModel> yourFriends;
+
     public FriendInPersonalPageAdapter(Context context, List<YourFriendModel> yourFriends){
         this.context = context;
         this.yourFriends = yourFriends;
@@ -41,8 +46,10 @@ public class FriendInPersonalPageAdapter extends RecyclerView.Adapter<FriendInPe
     @Override
     public void onBindViewHolder(@NonNull FriendHolder holder, int position) {
         YourFriendModel yourFriendModel = yourFriends.get(position);
-        holder.avatar.setImageResource(yourFriendModel.getAvatar());
-        holder.username.setText(yourFriendModel.getFullName());
+        Glide.with(context)
+                .load(yourFriendModel.getAvatar())
+                .into(holder.avatar);
+        holder.username.setText(yourFriendModel.getUsername());
     }
 
     class FriendHolder extends RecyclerView.ViewHolder {
@@ -56,6 +63,14 @@ public class FriendInPersonalPageAdapter extends RecyclerView.Adapter<FriendInPe
             this.cvUser = itemView.findViewById(R.id.cvUser);
             this.avatar = itemView.findViewById(R.id.ivAvatar);
             this.username = itemView.findViewById(R.id.tvUsername);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, YourPersonalPageActivity.class);
+                    intent.putExtra("yourFriendAccount", username.getText().toString());
+                    context.startActivities(new Intent[]{intent});
+                }
+            });
         }
     }
 }

@@ -7,36 +7,46 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.R;
-import HCMUTE.SocialMedia.Responses.OtpResponse;
+import HCMUTE.SocialMedia.Requests.AuthRequest;
+import HCMUTE.SocialMedia.Requests.ResetPasswordRequest;
+import HCMUTE.SocialMedia.Responses.AuthResponse;
+import HCMUTE.SocialMedia.Responses.ResetPasswordResponse;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class VerifyNewAccountActivity extends AppCompatActivity {
-    private EditText etToken1, etToken2, etToken3, etToken4, etToken5, etToken6;
-    private TextView tvEmail;
-    private Button btnContinue;
-    private APIService apiService;
+public class ResetPasswordActivity extends AppCompatActivity {
 
+    private EditText etToken1, etToken2, etToken3, etToken4, etToken5, etToken6, etPassword, etPasswordAgain;
+    private TextView tvNotify;
+    private Button btnContinue;
+    private CheckBox cbShowPassword;
+    private APIService apiService;
+    private AccountCardModel model;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify_new_account);
+        setContentView(R.layout.activity_reset_password);
         initialize();
         Intent intent = getIntent();
         if (intent != null) {
-            String email = intent.getStringExtra("registeredEmail"); // Lấy dữ liệu từ Intent bằng key
-            tvEmail.setText("Enter the code we sent to " + email);
+            model = (AccountCardModel) intent.getSerializableExtra("findaccount");
+            tvNotify.setText("Enter the code we sent to " + model.getEmail());
         }
         etToken1.addTextChangedListener(new TextWatcher() {
             @Override
@@ -156,34 +166,53 @@ public class VerifyNewAccountActivity extends AppCompatActivity {
                 }
             }
         });
+        cbShowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                    etPasswordAgain.setInputType(InputType.TYPE_CLASS_TEXT);
+                } else {
+                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    etPasswordAgain.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmToken();
+                resetPassword();
             }
         });
     }
 
-    private void confirmToken() {
+    private void resetPassword() {
         String token = etToken1.getText().toString() +
                 etToken2.getText().toString() +
                 etToken3.getText().toString() +
                 etToken4.getText().toString() +
                 etToken5.getText().toString() +
                 etToken6.getText().toString();
-        apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.confirmToken(token).enqueue(new Callback<OtpResponse>() {
-            @Override
-            public void onResponse(Call<OtpResponse> call, Response<OtpResponse> response) {
-                if (response.isSuccessful()){
-                    if (response.body() != null && response.body().isSuccess()){
-                        AlertDialog.Builder alert = new AlertDialog.Builder(VerifyNewAccountActivity.this);
+        etPassword.setError(null);
+        etPasswordAgain.setError(null);
+        if (validatePassword()){
+            ResetPasswordRequest request = new ResetPasswordRequest();
+            request.setEmail(model.getEmail());
+            request.setNewPassword(etPasswordAgain.getText().toString());
+            request.setToken(token);
+            apiService = RetrofitClient.getRetrofit().create(APIService.class);
+            Call<ResetPasswordResponse> call = apiService.resetPassword(request);
+            call.enqueue(new Callback<ResetPasswordResponse>() {
+                @Override
+                public void onResponse(Call<ResetPasswordResponse> call, Response<ResetPasswordResponse> response) {
+                    if (response.body().isSuccess()) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(ResetPasswordActivity.this);
                         alert.setTitle("Success");
-                        alert.setMessage("Account confirmation successful🎉🎉\nPlease return to the login page");
+                        alert.setMessage("Reset new password successfully🎉🎉\nPlease return to the login page");
                         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(VerifyNewAccountActivity.this, LoginActivity.class);
+                                Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
                                 startActivities(new Intent[]{intent});
                                 finish();
                                 dialog.dismiss();
@@ -191,17 +220,36 @@ public class VerifyNewAccountActivity extends AppCompatActivity {
                         });
                         alert.show();
                     }
+                    else {
+                        Toast.makeText(ResetPasswordActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else{
-                    Toast.makeText(VerifyNewAccountActivity.this, "An error occurred please try again later...", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<OtpResponse> call, Throwable t) {
-                Toast.makeText(VerifyNewAccountActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<ResetPasswordResponse> call, Throwable t) {
+                    Toast.makeText(ResetPasswordActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+    private boolean validatePassword(){
+        String password = etPassword.getText().toString();
+        String passwordAgain = etPasswordAgain.getText().toString();
+        if (password.isEmpty() || passwordAgain.isEmpty()){
+            etPassword.setError("Password cannot be empty!");
+            etPasswordAgain.setError("Confirm field cannot be empty!");
+            return false;
+        } else if (password.length() < 8){
+            etPassword.setError("Length of password must be longer than 8 characters");
+            return false;
+        }else if (!password.equals(passwordAgain)){
+            etPasswordAgain.setError("Confirm field is different from password");
+            return false;
+        }else {
+            etPassword.setError(null);
+            etPasswordAgain.setError(null);
+            return true;
+        }
     }
 
     public void initialize(){
@@ -211,7 +259,10 @@ public class VerifyNewAccountActivity extends AppCompatActivity {
         etToken4 = findViewById(R.id.etToken4);
         etToken5 = findViewById(R.id.etToken5);
         etToken6 = findViewById(R.id.etToken6);
-        tvEmail = findViewById(R.id.tvNotify);
+        etPassword = findViewById(R.id.etPassword);
+        etPasswordAgain = findViewById(R.id.etPasswordAgain);
+        cbShowPassword = findViewById(R.id.cbShowPassword);
+        tvNotify = findViewById(R.id.tvNotify);
         btnContinue = findViewById(R.id.btnContinue);
     }
 }
