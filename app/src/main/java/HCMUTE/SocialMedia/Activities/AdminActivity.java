@@ -7,7 +7,6 @@ import android.os.Bundle;
 import HCMUTE.SocialMedia.R;
 
 public class AdminActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

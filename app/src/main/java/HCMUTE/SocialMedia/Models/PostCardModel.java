@@ -13,6 +13,16 @@ public class PostCardModel {
     private String postMedia;
     private boolean liked;
 
+    public PostCardModel(String avatar, String username, String fullName, String postingTimeAt, long mode, String postText, String postMedia, boolean liked) {
+        this.avatar = avatar;
+        this.username = username;
+        this.fullName = fullName;
+        this.postingTimeAt = postingTimeAt;
+        this.mode = mode;
+        this.postText = postText;
+        this.postMedia = postMedia;
+        this.liked = liked;
+    }
     public PostCardModel(long postId, String avatar, String username, String fullName, String postingTimeAt, long mode, String postText, String postMedia, boolean liked) {
         this.postId = postId;
         this.avatar = avatar;

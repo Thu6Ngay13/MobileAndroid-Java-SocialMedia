@@ -1,11 +1,14 @@
 package HCMUTE.SocialMedia.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import HCMUTE.SocialMedia.Activities.CreatePostActivity;
+import HCMUTE.SocialMedia.Activities.LoginActivity;
+import HCMUTE.SocialMedia.Activities.RegisterActivity;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
@@ -34,11 +40,14 @@ public class HomeFragment extends Fragment {
     private int page = 0;
     private static final int pageSize = 5;
 
+    private Button btnCreatePost;
+
     public HomeFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
+
     }
 
     @Override
@@ -53,6 +62,14 @@ public class HomeFragment extends Fragment {
         postAdapter = new PostAdapter(getContext(), postCardModels);
         recyclerView.setAdapter(postAdapter);
 
+        btnCreatePost = view.findViewById(R.id.ibTextPosting);
+        btnCreatePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CreatePostActivity.class);
+                startActivity(intent);
+            }
+        });
         nextPost();
         initScrollListener();
 

@@ -149,9 +149,9 @@
                     android:padding="8dp"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/ic_image_72_dark"
+                    android:visibility="gone"
                     app:layout_column="0"
-                    app:layout_row="1"
-                    android:visibility="gone"/>
+                    app:layout_row="1" />
 
             </androidx.gridlayout.widget.GridLayout>
         </LinearLayout>

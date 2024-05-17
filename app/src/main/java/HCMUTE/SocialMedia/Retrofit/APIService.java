@@ -90,4 +90,6 @@ public interface APIService {
     Call<AuthResponse> authenticate(@Body AuthRequest request);
     @GET("comment/{postId}")
     Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);
+    @POST("post/create")
+    Call<PostCardModel> createPost(@Body PostCardModel postCardModel);
 }
