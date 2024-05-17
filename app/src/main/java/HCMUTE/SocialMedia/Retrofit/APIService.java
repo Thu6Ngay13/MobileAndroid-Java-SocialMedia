@@ -74,4 +74,6 @@ public interface APIService {
     Call<SimpleResponse<String>> sendEmail(@Body Map<String, String> reqBody);
     @POST("v1/auth/reset-password")
     Call<ResetPasswordResponse> resetPassword(@Body ResetPasswordRequest request);
+    @GET("user/my-account/{username}")
+    Call<SimpleResponse<AccountCardModel>> getAccountByUsername(@Path("username") String username);
 }

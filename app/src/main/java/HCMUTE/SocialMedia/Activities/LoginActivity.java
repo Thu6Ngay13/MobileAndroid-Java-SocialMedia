@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                     if (response.isSuccessful()) {
                         AuthResponse authResponse = response.body();
-                        saveLoginDetails(authResponse.getUsername(), authResponse.getEmail(), authResponse.getAccessToken(), authResponse.getRole().name());
+                        saveLoginDetails(authResponse.getUsername(), authResponse.getEmail(), authResponse.getAccessToken(), authResponse.getRole().name(), authResponse.getAvatarurl(), authResponse.getFullName());
                         startMainActivity(authResponse.getRole().name());
                         finish();
                         pbWait.setVisibility(View.GONE);
@@ -131,8 +131,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-    private void saveLoginDetails(String username, String email, String accessToken, String role) {
-        PrefManager.getInstance(getApplicationContext()).login(username, email, accessToken, role);
+    private void saveLoginDetails(String username, String email, String accessToken, String role, String avatarURL, String fullname) {
+        PrefManager.getInstance(getApplicationContext()).login(username, email, accessToken, role, avatarURL, fullname);
     }
 
 

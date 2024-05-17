@@ -61,16 +61,13 @@
             android:name=".Activities.PolicyDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.MyPersonalPageActivity"
+            android:name=".Activities.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.YourPersonalPageActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.VerifyNewAccountActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.VerifyOldAccountActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.FindAccountActivity"
@@ -91,7 +88,7 @@
             android:name=".Activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.LoginActivity"
+            android:name=".Activities.MyPersonalPageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

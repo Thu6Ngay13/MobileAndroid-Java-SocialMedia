@@ -26,7 +26,7 @@ public class YourPersonalPageActivity extends AppCompatActivity {
         List<YourFriendModel> yourFriendModels = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             yourFriendModels.add(new YourFriendModel(
-                    R.mipmap.ic_user_72_dark,
+                    "R.mipmap.ic_user_72_dark",
                     "Cao Thị Thu Thủy"
             ));
         }

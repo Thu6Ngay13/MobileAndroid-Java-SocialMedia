@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import HCMUTE.SocialMedia.Models.YourFriendModel;
@@ -41,8 +43,10 @@ public class FriendInPersonalPageAdapter extends RecyclerView.Adapter<FriendInPe
     @Override
     public void onBindViewHolder(@NonNull FriendHolder holder, int position) {
         YourFriendModel yourFriendModel = yourFriends.get(position);
-        holder.avatar.setImageResource(yourFriendModel.getAvatar());
-        holder.username.setText(yourFriendModel.getFullName());
+        Glide.with(context)
+                .load(yourFriendModel.getAvatar())
+                .into(holder.avatar);
+        holder.username.setText(yourFriendModel.getUsername());
     }
 
     class FriendHolder extends RecyclerView.ViewHolder {

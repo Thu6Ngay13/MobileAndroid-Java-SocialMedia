@@ -5,9 +5,9 @@ import java.util.List;
 public class SimpleResponse<T> {
     private boolean success;
     private String message;
-    private Object result;
+    private T result;
 
-    public SimpleResponse(boolean success, String message, Object result) {
+    public SimpleResponse(boolean success, String message, T result) {
         this.success = success;
         this.message = message;
         this.result = result;
@@ -29,11 +29,11 @@ public class SimpleResponse<T> {
         this.message = message;
     }
 
-    public Object getResult() {
+    public T getResult() {
         return result;
     }
 
-    public void setResult(Object result) {
+    public void setResult(T result) {
         this.result = result;
     }
 }
