@@ -47,6 +47,13 @@ public interface APIService {
     @POST("post/{username}/unlike/{postId}")
     Call<ResponseModel<String>> unlikePost(@Path("username") String username, @Path("postId") long postId);
 
+    @POST("post/create")
+    Call<PostCardModel> createPost(@Body PostCardModel postCardModel);
+
+    @POST("post/media")
+    Call<ResponseModel<String>> mediaPost(@Part MultipartBody.Part part);
+
+
     //    Call API FRIEND
     @GET("friend/yourfriend/{username}")
     Call<ResponseModel<FriendModel>> getYourFriendsWithUsername(@Path("username") String username);
@@ -105,6 +112,5 @@ public interface APIService {
     Call<SimpleResponse<AccountCardModel>> getAccountByUsername(@Path("username") String username);
     @GET("comment/{postId}")
     Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);
-    @POST("post/create")
-    Call<PostCardModel> createPost(@Body PostCardModel postCardModel);
+
 }

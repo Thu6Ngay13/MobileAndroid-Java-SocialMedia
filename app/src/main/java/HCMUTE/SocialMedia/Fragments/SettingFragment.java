@@ -44,24 +44,25 @@ public class SettingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Glide.with(getContext()).load(Const.AVATAR).into(((ImageView)view.findViewById(R.id.ibAvatar)));
+        Glide.with(getContext()).load(Const.AVATAR).into(((ImageView) view.findViewById(R.id.ibAvatar)));
         ((TextView) view.findViewById(R.id.tvFullname)).setText(Const.FULLNAME);
 
-        if(Const.ROLE.equals("ADMIN")){
+        if (Const.ROLE.equals("ADMIN")) {
             List<SettingCardModel> settingCardModels = new ArrayList<>();
             settingCardModels.add(new SettingCardModel(R.mipmap.ic_admin_72_dark, "Admin"));
 
-        RecyclerView recyclerView = view.findViewById(R.id.rvSettingArea);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new SettingCardAdapter(getContext(), settingCardModels));
-        TextView tvLogout = view.findViewById(R.id.tvLogout);
-        tvLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PrefManager.getInstance(context).logout();
-                Intent intent = new Intent(context, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+            RecyclerView recyclerView = view.findViewById(R.id.rvSettingArea);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setAdapter(new SettingCardAdapter(getContext(), settingCardModels));
+            TextView tvLogout = view.findViewById(R.id.tvLogout);
+            tvLogout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PrefManager.getInstance(context).logout();
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 }
