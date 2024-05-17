@@ -20,12 +20,15 @@
             android:layout_height="50dp"
             android:src="@mipmap/ic_arrow_left_72_dark"/>
 
-        <ImageButton
-            android:id="@+id/ibAvatar"
+        <de.hdodenhof.circleimageview.CircleImageView
+
+            android:id="@+id/ivAvatar"
             android:background="@color/white"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            app:layout_gravity="center"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
             android:src="@mipmap/ic_user_72_dark"/>
+
 
         <TextView
             android:id="@+id/tvFullName"

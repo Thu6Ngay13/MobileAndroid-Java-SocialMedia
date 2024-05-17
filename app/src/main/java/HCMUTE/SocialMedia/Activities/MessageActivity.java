@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -21,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,6 +34,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Adapters.MessageAdapter;
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
@@ -37,6 +42,7 @@ import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.RealTime.SocketIO;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.Utils.ProcessTime;
 import HCMUTE.SocialMedia.Utils.RealPathUtil;
 import io.socket.emitter.Emitter;
 import okhttp3.MediaType;
@@ -49,12 +55,16 @@ import retrofit2.Response;
 public class MessageActivity extends AppCompatActivity {
     public static final int MY_REQUEST_CODE = 100;
     private static final String TAG = "MessageActivity";
-    private static final String USERNAME = "abc";
 
     public static String[] storage_permissions = {"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE"};
     public static String[] storage_permissions_33 = {"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_AUDIO", "android.permission.READ_MEDIA_VIDEO"};
 
     private long conversationId;
+    private String conversationAvatar;
+    private String conversationName;
+
+    private ImageView ivAvatar;
+    private TextView tvFullName;
 
     private ImageButton btSendMedia;
     private ImageButton btSendMessage;
@@ -95,6 +105,14 @@ public class MessageActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         conversationId = intent.getLongExtra("conversationId", -1L);
+        conversationAvatar = intent.getStringExtra("conversationAvatar");
+        conversationName = intent.getStringExtra("conversationName");
+
+        ivAvatar = findViewById(R.id.ivAvatar);
+        tvFullName = findViewById(R.id.tvFullName);
+
+        Glide.with(getApplicationContext()).load(conversationAvatar).into(ivAvatar);
+        tvFullName.setText(conversationName);
 
         getMessage();
         connectToSocketServer();
@@ -108,7 +126,7 @@ public class MessageActivity extends AppCompatActivity {
 
     private void getMessage() {
         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getMessagesWithConversationIdAndUsername(this.conversationId, USERNAME).enqueue(new Callback<ResponseModel<MessageModel>>() {
+        apiService.getMessagesWithConversationIdAndUsername(this.conversationId,  Const.USERNAME).enqueue(new Callback<ResponseModel<MessageModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<MessageModel>> call, Response<ResponseModel<MessageModel>> response) {
                 if (response.isSuccessful()) {
@@ -136,7 +154,6 @@ public class MessageActivity extends AppCompatActivity {
     private final Emitter.Listener onReceiveMessage = args -> {
         try {
             JSONObject jsonReceive = new JSONObject(args[0].toString());
-            Log.d("", "" + jsonReceive.toString());
 
             String typeReceiveString = jsonReceive.getString("typeSender");
             TypeMessageEnum typeReceive = TypeMessageEnum.fromString(typeReceiveString);
@@ -158,7 +175,6 @@ public class MessageActivity extends AppCompatActivity {
     private void onClickSendMessage() {
         try {
             String message = String.valueOf(etTypeMessage.getText()).trim();
-            String messageSendingAt = Calendar.getInstance().getTime().toString();
 
             if (message.isEmpty()) return;
             etTypeMessage.setText("");
@@ -166,9 +182,9 @@ public class MessageActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("typeSender", "MESSAGE");
             jsonObject.put("conversationId", conversationId);
-            jsonObject.put("username", USERNAME);
-            jsonObject.put("fullname", USERNAME);
-            jsonObject.put("messageSendingAt", messageSendingAt);
+            jsonObject.put("username",  Const.USERNAME);
+            jsonObject.put("fullname",  Const.USERNAME);
+            jsonObject.put("messageSendingAt", ProcessTime.getNow());
             jsonObject.put("message", message);
             jsonObject.put("media", "");
 
@@ -184,14 +200,13 @@ public class MessageActivity extends AppCompatActivity {
             if (o != null && o.getResultCode() == RESULT_OK && o.getData() != null && o.getData().getData() != null) {
                 try {
                     Uri selectedFileUri = o.getData().getData();
-                    String messageSendingAt = Calendar.getInstance().getTime().toString();
 
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("typeSender", "MEDIA");
                     jsonObject.put("conversationId", conversationId);
-                    jsonObject.put("username", USERNAME);
-                    jsonObject.put("fullname", USERNAME);
-                    jsonObject.put("messageSendingAt", messageSendingAt);
+                    jsonObject.put("username",  Const.USERNAME);
+                    jsonObject.put("fullname",  Const.USERNAME);
+                    jsonObject.put("messageSendingAt", ProcessTime.getNow());
                     jsonObject.put("message", "");
                     jsonObject.put("media", "");
 

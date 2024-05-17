@@ -1,4 +1,4 @@
-package HCMUTE.SocialMedia.Helpers;
+package HCMUTE.SocialMedia.Utils;
 
 public class StringHelper {
     public static boolean regexEmailValidationPattern(String email){

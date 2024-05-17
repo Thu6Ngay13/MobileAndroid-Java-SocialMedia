@@ -19,6 +19,7 @@ import java.util.List;
 import HCMUTE.SocialMedia.Holders.NotifyCardHolder;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.Utils.ProcessTime;
 
 public class NotifyCardAdapter extends RecyclerView.Adapter<NotifyCardHolder> {
 
@@ -55,7 +56,11 @@ public class NotifyCardAdapter extends RecyclerView.Adapter<NotifyCardHolder> {
         fullNameAndContent.setSpan(new TextAppearanceSpan(context, R.style.notify_content), fullName.length() + 1, fullNameAndContent.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         holder.fullNameAndContent.setText(fullNameAndContent);
-        holder.notifyTimeAt.setText(notifyCardModel.getNotifyTimeAt());
+
+        String timeInput = notifyCardModel.getNotifyTimeAt();
+        List<String> timeResult = ProcessTime.getTimeFromString(timeInput);
+        String timeShow = timeResult.get(0) + "-" + timeResult.get(1) + "-" + timeResult.get(2) + " " + timeResult.get(3) + ":" + timeResult.get(3);
+        holder.notifyTimeAt.setText(timeShow);
     }
 
     @Override

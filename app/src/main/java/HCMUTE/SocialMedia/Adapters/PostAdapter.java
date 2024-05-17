@@ -19,12 +19,20 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Activities.CommentActivity;
 import HCMUTE.SocialMedia.Enums.TypeViewLoad;
 import HCMUTE.SocialMedia.Holders.PostHolder;
 import HCMUTE.SocialMedia.Holders.WaitingLoadingHolder;
 import HCMUTE.SocialMedia.Models.PostCardModel;
+import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.Retrofit.APIService;
+import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.Utils.ProcessTime;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
@@ -51,7 +59,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             PostHolder postHolder = (PostHolder) holder;
             PostCardModel postCardModel = posts.get(position);
             postHolder.fullName.setText(postCardModel.getFullName());
-            postHolder.postingTimeAt.setText(postCardModel.getPostingTimeAt());
+
+            String timeInput = postCardModel.getPostingTimeAt();
+            List<String> timeResult = ProcessTime.getTimeFromString(timeInput);
+            String timeShow = timeResult.get(0) + "-" + timeResult.get(1) + "-" + timeResult.get(2) + " " + timeResult.get(3) + ":" + timeResult.get(4);
+            postHolder.postingTimeAt.setText(timeShow);
 
             //        holder.mode.setImageResource((int) postCardModel.getMode());
             postHolder.postText.setText(postCardModel.getPostText());
@@ -66,6 +78,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .into(postHolder.postImage);
 
             CardView cvLike = (CardView) holder.itemView.findViewById(R.id.cvLike);
+            ImageView ivLike = (ImageView) cvLike.findViewById(R.id.ivLike);
+
+            if (postCardModel.isLiked()) {
+                ivLike.setImageResource(R.mipmap.ic_like_72_full);
+            } else {
+                ivLike.setImageResource(R.mipmap.ic_like_72_line);
+            }
+
             CardView cvComment = (CardView) holder.itemView.findViewById(R.id.cvComment);
             CardView cvShare = (CardView) holder.itemView.findViewById(R.id.cvShare);
             ImageView ivMenu = (ImageView) holder.itemView.findViewById(R.id.ivMenu);
@@ -73,13 +93,48 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             cvLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ImageView ivLike = (ImageView) cvLike.findViewById(R.id.ivLike);
+
                     if (postCardModel.isLiked()) {
-                        postCardModel.setLiked(false);
-                        ivLike.setImageResource(R.mipmap.ic_like_72_line);
+                        APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+                        apiService.unlikePost(Const.USERNAME, postCardModel.getPostId()).enqueue(new Callback<ResponseModel<String>>() {
+                            @Override
+                            public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
+                                if (response.isSuccessful()) {
+                                    ResponseModel<String> responseModel = response.body();
+
+                                    postCardModel.setLiked(false);
+                                    ivLike.setImageResource(R.mipmap.ic_like_72_line);
+                                } else {
+                                    int statusCode = response.code();
+                                    // handle request errors depending on status code
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                            }
+                        });
+
                     } else {
-                        postCardModel.setLiked(true);
-                        ivLike.setImageResource(R.mipmap.ic_like_72_full);
+                        APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+                        apiService.likePost(Const.USERNAME, postCardModel.getPostId()).enqueue(new Callback<ResponseModel<String>>() {
+                            @Override
+                            public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
+                                if (response.isSuccessful()) {
+                                    ResponseModel<String> responseModel = response.body();
+
+                                    postCardModel.setLiked(true);
+                                    ivLike.setImageResource(R.mipmap.ic_like_72_full);
+                                } else {
+                                    int statusCode = response.code();
+                                    // handle request errors depending on status code
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                            }
+                        });
                     }
                 }
             });
@@ -98,7 +153,24 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             cvShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Share", Toast.LENGTH_SHORT).show();
+                    APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+                    apiService.sharePost(Const.USERNAME, postCardModel.getPostId()).enqueue(new Callback<ResponseModel<String>>() {
+                        @Override
+                        public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
+                            if (response.isSuccessful()) {
+                                ResponseModel<String> responseModel = response.body();
+                                Toast.makeText(context, "Share successful", Toast.LENGTH_SHORT).show();
+                            } else {
+                                int statusCode = response.code();
+                                // handle request errors depending on status code
+                                Toast.makeText(context, "Share failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                        }
+                    });
                 }
             });
 
