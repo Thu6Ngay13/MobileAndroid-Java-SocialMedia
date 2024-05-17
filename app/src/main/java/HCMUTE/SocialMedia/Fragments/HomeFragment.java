@@ -23,6 +23,7 @@ import HCMUTE.SocialMedia.Activities.CreatePostActivity;
 import HCMUTE.SocialMedia.Activities.LoginActivity;
 import HCMUTE.SocialMedia.Activities.RegisterActivity;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
@@ -97,7 +98,7 @@ public class HomeFragment extends Fragment {
     private void nextPost(){
         //Goi Interface trong APIService
         APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getPostsWithUsername("abc", page, pageSize).enqueue(new Callback<ResponseModel<PostCardModel>>() {
+        apiService.getPostOfNewFeedWithUsername(Const.USERNAME, page, pageSize).enqueue(new Callback<ResponseModel<PostCardModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<PostCardModel>> call, Response<ResponseModel<PostCardModel>> response) {
                 if (response.isSuccessful()) {

@@ -13,6 +13,7 @@ import java.util.List;
 import HCMUTE.SocialMedia.Holders.NotifyWithTimeHolder;
 import HCMUTE.SocialMedia.Models.NotifyWithTimeModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.Utils.ProcessTime;
 
 public class NotifyWithTimeAdapter extends RecyclerView.Adapter<NotifyWithTimeHolder> {
     private Context context;

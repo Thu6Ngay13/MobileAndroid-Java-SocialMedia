@@ -18,12 +18,13 @@ import HCMUTE.SocialMedia.Responses.SimpleResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import HCMUTE.SocialMedia.Requests.RegisterRequest;
+import HCMUTE.SocialMedia.Responses.AuthResponse;
 import HCMUTE.SocialMedia.Responses.OtpResponse;
 import HCMUTE.SocialMedia.Responses.RegisterResponse;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -35,7 +36,7 @@ public interface APIService {
 
     //    Call API POST
     @GET("post/{username}/{page}/{pageSize}")
-    Call<ResponseModel<PostCardModel>> getPostsWithUsername(@Path("username") String username, @Path("page") int page, @Path("pageSize") int pageSize);
+    Call<ResponseModel<PostCardModel>> getPostOfNewFeedWithUsername(@Path("username") String username, @Path("page") int page, @Path("pageSize") int pageSize);
 
     @POST("post/{username}/like/{postId}")
     Call<ResponseModel<String>> likePost(@Path("username") String username, @Path("postId") long postId);
@@ -67,12 +68,12 @@ public interface APIService {
     @GET("conversation/{username}")
     Call<ResponseModel<ConversationCardModel>> getConversationsWithUsername(@Path("username") String username);
 
+    @GET("conversation/{username1}/withfriend/{username2}")
+    Call<ResponseModel<ConversationCardModel>> getConversationWithFriend(@Path("username1") String username1, @Path("username2") String username2);
+
     //    Call API MESSAGE
     @GET("message/{conversationId}/{username}")
     Call<ResponseModel<MessageModel>> getMessagesWithConversationIdAndUsername(@Path("conversationId") long conversationId, @Path("username") String username);
-
-    @GET("message/{username1}/withfriend/{username2}")
-    Call<ResponseModel<String>> getMessageWithFriend(@Path("username1") String username1, @Path("username2") String username2);
 
     @Multipart
     @POST("message/sendmessage")

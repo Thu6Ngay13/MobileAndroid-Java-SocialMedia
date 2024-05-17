@@ -1,6 +1,7 @@
 package HCMUTE.SocialMedia.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,29 +9,35 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.tabs.TabLayout;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Adapters.NotifyWithTimeAdapter;
+import HCMUTE.SocialMedia.Consts.Const;
+import HCMUTE.SocialMedia.Enums.TypeMessageEnum;
+import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.NotifyWithTimeModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.RealTime.SocketIO;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.Utils.ProcessTime;
+import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NotifyFragment extends Fragment {
-    public NotifyFragment() { }
+    public NotifyFragment() {
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,14 +54,25 @@ public class NotifyFragment extends Fragment {
 
         //G0i Interface trong APIService
         APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getNotificationReceiptsWithUsername("binhbinh").enqueue(new Callback<ResponseModel<NotifyCardModel>>() {
+        apiService.getNotificationReceiptsWithUsername(Const.USERNAME).enqueue(new Callback<ResponseModel<NotifyCardModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<NotifyCardModel>> call, Response<ResponseModel<NotifyCardModel>> response) {
                 if (response.isSuccessful()) {
                     ResponseModel<NotifyCardModel> responseModel = response.body();
-                    if (responseModel != null && responseModel.isSuccess()){
-                        List<NotifyCardModel> notifyCardModels = responseModel.getResult();
-                        notifyCardModelTodays.addAll(notifyCardModels);
+                    List<NotifyCardModel> notifyCardModels = null;
+                    if (responseModel != null && responseModel.isSuccess()) {
+                        notifyCardModels = responseModel.getResult();
+                    }
+
+                    if (notifyCardModels != null) {
+                        for (int i = 0; i < notifyCardModels.size(); i++) {
+                            String time = notifyCardModels.get(i).getNotifyTimeAt();
+                            if (ProcessTime.getDurationWithNowInSecond(time) < 4320) {
+                                notifyCardModelTodays.add(notifyCardModels.get(i));
+                            } else {
+                                notifyCardModel3DaysAgos.add(notifyCardModels.get(i));
+                            }
+                        }
                     }
 
                     notifyWithTimeModels.add(new NotifyWithTimeModel("Today", notifyCardModelTodays));

@@ -45,6 +45,8 @@ public class ConversationCardAdapter extends RecyclerView.Adapter<ConversationCa
 
             Bundle bundle = new Bundle();
             bundle.putLong("conversationId", conversationCardModel.getConversationId());
+            bundle.putString("conversationAvatar", conversationCardModel.getConversationAvatar());
+            bundle.putString("conversationName", conversationCardModel.getConversationName());
             intent.putExtras(bundle);
 
             context.startActivity(intent);

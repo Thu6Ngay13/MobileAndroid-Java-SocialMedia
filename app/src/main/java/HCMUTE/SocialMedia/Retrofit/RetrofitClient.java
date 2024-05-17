@@ -1,11 +1,8 @@
 package HCMUTE.SocialMedia.Retrofit;
 
-import java.io.IOException;
-
-import okhttp3.Interceptor;
+import HCMUTE.SocialMedia.Consts.Const;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -18,7 +15,7 @@ public class RetrofitClient {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .client(getClient())
-                    .baseUrl(BASE_URL)
+                    .baseUrl(Const.SERVER_API)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
@@ -28,7 +25,7 @@ public class RetrofitClient {
     public static OkHttpClient getClient() {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain -> {
             Request newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", " Bearer " + TOKEN)
+                    .addHeader("Authorization", " Bearer " + Const.TOKEN)
                     .build();
             return chain.proceed(newRequest);
         }).build();

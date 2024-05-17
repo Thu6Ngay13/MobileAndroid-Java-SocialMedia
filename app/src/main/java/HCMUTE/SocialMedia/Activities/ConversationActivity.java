@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Adapters.ConversationCardAdapter;
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.ConversationCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
@@ -37,7 +38,7 @@ public class ConversationActivity extends AppCompatActivity {
         final List<ConversationCardModel> conversationCards = new ArrayList<>();
 
         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getConversationsWithUsername("abc").enqueue(new Callback<ResponseModel<ConversationCardModel>>() {
+        apiService.getConversationsWithUsername(Const.USERNAME).enqueue(new Callback<ResponseModel<ConversationCardModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<ConversationCardModel>> call, Response<ResponseModel<ConversationCardModel>> response) {
                 if (response.isSuccessful()) {
