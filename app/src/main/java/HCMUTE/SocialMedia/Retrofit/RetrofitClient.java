@@ -10,8 +10,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJST0xFIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sInN1YiI6ImFiY0BnbWFpbC5jb20iLCJpYXQiOjE3MTU1MDg1NzIsImV4cCI6MTcxNTU5NDk3Mn0.n40hIILkl3YnkjeTTXWY17RGJlLrAQOuEcL_k56D3yY";
-    private static final String BASE_URL = "http://192.168.1.10:8181/api/";
+    private static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJST0xFIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sInN1YiI6IjIxMTEwNTg3QHN0dWRlbnQuaGNtdXRlLmVkdS52biIsImlhdCI6MTcxNTY5ODIyMCwiZXhwIjoxNzE1Njk5NjYwfQ.SYPV3c-18DC5VXrqFaeOSgJ4pvT_aBmawVHi1bx3fQ0";
+    private static final String BASE_URL = "http://localhost:8181/api/";
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofit() {

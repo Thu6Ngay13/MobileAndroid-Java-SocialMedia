@@ -1,6 +1,7 @@
 package HCMUTE.SocialMedia.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import HCMUTE.SocialMedia.Activities.CommentActivity;
 import HCMUTE.SocialMedia.Enums.TypeViewLoad;
 import HCMUTE.SocialMedia.Holders.PostHolder;
 import HCMUTE.SocialMedia.Holders.WaitingLoadingHolder;
@@ -86,6 +88,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, "Comment", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, CommentActivity.class);
+                    // intent.putExtra("id", postId.getText());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
                 }
             });
 

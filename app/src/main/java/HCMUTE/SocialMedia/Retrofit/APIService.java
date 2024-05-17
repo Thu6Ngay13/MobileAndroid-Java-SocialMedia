@@ -1,5 +1,6 @@
 package HCMUTE.SocialMedia.Retrofit;
 
+import HCMUTE.SocialMedia.Models.CommentCardModel;
 import HCMUTE.SocialMedia.Models.ConversationCardModel;
 import HCMUTE.SocialMedia.Models.FriendModel;
 import HCMUTE.SocialMedia.Models.MessageModel;
@@ -58,4 +59,7 @@ public interface APIService {
     Call<RegisterResponse> register(@Body RegisterRequest request);
     @GET("v1/auth/register/confirm")
     Call<OtpResponse> confirmToken(@Query("token") String token);
+
+    @GET("comment/{postId}")
+    Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);
 }

@@ -1,11 +1,14 @@
 package HCMUTE.SocialMedia.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CommentCardModel {
     private int avatar;
     private String fullName;
     private String commentText;
     private int commentImage;
     private String commentTimeAt;
+
 
     public CommentCardModel(int avatar, String fullName, String commentText, int commentImage, String commentTimeAt) {
         this.avatar = avatar;

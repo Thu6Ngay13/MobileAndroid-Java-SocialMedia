@@ -55,6 +55,26 @@ public class HomeFragment extends Fragment {
 
         nextPost();
         initScrollListener();
+
+        /*List<PostCardModel> postCardModels = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            postCardModels.add(new PostCardModel(
+                    1,
+                    "avaterurl",
+                    "username",
+                    "Jonhny Deep",
+                    "23:59 25-02-2024",
+                    R.mipmap.ic_global_72_dark,
+                    "Hôm nay trời đẹp quá",
+                    "postMedia",
+                    false
+            ));
+        }
+
+        RecyclerView recyclerView = view.findViewById(R.id.rvPostArea);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(new PostAdapter(getContext(), postCardModels));*/
+
     }
 
     private void nextPost(){
