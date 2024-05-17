@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,16 +36,31 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MyPersonalPageActivity extends AppCompatActivity {
+    private ImageButton ibBack;
+    private LinearLayout llSearch;
     private RecyclerView recyclerView;
     private APIService apiService;
-
-    int x = 10;
+    private MyPersonalPageAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_personal_page);
-        getProfile(PrefManager.getInstance(getApplicationContext()).getUsername());
-        loadData();
+        ibBack = findViewById(R.id.ibBack);
+        llSearch = findViewById(R.id.llSearch);
+        ibBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        llSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyPersonalPageActivity.this, SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+        getProfile("abc");
     }
 
     private AccountCardModel getProfile(String username) {
@@ -62,25 +81,32 @@ public class MyPersonalPageActivity extends AppCompatActivity {
                         }
                         List<PostCardModel> postCardModels = new ArrayList<>();
                         for (PostCardModel p: model.getPosts()) {
-
-                        }
-                        for (int i = 0; i < x; i++) {
-                            postCardModels.add(new PostCardModel(
-                                    1,
-                                    "avaterurl",
-                                    "username",
-                                    "Jonhny Deep",
-                                    "23:59 25-02-2024",
-                                    R.mipmap.ic_global_72_dark,
-                                    "Hôm nay trời đẹp quá",
-                                    "postMedia",
-                                    false
-                            ));
+                            PostCardModel post = new PostCardModel();
+                            post.setPostId(p.getPostId());
+                            post.setAvatar(p.getAvatar());
+                            post.setUsername(p.getUsername());
+                            post.setFullName(p.getFullName());
+                            post.setPostingTimeAt(p.getPostingTimeAt());
+                            post.setMode(R.mipmap.ic_global_72_dark);
+                            post.setPostText(p.getPostText());
+                            post.setLiked(p.isLiked());
+                            postCardModels.add(post);
+                            if (postCardModels.size() > 6){
+                                break;
+                            }
                         }
                         recyclerView = findViewById(R.id.rvMyPersonalPageArea);
+                        adapter = new MyPersonalPageAdapter(getApplicationContext(), model, yourFriendModels, postCardModels);
+                        adapter.setOnEditProfileClickListener(new MyPersonalPageAdapter.OnEditProfileClickListener() {
+                            @Override
+                            public void onEditProfileClick() {
+                                Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
+                                startActivity(intent);
+                            }
+                        });
                         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(new MyPersonalPageAdapter(getApplicationContext(), model, yourFriendModels, postCardModels));
+                        recyclerView.setAdapter(adapter);
                     }
                 }
                 else{
@@ -94,9 +120,5 @@ public class MyPersonalPageActivity extends AppCompatActivity {
             }
         });
         return null;
-    }
-
-    private void loadData(){
-
     }
 }
