@@ -1,10 +1,10 @@
 package HCMUTE.SocialMedia.RealTime;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONObject;
+
+import java.util.EventListener;
 
 import HCMUTE.SocialMedia.Consts.Const;
 import io.socket.client.IO;
@@ -34,18 +34,7 @@ public class SocketIO {
                     try {
                         JSONObject newClient = new JSONObject();
                         newClient.put("username", Const.USERNAME);
-
                         SocketIO.socketClient.emit("new", newClient);
-                        socketClient.on("receivePushNotify", new Emitter.Listener() {
-                            @Override
-                            public void call(Object... args) {
-                                try {
-
-                                } catch (Exception e) {
-                                    Log.d(TAG, "Failed on onReceiveMessage: " + e.getMessage());
-                                }
-                            }
-                        });
                     } catch (Exception e) {
                         Log.d(SocketIO.TAG, "Failed on connectToServer when Socket.EVENT_CONNECT: " + e.getMessage());
                     }
@@ -72,23 +61,23 @@ public class SocketIO {
 
     public static void offMessage(Emitter.Listener onReceiveMessage) {
         try {
-            socketClient.off("receiveNotify", onReceiveMessage);
+            socketClient.off("receiveMessage", onReceiveMessage);
         } catch (Exception e) {
             Log.d(TAG, "Error in offMessage: " + e.getMessage());
         }
     }
 
-    public static void onNotify(Emitter.Listener onReceiveNotify) {
+    public static void onNotifyPush(Emitter.Listener onReceiveNotifyPush) {
         try {
-            socketClient.on("receiveNotify", onReceiveNotify);
+            socketClient.on("receivePushNotify", onReceiveNotifyPush);
         } catch (Exception e) {
-            Log.d(TAG, "Error in onNotify: " + e.getMessage());
+            Log.d(TAG, "Error in offNotify: " + e.getMessage());
         }
     }
 
-    public static void offNotify(Emitter.Listener onReceiveMessage) {
+    public static void offNotifyPush(Emitter.Listener offReceiveNotifyPush) {
         try {
-            socketClient.off("receiveNotify", onReceiveMessage);
+            socketClient.off("receivePushNotify", offReceiveNotifyPush);
         } catch (Exception e) {
             Log.d(TAG, "Error in offNotify: " + e.getMessage());
         }

@@ -42,6 +42,7 @@ import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.RealTime.SocketIO;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.Utils.ProcessTime;
 import HCMUTE.SocialMedia.Utils.RealPathUtil;
 import io.socket.emitter.Emitter;
 import okhttp3.MediaType;
@@ -174,7 +175,6 @@ public class MessageActivity extends AppCompatActivity {
     private void onClickSendMessage() {
         try {
             String message = String.valueOf(etTypeMessage.getText()).trim();
-            String messageSendingAt = Calendar.getInstance().getTime().toString();
 
             if (message.isEmpty()) return;
             etTypeMessage.setText("");
@@ -184,7 +184,7 @@ public class MessageActivity extends AppCompatActivity {
             jsonObject.put("conversationId", conversationId);
             jsonObject.put("username",  Const.USERNAME);
             jsonObject.put("fullname",  Const.USERNAME);
-            jsonObject.put("messageSendingAt", messageSendingAt);
+            jsonObject.put("messageSendingAt", ProcessTime.getNow());
             jsonObject.put("message", message);
             jsonObject.put("media", "");
 
@@ -200,14 +200,13 @@ public class MessageActivity extends AppCompatActivity {
             if (o != null && o.getResultCode() == RESULT_OK && o.getData() != null && o.getData().getData() != null) {
                 try {
                     Uri selectedFileUri = o.getData().getData();
-                    String messageSendingAt = Calendar.getInstance().getTime().toString();
 
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("typeSender", "MEDIA");
                     jsonObject.put("conversationId", conversationId);
                     jsonObject.put("username",  Const.USERNAME);
                     jsonObject.put("fullname",  Const.USERNAME);
-                    jsonObject.put("messageSendingAt", messageSendingAt);
+                    jsonObject.put("messageSendingAt", ProcessTime.getNow());
                     jsonObject.put("message", "");
                     jsonObject.put("media", "");
 

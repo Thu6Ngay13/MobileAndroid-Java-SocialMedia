@@ -12,6 +12,13 @@ import java.util.Collections;
 import java.util.List;
 
 public class ProcessTime {
+    public static String getNow(){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            return LocalDateTime.now().toString();
+        }
+        return "";
+    }
+
     public static long getDurationWithNowInSecond(String time){
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             LocalDateTime startTime = LocalDateTime.parse(time, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
