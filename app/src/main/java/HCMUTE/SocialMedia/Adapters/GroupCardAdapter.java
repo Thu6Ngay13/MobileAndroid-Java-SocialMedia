@@ -24,9 +24,9 @@ import HCMUTE.SocialMedia.Utils.ProcessTime;
 public class GroupCardAdapter extends RecyclerView.Adapter<GroupCardHolder> {
 
     private Context context;
-    private List<GroupCardHolder> groupCards;
+    private List<GroupModel> groupCards;
 
-    public GroupCardAdapter(Context context, List<GroupCardHolder> groupCards) {
+    public GroupCardAdapter(Context context, List<GroupModel> groupCards) {
         this.context = context;
         this.groupCards = groupCards;
     }
@@ -39,34 +39,22 @@ public class GroupCardAdapter extends RecyclerView.Adapter<GroupCardHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull GroupCardHolder holder, int position) {
-        GroupCardHolder groupCardModel = groupCards.get(position);
+        GroupModel groupCardModel = groupCards.get(position);
         Glide.with(context)
-                .load(groupCardModel.get())
+                .load(groupCardModel.getAvatarURL())
                 .into(holder.avatar);
 
-        String fullName = notifyCardModel.getFullName();
-        String content = notifyCardModel.getText();
-        SpannableString fullNameAndContent = new SpannableString(fullName + " " + content);
+        String holderFullName = groupCardModel.getHolderFullName();
+        String groupName = groupCardModel.getGroupName();
 
-        //      FullName
-        fullNameAndContent.setSpan(new StyleSpan(Typeface.BOLD), 0, fullName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        fullNameAndContent.setSpan(new TextAppearanceSpan(context, R.style.notify_fullname), 0, fullName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        //      Content
-        fullNameAndContent.setSpan(new TextAppearanceSpan(context, R.style.notify_content), fullName.length() + 1, fullNameAndContent.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        holder.fullNameAndContent.setText(fullNameAndContent);
-
-        String timeInput = notifyCardModel.getNotifyTimeAt();
-        List<String> timeResult = ProcessTime.getTimeFromString(timeInput);
-        String timeShow = timeResult.get(0) + "-" + timeResult.get(1) + "-" + timeResult.get(2) + " " + timeResult.get(3) + ":" + timeResult.get(3);
-        holder.notifyTimeAt.setText(timeShow);
+        holder.holderFullName.setText(holderFullName);
+        holder.groupName.setText(groupName);
     }
 
     @Override
     public int getItemCount() {
-        if (notifyCards != null)
-            return notifyCards.size();
+        if (groupCards != null)
+            return groupCards.size();
         return 0;
     }
 }

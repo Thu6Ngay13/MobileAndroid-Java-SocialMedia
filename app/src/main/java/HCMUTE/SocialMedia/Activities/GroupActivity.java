@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Adapters.CommentCardAdapter;
+import HCMUTE.SocialMedia.Adapters.GroupCardAdapter;
 import HCMUTE.SocialMedia.Adapters.MyPersonalPageAdapter;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
 import HCMUTE.SocialMedia.Consts.Const;
@@ -123,7 +124,7 @@ public class GroupActivity extends AppCompatActivity {
                         responseModelResult = responseModel.getResult();
                         groupCardModels.addAll(responseModelResult);
                         recyclerView.setLayoutManager(new LinearLayoutManager(GroupActivity.this.getApplicationContext()));
-                        recyclerView.setAdapter(new PostAdapter(GroupActivity.this.getApplicationContext(), groupCardModels));
+                        recyclerView.setAdapter(new GroupCardAdapter(GroupActivity.this.getApplicationContext(), groupCardModels));
                     }
                 } else {
                     int statusCode = response.code();

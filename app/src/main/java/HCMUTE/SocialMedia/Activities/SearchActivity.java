@@ -1,19 +1,4 @@
 package HCMUTE.SocialMedia.Activities;
-
-<<<<<<< HEAD
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
-import HCMUTE.SocialMedia.R;
-
-public class SearchActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-=======
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -98,7 +83,5 @@ public class SearchActivity extends AppCompatActivity {
                 }
             });
         });
-
->>>>>>> origin/Review
     }
 }
