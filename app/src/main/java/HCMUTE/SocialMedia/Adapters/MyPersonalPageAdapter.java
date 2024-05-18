@@ -77,6 +77,7 @@ public class MyPersonalPageAdapter extends RecyclerView.Adapter<MyPersonalPageAd
                 Intent intent = new Intent(context, EditProfileActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("MY_FULLNAME", accountModel.getFullname());
+                bundle.putString("MY_USERNAME", accountModel.getUsername());
                 bundle.putString("MY_GENDER", accountModel.getGender());
                 bundle.putString("MY_DESC", accountModel.getDescription());
                 bundle.putString("MY_COMPANY", accountModel.getCompany());
