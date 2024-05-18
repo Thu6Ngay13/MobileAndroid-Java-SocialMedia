@@ -16,8 +16,10 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
 import HCMUTE.SocialMedia.Activities.SearchActivity;
 import HCMUTE.SocialMedia.Activities.YourPersonalPageActivity;
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
 
@@ -47,9 +49,16 @@ public class FriendInPersonalPageAdapter extends RecyclerView.Adapter<FriendInPe
         holder.cvUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, YourPersonalPageActivity.class);
-                intent.putExtra("YOUR_FRIEND_USERNAME", yourFriendModel.getUsername());
-                context.startActivity(intent);
+                if (yourFriendModel.getUsername().equals(Const.USERNAME)){
+                    Intent intent = new Intent(context, MyPersonalPageActivity.class);
+                    context.startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(context, YourPersonalPageActivity.class);
+                    intent.putExtra("YOUR_FRIEND_USERNAME", yourFriendModel.getUsername());
+                    context.startActivity(intent);
+                }
+
             }
         });
     }

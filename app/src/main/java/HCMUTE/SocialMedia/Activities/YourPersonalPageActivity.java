@@ -74,7 +74,9 @@ public class YourPersonalPageActivity extends AppCompatActivity {
                             YourFriendModel yourFriend = new YourFriendModel();
                             yourFriend.setAvatar(a.getAvatarURL());
                             yourFriend.setUsername(a.getUsername());
-                            yourFriendModels.add(yourFriend);
+                            if (!yourFriend.getUsername().equals(Const.USERNAME)){
+                                yourFriendModels.add(yourFriend);
+                            }
                         }
                         List<PostCardModel> postCardModels = new ArrayList<>();
                         for (PostCardModel p: model.getPosts()) {
@@ -93,7 +95,7 @@ public class YourPersonalPageActivity extends AppCompatActivity {
                         recyclerView = findViewById(R.id.rvYourPersonalPageArea);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(YourPersonalPageActivity.this, LinearLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(new YourPersonalPageAdapter(getApplicationContext(), model, yourFriendModels, postCardModels));
+                        recyclerView.setAdapter(new YourPersonalPageAdapter(YourPersonalPageActivity.this, model, yourFriendModels, postCardModels));
                     }
                 }
                 else{
