@@ -14,8 +14,8 @@
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
     <string name="friend_request_time_at">20:20 25–02-2024</string>
-    <string name="view_profile">View profile</string>
-    <string name="send_message">Send message</string>
+    <string name="view_profile">Profile</string>
+    <string name="send_message">Message</string>
 
     <string name="notify_time">Time</string>
     <string name="notify_today">Today</string>
@@ -52,5 +52,11 @@
     <string name="error_invalid_password">Password must be greater than 8 characters</string>
     <string name="error_invalid_email">Email invalidate</string>
     <string name="error_field_required">Email cannot be empty</string>
+    <string name="Search">Search</string>
+
+    <string name="name_group">Group: AAA</string>
+    <string name="make_friend">Make friend</string>
+    <string name="join_group">Join group</string>
+    <string name="view_group">View group</string>
 
 </resources>

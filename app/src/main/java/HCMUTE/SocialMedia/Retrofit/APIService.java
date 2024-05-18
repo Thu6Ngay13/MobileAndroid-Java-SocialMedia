@@ -11,6 +11,7 @@ import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
+import HCMUTE.SocialMedia.Models.SearchModel;
 import HCMUTE.SocialMedia.Requests.AuthRequest;
 import HCMUTE.SocialMedia.Requests.ResetPasswordRequest;
 import HCMUTE.SocialMedia.Responses.AuthResponse;
@@ -104,6 +105,7 @@ public interface APIService {
 
     @POST("v1/auth/authenticate")
     Call<AuthResponse> authenticate(@Body AuthRequest request);
+<<<<<<< HEAD
     @POST("v1/auth/find-account")
     Call<SimpleResponse<AccountCardModel>> findByEmail(@Query("email") String email);
     @POST("v1/auth/send-email")
@@ -140,4 +142,10 @@ public interface APIService {
     @GET("group/groups/{username}")
     Call<ResponseModel<GroupModel>> getGroupsByUsername(@Path("username") String username);
 
+=======
+
+    //    Call API GROUP
+    @GET("search/{username}/{keyword}")
+    Call<ResponseModel<SearchModel>> search(@Path("username") String username, @Path("keyword") String keyword);
+>>>>>>> origin/Review
 }

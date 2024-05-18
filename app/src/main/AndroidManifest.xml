@@ -26,6 +26,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
             android:name=".Activities.CreateGroupActivity"
             android:exported="false" />
         <activity
@@ -34,6 +35,10 @@
         <activity
             android:name=".Activities.ResetPasswordActivity"
             android:exported="false" />
+=======
+            android:name=".Activities.SearchActivity"
+            android:exported="false"/>
+>>>>>>> origin/Review
         <activity
             android:name=".Activities.EditProfileActivity"
             android:exported="false" />
@@ -99,7 +104,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
