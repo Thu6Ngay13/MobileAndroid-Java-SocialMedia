@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,13 +22,19 @@ public class PolicyDetailsActivity extends AppCompatActivity {
     private List<PolicyGroupModel> listGroup;
     private Map<PolicyGroupModel, List<PolicyModel>> listPolicy;
     private PolicyAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_policy_details);
+
+        ImageButton ibBack = findViewById(R.id.ibBack);
+        ibBack.setOnClickListener(v -> finish());
+
         elvPolicies = (ExpandableListView) findViewById(R.id.elvPolicies);
         String data = getIntent().getStringExtra("policy");
-        if (data.equals("dulieucanhan")){
+
+        if (data.equals("dulieucanhan")) {
             listPolicy = getData1();
         } else if (data.equals("baidang")) {
             listPolicy = getData2();
@@ -39,7 +46,8 @@ public class PolicyDetailsActivity extends AppCompatActivity {
         adapter = new PolicyAdapter(listGroup, listPolicy);
         elvPolicies.setAdapter(adapter);
     }
-    private Map<PolicyGroupModel, List<PolicyModel>> getData1(){
+
+    private Map<PolicyGroupModel, List<PolicyModel>> getData1() {
         Map<PolicyGroupModel, List<PolicyModel>> listMap = new HashMap<>();
         PolicyGroupModel gr1 = new PolicyGroupModel(1, "Thu thập dữ liệu");
         PolicyGroupModel gr2 = new PolicyGroupModel(2, "Sử dụng dữ liệu");
@@ -83,7 +91,8 @@ public class PolicyDetailsActivity extends AppCompatActivity {
         listMap.put(gr5, list5);
         return listMap;
     }
-    private Map<PolicyGroupModel, List<PolicyModel>> getData2(){
+
+    private Map<PolicyGroupModel, List<PolicyModel>> getData2() {
         Map<PolicyGroupModel, List<PolicyModel>> listMap = new HashMap<>();
         PolicyGroupModel gr1 = new PolicyGroupModel(1, "Quy định chung");
         PolicyGroupModel gr2 = new PolicyGroupModel(2, "Quy trình xử lý");
@@ -120,7 +129,8 @@ public class PolicyDetailsActivity extends AppCompatActivity {
         listMap.put(gr3, list3);
         return listMap;
     }
-    private Map<PolicyGroupModel, List<PolicyModel>> getData3(){
+
+    private Map<PolicyGroupModel, List<PolicyModel>> getData3() {
         Map<PolicyGroupModel, List<PolicyModel>> listMap = new HashMap<>();
         PolicyGroupModel gr1 = new PolicyGroupModel(1, "Thay đổi chính sách");
 

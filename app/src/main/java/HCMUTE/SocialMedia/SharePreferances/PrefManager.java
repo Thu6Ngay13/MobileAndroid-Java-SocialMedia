@@ -1,13 +1,7 @@
 package HCMUTE.SocialMedia.SharePreferances;
 
-import android.accounts.Account;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-
-import HCMUTE.SocialMedia.Activities.LoginActivity;
-import HCMUTE.SocialMedia.Enums.Role;
-import HCMUTE.SocialMedia.Models.AccountCardModel;
 
 public class PrefManager {
     private static final String SHARED_PREF_NAME = "LoginDetails";

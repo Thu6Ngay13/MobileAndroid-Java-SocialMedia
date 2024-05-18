@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,11 +17,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.CreatePostActivity;
 import HCMUTE.SocialMedia.Activities.LoginActivity;
+import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
 import HCMUTE.SocialMedia.Activities.RegisterActivity;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
 import HCMUTE.SocialMedia.Consts.Const;
@@ -60,6 +64,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ImageView civAvatar = view.findViewById(R.id.civAvatar);
+        Glide.with(context).load(Const.AVATAR).into(civAvatar);
+        civAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MyPersonalPageActivity.class);
+                startActivity(intent);
+            }
+        });
+
         postCardModels = new ArrayList<>();
         recyclerView = view.findViewById(R.id.rvPostArea);
 

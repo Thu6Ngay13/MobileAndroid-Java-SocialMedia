@@ -1,6 +1,6 @@
 package HCMUTE.SocialMedia.Enums;
 
-public enum Role {
+public enum TypeRoleEnum {
     ADMIN,
     USER
 }

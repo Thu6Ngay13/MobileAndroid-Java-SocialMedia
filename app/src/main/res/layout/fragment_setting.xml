@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/gvMyProfile"
+        android:id="@+id/glMyProfile"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
@@ -38,6 +38,7 @@
     </androidx.gridlayout.widget.GridLayout>
 
     <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/glGroup"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
@@ -69,6 +70,7 @@
     </androidx.gridlayout.widget.GridLayout>
 
     <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/glPolicy"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"

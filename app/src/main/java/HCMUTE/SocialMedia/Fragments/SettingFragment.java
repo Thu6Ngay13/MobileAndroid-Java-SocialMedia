@@ -6,29 +6,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.gridlayout.widget.GridLayout;
 
 import com.bumptech.glide.Glide;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.GroupActivity;
 import HCMUTE.SocialMedia.Activities.LoginActivity;
 import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
-import HCMUTE.SocialMedia.Adapters.SettingCardAdapter;
+import HCMUTE.SocialMedia.Activities.PoliciesActivity;
 import HCMUTE.SocialMedia.Consts.Const;
-import HCMUTE.SocialMedia.Models.SettingCardModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 
@@ -48,31 +40,43 @@ public class SettingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Glide.with(context).load(Const.AVATAR).into(((ImageView) view.findViewById(R.id.civAvatar)));
+
         TextView tvFullname = view.findViewById(R.id.tvFullname);
         tvFullname.setText(Const.FULLNAME);
-        tvFullname.setOnClickListener(new View.OnClickListener() {
+
+        GridLayout tvLogout = view.findViewById(R.id.glMyProfile);
+        tvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MyPersonalPageActivity.class);
                 startActivity(intent);
             }
         });
-        TextView tvLogout = view.findViewById(R.id.tvLogout);
-        tvLogout.setOnClickListener(new View.OnClickListener() {
+
+        GridLayout glGroup = view.findViewById(R.id.glGroup);
+        glGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PrefManager.getInstance(context).logout();
-                Intent intent = new Intent(context, LoginActivity.class);
+                Intent intent = new Intent(context, GroupActivity.class);
                 startActivity(intent);
             }
         });
 
-
-        TextView tvGroup = view.findViewById(R.id.tvGroup);
-        tvGroup.setOnClickListener(new View.OnClickListener() {
+        GridLayout glPolicy = view.findViewById(R.id.glPolicy);
+        glPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, GroupActivity.class);
+                Intent intent = new Intent(context, PoliciesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        GridLayout glLogout = view.findViewById(R.id.glLogout);
+        glLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PrefManager.getInstance(context).logout();
+                Intent intent = new Intent(context, LoginActivity.class);
                 startActivity(intent);
             }
         });
