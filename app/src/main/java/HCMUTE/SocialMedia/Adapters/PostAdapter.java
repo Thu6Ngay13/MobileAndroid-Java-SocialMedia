@@ -31,6 +31,7 @@ import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import HCMUTE.SocialMedia.Utils.ProcessTime;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,12 +75,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             postHolder.avatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (postCardModel.getUsername().equals(Const.USERNAME)){
+                    if (postCardModel.getUsername().equals(PrefManager.getUsername())){
                         Intent intent = new Intent(context, MyPersonalPageActivity.class);
                         context.startActivity(intent);
                     }
                     else {
                         Intent intent = new Intent(context, YourPersonalPageActivity.class);
+                        intent.putExtra("YOUR_FRIEND_USERNAME", postCardModel.getUsername());
                         context.startActivity(intent);
                     }
                 }
@@ -118,7 +120,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     if (postCardModel.isLiked()) {
                         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                        apiService.unlikePost(Const.USERNAME, postCardModel.getPostId()).enqueue(new Callback<ResponseModel<String>>() {
+                        apiService.unlikePost(PrefManager.getUsername(), postCardModel.getPostId()).enqueue(new Callback<ResponseModel<String>>() {
                             @Override
                             public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                                 if (response.isSuccessful()) {
@@ -139,7 +141,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     } else {
                         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                        apiService.likePost(Const.USERNAME, postCardModel.getPostId()).enqueue(new Callback<ResponseModel<String>>() {
+                        apiService.likePost(PrefManager.getUsername(), postCardModel.getPostId()).enqueue(new Callback<ResponseModel<String>>() {
                             @Override
                             public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                                 if (response.isSuccessful()) {
@@ -175,7 +177,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.sharePost(Const.USERNAME, postCardModel.getPostId()).enqueue(new Callback<ResponseModel<String>>() {
+                    apiService.sharePost(PrefManager.getUsername(), postCardModel.getPostId()).enqueue(new Callback<ResponseModel<String>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {
@@ -210,7 +212,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         MenuItem editPostItem = popupMenu.getMenu().findItem(R.id.iEditPost);
 
         // Kiểm tra điều kiện và ẩn mục menu nếu cần
-        if (!postCardModel.getUsername().equals(Const.USERNAME)) {
+        if (!postCardModel.getUsername().equals(PrefManager.getUsername())) {
             editPostItem.setVisible(false);
         }
 //        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

@@ -31,6 +31,7 @@ import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Responses.SimpleResponse;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,7 +54,7 @@ public class GroupActivity extends AppCompatActivity {
         btMyGroup = findViewById(R.id.btMyGroup);
 
         recyclerView = findViewById(R.id.rvGroupArea);
-        loadPosts(Const.USERNAME);
+        loadPosts(PrefManager.getUsername());
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,14 +72,41 @@ public class GroupActivity extends AppCompatActivity {
         btPostGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadPosts(Const.USERNAME);
+                loadData(PrefManager.getUsername());
             }
         });
 
         btMyGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadMyGroups(Const.USERNAME);
+                loadData(PrefManager.getUsername());
+            }
+        });
+        loadData(PrefManager.getUsername());
+    }
+    private void loadData(String username) {
+        final List<PostCardModel> postCardModels = new ArrayList<>();
+        apiService = RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getPostInGroupsByUsername(username).enqueue(new Callback<ResponseModel<PostCardModel>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<PostCardModel>> call, Response<ResponseModel<PostCardModel>> response) {
+                if (response.isSuccessful()) {
+                    ResponseModel<PostCardModel> responseModel = response.body();
+                    List<PostCardModel> responseModelResult = new ArrayList<>();
+                    if (responseModel != null && responseModel.isSuccess()) {
+                        responseModelResult = responseModel.getResult();
+                        postCardModels.addAll(responseModelResult);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(GroupActivity.this.getApplicationContext()));
+                        recyclerView.setAdapter(new PostAdapter(GroupActivity.this.getApplicationContext(), postCardModels));
+                    }
+                } else {
+                    int statusCode = response.code();
+                    // handle request errors depending on status code
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<PostCardModel>> call, Throwable t) {
             }
         });
     }

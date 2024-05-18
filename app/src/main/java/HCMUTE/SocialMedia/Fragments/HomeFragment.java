@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,11 +17,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.CreatePostActivity;
 import HCMUTE.SocialMedia.Activities.LoginActivity;
+import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
 import HCMUTE.SocialMedia.Activities.RegisterActivity;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
 import HCMUTE.SocialMedia.Consts.Const;
@@ -29,6 +33,7 @@ import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,6 +65,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ImageView civAvatar = view.findViewById(R.id.civAvatar);
+        Glide.with(context).load(PrefManager.getAvatarURL()).into(civAvatar);
+        civAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MyPersonalPageActivity.class);
+                startActivity(intent);
+            }
+        });
+
         postCardModels = new ArrayList<>();
         recyclerView = view.findViewById(R.id.rvPostArea);
 
@@ -86,7 +102,7 @@ public class HomeFragment extends Fragment {
         //Goi Interface trong APIService
         int pageSize = 5;
         APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getPostOfNewFeedWithUsername(Const.USERNAME, page, pageSize).enqueue(new Callback<ResponseModel<PostCardModel>>() {
+        apiService.getPostOfNewFeedWithUsername(PrefManager.getUsername(), page, pageSize).enqueue(new Callback<ResponseModel<PostCardModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<PostCardModel>> call, Response<ResponseModel<PostCardModel>> response) {
                 if (response.isSuccessful()) {

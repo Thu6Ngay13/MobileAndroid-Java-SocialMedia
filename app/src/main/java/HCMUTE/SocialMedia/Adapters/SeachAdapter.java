@@ -27,6 +27,7 @@ import HCMUTE.SocialMedia.Models.SearchModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import HCMUTE.SocialMedia.Utils.ProcessTime;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,7 +78,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder>{
             btSendMessage.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.getConversationWithFriend(Const.USERNAME, searchModel.getUsername()).enqueue(new Callback<ResponseModel<ConversationCardModel>>() {
+                    apiService.getConversationWithFriend(PrefManager.getUsername(), searchModel.getUsername()).enqueue(new Callback<ResponseModel<ConversationCardModel>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<ConversationCardModel>> call, Response<ResponseModel<ConversationCardModel>> response) {
                             if (response.isSuccessful()) {
@@ -123,7 +124,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder>{
                 @Override
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.acceptFriend(Const.USERNAME, searchModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
+                    apiService.acceptFriend(PrefManager.getUsername(), searchModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {
@@ -149,7 +150,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder>{
                 @Override
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.declineFriend(Const.USERNAME, searchModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
+                    apiService.declineFriend(PrefManager.getUsername(), searchModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {

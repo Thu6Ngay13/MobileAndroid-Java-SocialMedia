@@ -1,7 +1,6 @@
 package HCMUTE.SocialMedia.Models;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Enums.Role;

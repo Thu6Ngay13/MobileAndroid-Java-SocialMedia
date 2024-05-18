@@ -1,13 +1,7 @@
 package HCMUTE.SocialMedia.SharePreferances;
 
-import android.accounts.Account;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-
-import HCMUTE.SocialMedia.Activities.LoginActivity;
-import HCMUTE.SocialMedia.Enums.Role;
-import HCMUTE.SocialMedia.Models.AccountCardModel;
 
 public class PrefManager {
     private static final String SHARED_PREF_NAME = "LoginDetails";
@@ -29,7 +23,7 @@ public class PrefManager {
         }
         return mIntance;
     }
-    public void login(String username, String email, String accessToken, String role, String avatarURL, String fullname){
+    public static void login(String username, String email, String accessToken, String role, String avatarURL, String fullname){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_USERNAME, username);
@@ -45,7 +39,7 @@ public class PrefManager {
         editor.putString(KEY_FULLNAME, fullname);
         editor.apply();
     }
-    public boolean isLoggedIn(){
+    public static boolean isLoggedIn(){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_USERNAME, null) != null;
     }
@@ -70,17 +64,11 @@ public class PrefManager {
         return sharedPreferences.getString(KEY_ROLE, "");
     }
 
-    public String getEmail(){
+    public static String getEmail(){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_EMAIL, "");
     }
-    public boolean isUserLoggedOut(){
-        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        boolean isEmailEmpty = sharedPreferences.getString(KEY_EMAIL, "").isEmpty();
-        boolean isUsernameEmpty = sharedPreferences.getString(KEY_USERNAME,"").isEmpty();
-        return isUsernameEmpty || isEmailEmpty;
-    }
-    public void logout(){
+    public static void logout(){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();

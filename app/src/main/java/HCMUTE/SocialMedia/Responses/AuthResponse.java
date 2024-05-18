@@ -1,7 +1,5 @@
 package HCMUTE.SocialMedia.Responses;
 
-import java.time.LocalDateTime;
-
 import HCMUTE.SocialMedia.Enums.Role;
 
 public class AuthResponse {

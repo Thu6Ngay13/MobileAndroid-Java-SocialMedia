@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Requests.AuthRequest;
 import HCMUTE.SocialMedia.Responses.AuthResponse;
@@ -35,9 +36,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initialize();
-        if(PrefManager.getInstance(getApplicationContext()).isLoggedIn()){
+        if(PrefManager.getInstance(LoginActivity.this).isLoggedIn()){
             finish();
-            String role = PrefManager.getInstance(getApplicationContext()).getRole();
+            String role = PrefManager.getRole();
             startMainActivity(role);
         }
         tvForgetPassword.setOnClickListener(new View.OnClickListener() {
@@ -103,11 +104,13 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                     if (response.isSuccessful()) {
-                        AuthResponse authResponse = response.body();
-                        saveLoginDetails(authResponse.getUsername(), authResponse.getEmail(), authResponse.getAccessToken(), authResponse.getRole().name(), authResponse.getAvatarurl(), authResponse.getFullName());
-                        finish();
-                        startMainActivity(authResponse.getRole().name());
-                        pbWait.setVisibility(View.GONE);
+                        if (response.body() != null){
+                            AuthResponse authResponse = response.body();
+                            PrefManager.getInstance(LoginActivity.this).login(authResponse.getUsername(), authResponse.getEmail(), authResponse.getAccessToken(), authResponse.getRole().name(), authResponse.getAvatarurl(), authResponse.getFullName());
+                            finish();
+                            startMainActivity(PrefManager.getRole());
+                            pbWait.setVisibility(View.GONE);
+                        }
                     }
                     else {
                         Toast.makeText(LoginActivity.this, "An error occurred please try again later ...", Toast.LENGTH_SHORT).show();
@@ -123,10 +126,6 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
 
-    }
-    private void saveLoginDetails(String username, String email, String accessToken, String role, String avatarURL, String fullname) {
-        PrefManager prefManager = new PrefManager(LoginActivity.this);
-        prefManager.getInstance(getApplicationContext()).login(username, email, accessToken, role, avatarURL, fullname);
     }
 
     private boolean isPasswordValid(String password) {

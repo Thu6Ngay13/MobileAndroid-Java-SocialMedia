@@ -59,9 +59,9 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
     public static String[] storage_permissions_33 = {"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_AUDIO", "android.permission.READ_MEDIA_VIDEO"};
 
     private APIService apiService;
-    private String fullName = Const.FULLNAME;
-    private String avatar = Const.AVATAR;
-    private String username = Const.USERNAME;
+    private String fullName = PrefManager.getFullname();
+    private String avatar = PrefManager.getAvatarURL();
+    private String username = PrefManager.getUsername();
     private String postMedia = "";
     private long modeId = 0;
     private ImageView ivBack, ivAvatar, ivPostImage, ivMedia;
