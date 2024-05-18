@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Adapters.CommentCardAdapter;
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.CommentCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
@@ -49,12 +50,11 @@ public class CommentActivity extends AppCompatActivity {
     public static String[] storage_permissions = {"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE"};
     public static String[] storage_permissions_33 = {"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_AUDIO", "android.permission.READ_MEDIA_VIDEO"};
     private APIService apiService;
-    private String fullName = "Phap Nguyen";
-    private String avatar = "https://drive.google.com/uc?export=view&id=1ckWngCfaEhQCcpZTA0oN6rvzowbl6sx3";
-    private String username = "phap";
+    private String fullName = Const.FULLNAME;
+    private String avatar = Const.AVATAR;
+    private String username = Const.USERNAME;
     private String commentImage = "";
-    private ImageView ivBack, ivAvatar, ivCommentImage, ivMedia, ivSent;
-    private TextView tvFullName;
+    private ImageView ivCommentImage, ivMedia, ivSent;
     private EditText etComment;
     long postId = -1;
 
@@ -87,7 +87,6 @@ public class CommentActivity extends AppCompatActivity {
                         recyclerView.setLayoutManager(new LinearLayoutManager(CommentActivity.this.getApplicationContext()));
                         recyclerView.setAdapter(new CommentCardAdapter(CommentActivity.this.getApplicationContext(), commentCardModels));
                     }
-
                 } else {
                     int statusCode = response.code();
                     // handle request errors depending on status code

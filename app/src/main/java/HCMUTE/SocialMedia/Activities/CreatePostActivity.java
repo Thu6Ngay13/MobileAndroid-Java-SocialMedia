@@ -59,11 +59,11 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
     public static String[] storage_permissions_33 = {"android.permission.READ_MEDIA_IMAGES", "android.permission.READ_MEDIA_AUDIO", "android.permission.READ_MEDIA_VIDEO"};
 
     private APIService apiService;
-    private String fullName = "Phap Nguyen";
-    private String avatar = "https://drive.google.com/uc?export=view&id=1ckWngCfaEhQCcpZTA0oN6rvzowbl6sx3";
-    private String username = "phap";
+    private String fullName = Const.FULLNAME;
+    private String avatar = Const.AVATAR;
+    private String username = Const.USERNAME;
     private String postMedia = "";
-    private int modeId = 1;
+    private long modeId = 0;
     private ImageView ivBack, ivAvatar, ivPostImage, ivMedia;
     private Button btPost;
     private TextView tvFullName;
@@ -79,8 +79,8 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
         initialize();
 
         loadData();
-//        createPost();
-//        ivBack.setOnClickListener(v -> finish());
+        createPost();
+        ivBack.setOnClickListener(v -> finish());
     }
 
     private void createPost() {
@@ -164,8 +164,6 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
     private final ActivityResultLauncher<Intent> startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
-
-            Log.d("CreatePostActivity", "154851158");
             if (o != null && o.getResultCode() == RESULT_OK && o.getData() != null && o.getData().getData() != null) {
                 try {
                     Uri selectedFileUri = o.getData().getData();
@@ -185,14 +183,10 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
             String IMAGE_PATH = RealPathUtil.getRealPath(getApplicationContext(), selectedFileUri);
             File file = new File(IMAGE_PATH);
             String fileName = file.getName();
-            Log.d("CreatePostActivity", fileName);
             // Tạo RequestBody cho phần multipart
             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             MultipartBody.Part multipart = MultipartBody.Part.createFormData("media", fileName, requestBody);
-            Log.d("CreatePostActivity", fileName);
             apiService = RetrofitClient.getRetrofit().create(APIService.class);
-
-            Log.d("CreatePostActivity", fileName);
             apiService.mediaPost(multipart).enqueue(new Callback<SimpleResponse<String>>() {
                 @Override
                 public void onResponse(Call<SimpleResponse<String>> call, Response<SimpleResponse<String>> response) {
@@ -231,7 +225,7 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
     //Performing action onItemSelected and onNothing selected
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position,long id) {
-        modeId = position + 1;
+        modeId = position+1;
         Toast.makeText(getApplicationContext(), modeName[position], Toast.LENGTH_LONG).show();
     }
 
