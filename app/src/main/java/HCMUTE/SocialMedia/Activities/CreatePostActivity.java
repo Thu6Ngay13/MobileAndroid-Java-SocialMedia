@@ -114,6 +114,10 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
                     public void onResponse(Call<PostCardModel> call, Response<PostCardModel> response) {
                         if (response.isSuccessful()) {
                             Toast.makeText(getApplicationContext(),"Create post successful", Toast.LENGTH_LONG).show();
+
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            getApplicationContext().startActivity(intent);
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Vui lòng thêm nội dung!!!", Toast.LENGTH_SHORT).show();

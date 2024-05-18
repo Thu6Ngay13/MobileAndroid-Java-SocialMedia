@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.CommentActivity;
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Holders.CommentCardHolder;
 import HCMUTE.SocialMedia.Models.CommentCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
@@ -52,6 +53,12 @@ public class CommentCardAdapter extends RecyclerView.Adapter<CommentCardHolder> 
     public void onBindViewHolder(@NonNull CommentCardHolder holder, int position) {
 
         CommentCardModel commentCardModel = commentCards.get(position);
+        if (!TextUtils.isEmpty(commentCardModel.getAvatar())) {
+            Glide.with(context).load(commentCardModel.getAvatar()).into(holder.commentImage);
+        } else {
+            Glide.with(context).load(Const.AVATAR).into(holder.commentImage);
+        }
+
         Glide.with(context).load(commentCardModel.getAvatar()).into(holder.avatar);
         holder.fullName.setText(commentCardModel.getFullName());
         holder.commentText.setText(commentCardModel.getCommentText());
