@@ -141,6 +141,14 @@ public interface APIService {
     @GET("group/groups/{username}")
     Call<ResponseModel<GroupModel>> getGroupsByUsername(@Path("username") String username);
 
+    @POST("group/createGroup")
+    Call<SimpleResponse<GroupModel>> createGroup(
+            @Query("holderUsername") String holderUsername,
+            @Query("groupName") String groupName,
+            @Query("modeId") long modeId,
+            @Query("description") String description
+    );
+
     //    Call API GROUP
     @GET("search/{username}/{keyword}")
     Call<ResponseModel<SearchModel>> search(@Path("username") String username, @Path("keyword") String keyword);

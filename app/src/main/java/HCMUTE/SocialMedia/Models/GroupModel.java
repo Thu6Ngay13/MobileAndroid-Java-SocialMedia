@@ -8,6 +8,10 @@ public class GroupModel {
     private long modeId;
     private String holderFullName;
     private String holderUsername;
+    private String description;
+
+    public GroupModel() {
+    }
 
     public GroupModel(long groupId, String groupName, String avatarURL, String creationTimeAt, long modeId, String holderFullName, String holderUsername) {
         this.groupId = groupId;
@@ -73,5 +77,13 @@ public class GroupModel {
 
     public void setHolderUsername(String holderUsername) {
         this.holderUsername = holderUsername;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

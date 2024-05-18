@@ -41,7 +41,6 @@ public class GroupActivity extends AppCompatActivity {
     private ImageButton ibCreateGroup;
     private RecyclerView recyclerView;
     private APIService apiService;
-    private MyPersonalPageAdapter adapter;
     private Button btPostGroup, btMyGroup;
 
     @Override
