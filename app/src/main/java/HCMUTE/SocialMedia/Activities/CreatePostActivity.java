@@ -40,6 +40,7 @@ import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Responses.RegisterResponse;
+import HCMUTE.SocialMedia.Responses.SimpleResponse;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
 import HCMUTE.SocialMedia.SharePreferances.PrefManager;
@@ -59,28 +60,39 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
 
     private APIService apiService;
     private String fullName = "Phap Nguyen";
-    private String avatar = "link";
+    private String avatar = "https://drive.google.com/uc?export=view&id=1ckWngCfaEhQCcpZTA0oN6rvzowbl6sx3";
     private String username = "phap";
     private String postMedia = "";
-
     private int modeId = 1;
     private ImageView ivBack, ivAvatar, ivPostImage, ivMedia;
     private Button btPost;
     private TextView tvFullName;
     private EditText etTextPost;
     private Spinner spin;
-
-
     String[] modeName={"Public", "Friend", "Private"};
-    int modeImage[] = {R.mipmap.ic_global_72_dark,R.mipmap.ic_friend_72_full, R.mipmap.ic_lock_72_dark};
+    int modeImage[] = {R.mipmap.ic_global_72_dark, R.mipmap.ic_friend_72_full, R.mipmap.ic_lock_72_dark};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
         initialize();
+
         loadData();
         createPost();
+        ivBack.setOnClickListener(v -> finish());
+    }
+
+    private void createPost() {
+
+        ivMedia.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+            @Override
+            public void onClick(View view) {
+                CheckPermission();
+            }
+        });
+
         if (postMedia == "") {
             ivPostImage.setVisibility(View.GONE);
         } else {
@@ -88,31 +100,28 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
             Glide.with(getApplicationContext()).load(postMedia).into(ivPostImage);
         }
 
-        ivBack.setOnClickListener(v -> finish());
-    }
-
-    private void createPost() {
         btPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String postText = etTextPost.getText().toString();
+                PostCardModel post = new PostCardModel(avatar, username, fullName, "time", modeId, postText, postMedia,false);
                 etTextPost.setText("");
-                PostCardModel post = new PostCardModel(avatar, username, fullName, "time", 1, postText,postMedia,false);
+                ivPostImage.setVisibility(View.GONE);
 
                 Call<PostCardModel> call = apiService.createPost(post);
                 call.enqueue(new Callback<PostCardModel>() {
                     @Override
                     public void onResponse(Call<PostCardModel> call, Response<PostCardModel> response) {
                         if (response.isSuccessful()) {
-                            Toast.makeText(CreatePostActivity.this, "Create post successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Create post successful", Toast.LENGTH_LONG).show();
                         }
                         else {
-                            Toast.makeText(CreatePostActivity.this, "An error occurred please try again later ...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Vui lòng thêm nội dung!!!", Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override
                     public void onFailure(Call<PostCardModel> call, Throwable t) {
-                        Toast.makeText(CreatePostActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -125,6 +134,7 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
         spin.setAdapter(createPostAdapter);
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
         tvFullName.setText(fullName);
+        Glide.with(getApplicationContext()).load(avatar).into(ivAvatar);
 
     }
 
@@ -134,11 +144,14 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
                 openGallery();
             } else {
                 requestPermissions(permissions(), MY_REQUEST_CODE);
+                openGallery();
             }
         }
     }
 
     public static String[] permissions() {
+
+        Log.d("CreatePostActivity", "123456");
         String[] p;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             p = storage_permissions_33;
@@ -151,6 +164,8 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
     private final ActivityResultLauncher<Intent> startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
+
+            Log.d("CreatePostActivity", "154851158");
             if (o != null && o.getResultCode() == RESULT_OK && o.getData() != null && o.getData().getData() != null) {
                 try {
                     Uri selectedFileUri = o.getData().getData();
@@ -170,25 +185,36 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
             String IMAGE_PATH = RealPathUtil.getRealPath(getApplicationContext(), selectedFileUri);
             File file = new File(IMAGE_PATH);
             String fileName = file.getName();
+            Log.d("CreatePostActivity", fileName);
             // Tạo RequestBody cho phần multipart
             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             MultipartBody.Part multipart = MultipartBody.Part.createFormData("media", fileName, requestBody);
+            Log.d("CreatePostActivity", fileName);
+            apiService = RetrofitClient.getRetrofit().create(APIService.class);
 
-            APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
-            apiService.mediaPost(multipart).enqueue(new Callback<ResponseModel<String>>() {
+            Log.d("CreatePostActivity", fileName);
+            apiService.mediaPost(multipart).enqueue(new Callback<SimpleResponse<String>>() {
                 @Override
-                public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
+                public void onResponse(Call<SimpleResponse<String>> call, Response<SimpleResponse<String>> response) {
                     if (response.isSuccessful()) {
-                        ResponseModel<String> responseModel = response.body();
-                        Log.d("CreatePostActivity", responseModel.getResult().toString());
-                        postMedia = responseModel.getResult().toString();
+                        SimpleResponse<String> responseModel = response.body();
+                        postMedia = responseModel.getResult();
+                        if (postMedia == "") {
+                            ivPostImage.setVisibility(View.GONE);
+                        } else {
+                            ivPostImage.setVisibility(View.VISIBLE);
+                            Glide.with(getApplicationContext()).load(postMedia).into(ivPostImage);
+                        }
                     } else {
                         int statusCode = response.code();
+                        Log.d("CreatePostActivity", "Request error: " + statusCode);
+                        // Handle request errors depending on status code
                     }
                 }
 
                 @Override
-                public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                public void onFailure(Call<SimpleResponse<String>> call, Throwable t) {
+                    Log.d("CreatePostActivity", "Request failed: " + t.getMessage());
                 }
             });
         }
@@ -198,6 +224,7 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction("android.intent.action.GET_CONTENT");
+        Log.d("CreatePostActivity", "154851158");
         startForResult.launch(Intent.createChooser(intent, "Select Picture"));
     }
 
