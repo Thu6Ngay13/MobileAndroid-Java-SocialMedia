@@ -20,7 +20,7 @@
         <LinearLayout
             android:background="@color/white"
             android:gravity="center"
-            app:layout_column="0"
+            app:layout_column="1"
             app:layout_columnWeight="3"
             app:layout_row="0"
             app:layout_rowWeight="1">
@@ -42,20 +42,20 @@
         <ImageButton
             android:id="@+id/ibCreateGroup"
             android:background="@color/white"
-            app:layout_column="1"
+            app:layout_column="2"
             app:layout_columnWeight="1"
             app:layout_row="0"
             app:layout_rowWeight="1"
             app:srcCompat="@mipmap/ic_add_72_dark" />
 
         <ImageButton
-            android:id="@+id/ibSearch"
+            android:id="@+id/ibBack"
             android:background="@color/white"
-            app:layout_column="2"
+            app:layout_column="0"
             app:layout_columnWeight="1"
             app:layout_row="0"
             app:layout_rowWeight="1"
-            app:srcCompat="@mipmap/ic_search_72_dark" />
+            app:srcCompat="@mipmap/ic_arrow_left_72_dark" />
     </androidx.gridlayout.widget.GridLayout>
 
     <RelativeLayout

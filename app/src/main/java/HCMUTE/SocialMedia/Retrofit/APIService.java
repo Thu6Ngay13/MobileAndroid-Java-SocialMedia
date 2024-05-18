@@ -1,13 +1,24 @@
 package HCMUTE.SocialMedia.Retrofit;
 
+import java.util.Map;
+
+import HCMUTE.SocialMedia.Models.AccountCardModel;
+import HCMUTE.SocialMedia.Models.CommentCardModel;
 import HCMUTE.SocialMedia.Models.ConversationCardModel;
 import HCMUTE.SocialMedia.Models.FriendModel;
+import HCMUTE.SocialMedia.Models.GroupModel;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.SearchModel;
 import HCMUTE.SocialMedia.Requests.AuthRequest;
+import HCMUTE.SocialMedia.Requests.ResetPasswordRequest;
+import HCMUTE.SocialMedia.Responses.AuthResponse;
+import HCMUTE.SocialMedia.Responses.ResetPasswordResponse;
+import HCMUTE.SocialMedia.Responses.SimpleResponse;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import HCMUTE.SocialMedia.Requests.RegisterRequest;
 import HCMUTE.SocialMedia.Responses.AuthResponse;
 import HCMUTE.SocialMedia.Responses.OtpResponse;
@@ -19,6 +30,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -37,6 +49,13 @@ public interface APIService {
 
     @POST("post/{username}/unlike/{postId}")
     Call<ResponseModel<String>> unlikePost(@Path("username") String username, @Path("postId") long postId);
+
+    @POST("post/create")
+    Call<PostCardModel> createPost(@Body PostCardModel postCardModel);
+    @Multipart
+    @POST("post/media")
+    Call<SimpleResponse<String>> mediaPost(@Part MultipartBody.Part part);
+
 
     //    Call API FRIEND
     @GET("friend/yourfriend/{username}")
@@ -77,7 +96,7 @@ public interface APIService {
     @GET("post/{username}")
     Call<ResponseModel<PostCardModel>> getPostsWithUsername(@Path("username") String username);
 
-    //    Call API ACCOUNT
+    //Call API ACCOUNT
     @POST("v1/auth/register")
     Call<RegisterResponse> register(@Body RegisterRequest request);
 
@@ -86,8 +105,44 @@ public interface APIService {
 
     @POST("v1/auth/authenticate")
     Call<AuthResponse> authenticate(@Body AuthRequest request);
+    @POST("v1/auth/find-account")
+    Call<SimpleResponse<AccountCardModel>> findByEmail(@Query("email") String email);
+    @POST("v1/auth/send-email")
+    Call<SimpleResponse<String>> sendEmail(@Body Map<String, String> reqBody);
+    @POST("v1/auth/reset-password")
+    Call<ResetPasswordResponse> resetPassword(@Body ResetPasswordRequest request);
+    @GET("user/my-account/{username}")
+    Call<SimpleResponse<AccountCardModel>> getAccountByUsername(@Path("username") String username);
+    @GET("user/my-account/{username}/friend-account/{usernameFriend}")
+    Call<SimpleResponse<AccountCardModel>> getFriendAccountByUsername(@Path("username") String username, @Path("usernameFriend") String usernameFriend);
+    @PUT("user/my-account/update")
+    Call<SimpleResponse<String>> updateProfile(
+            @Query("fullname") String fullname,
+            @Query("gender") String gender,
+            @Query("description") String description,
+            @Query("company") String company,
+            @Query("location") String location,
+            @Query("isSingle") boolean isSingle,
+            @Query("username") String username
+    );
+    @GET("comment/{postId}")
+    Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);
+
+    @POST("comment/create")
+    Call<CommentCardModel> createComment(@Body CommentCardModel commentCardModel);
+
+    @PUT("comment/delete/{commentId}")
+    Call<CommentCardModel> deleteComment(@Path("commentId") Long commentId);
+
+    //GROUP
+    @GET("group/posts/{username}")
+    Call<ResponseModel<PostCardModel>> getPostInGroupsByUsername(@Path("username") String username);
+
+    @GET("group/groups/{username}")
+    Call<ResponseModel<GroupModel>> getGroupsByUsername(@Path("username") String username);
 
     //    Call API GROUP
     @GET("search/{username}/{keyword}")
     Call<ResponseModel<SearchModel>> search(@Path("username") String username, @Path("keyword") String keyword);
+
 }

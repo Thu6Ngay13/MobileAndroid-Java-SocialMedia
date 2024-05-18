@@ -14,6 +14,7 @@
         android:padding="10dp">
 
         <ImageButton
+            android:id="@+id/ibBack"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -22,29 +23,32 @@
             android:src="@mipmap/ic_arrow_left_72_dark" />
 
         <LinearLayout
+            android:id="@+id/llSearch"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:background="@drawable/custom_selector_gray"
-            android:layout_weight="10"
-            android:padding="5dp"
             android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_weight="10"
+            android:background="@drawable/custom_selector_gray"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_search_72_dark"
+                android:layout_gravity="center"
                 android:paddingLeft="5dp"
-                android:layout_gravity="center"/>
+                android:src="@mipmap/ic_search_72_dark" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingLeft="10dp"
                 android:text="Search"
                 android:textColor="@color/green_dark"
-                android:paddingLeft="10dp"
-                android:layout_gravity="center"
-                android:textSize="18dp"/>
+                android:textSize="18dp" />
         </LinearLayout>
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView

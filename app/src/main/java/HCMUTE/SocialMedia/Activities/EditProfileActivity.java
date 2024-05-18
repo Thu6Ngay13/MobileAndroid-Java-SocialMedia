@@ -2,81 +2,113 @@ package HCMUTE.SocialMedia.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import HCMUTE.SocialMedia.Adapters.EditProfileAdapter;
+import HCMUTE.SocialMedia.Consts.Const;
+import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.ProfileModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.Responses.SimpleResponse;
+import HCMUTE.SocialMedia.Retrofit.APIService;
+import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    private ProfileModel user;
-    private EditProfileAdapter adapter;
-    private ListView listView;
+    private EditText etFullName, etDescription, etCompany, etLocation;
+    private ImageButton ibUpdate;
+    private RadioGroup rgGender, rgRelationship;
+    private RadioButton rbMale, rbFemale, rbInARelationship, rbSingle;
+    private APIService apiService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        listView = (ListView) findViewById(R.id.lvProfile);
-
-        Calendar birthday = Calendar.getInstance();
-        birthday.set(2003, 2, 16);
-        user = new ProfileModel("ThuyCao816", "Cao Thị Thu Thủy", "female", birthday,"", "HCMUTE", "Tp. HCM", true);
-        List<ProfileModel> listUser = new ArrayList<>();
-        listUser.add(user);
-        adapter = new EditProfileAdapter(getApplicationContext(), listUser);
-        listView.setAdapter(adapter);
-    }
-    public void editBirthday(View view) {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, monthOfYear);
-                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        updateEditTextBirthday(calendar);
-                    }
-                },
-                year, month, day);
-        datePickerDialog.show();
-    }
-
-    private void updateEditTextBirthday(Calendar calendar) {
-        View itemView = listView.getChildAt(0);
-        if (itemView != null) {
-            EditText etBirthday = itemView.findViewById(R.id.etBirthday);
-            if (etBirthday != null) {
-                String dateFormat = "dd/MM/yyyy";
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.getDefault());
-                etBirthday.setText(simpleDateFormat.format(calendar.getTime()));
-            } else {
-                Log.e("Error", "EditText not found in item view");
-            }
+        initialize();
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        AccountCardModel accountModel = new AccountCardModel();
+        if (bundle != null){
+            accountModel.setFullname(bundle.getString("MY_FULLNAME"));
+            accountModel.setUsername(bundle.getString("MY_USERNAME"));
+            accountModel.setGender(bundle.getString("MY_GENDER"));
+            accountModel.setDescription(bundle.getString("MY_DESC"));
+            accountModel.setCompany(bundle.getString("MY_COMPANY"));
+            accountModel.setLocation(bundle.getString("MY_LOCATION"));
+            accountModel.setSingle(bundle.getBoolean("MY_RELATIONSHIP"));
         }
+        etFullName.setText(accountModel.getFullname());
+        etDescription.setText(accountModel.getDescription());
+        etCompany.setText(accountModel.getCompany());
+        etLocation.setText(accountModel.getLocation());
+        if (accountModel.getGender().equals("male")){
+            rbMale.setChecked(true);
+        }
+        else{
+            rbFemale.setChecked(true);
+        }
+        if (accountModel.isSingle()){
+            rbSingle.setChecked(true);
+        }else {
+            rbInARelationship.setChecked(true);
+        }
+        ibUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateProfile();
+            }
+        });
+    }
 
+    private void updateProfile() {
+        apiService = RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.updateProfile(etFullName.getText().toString(), rbMale.isChecked() ? "male":"female", etDescription.getText().toString(), etCompany.getText().toString(), etLocation.getText().toString(), rbSingle.isChecked()? true:false, Const.USERNAME)
+                .enqueue(new Callback<SimpleResponse<String>>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse<String>> call, Response<SimpleResponse<String>> response) {
+                        if (response.isSuccessful()){
+                            if (response.body().isSuccess()){
+                                Toast.makeText(EditProfileActivity.this, "Update success", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(EditProfileActivity.this, MyPersonalPageActivity.class);
+                                finish();
+                                startActivity(intent);
+                            }
+                        }
+                        else {
+                            Toast.makeText(EditProfileActivity.this, "An error occurred", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SimpleResponse<String>> call, Throwable t) {
+                        Toast.makeText(EditProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void initialize(){
+        etFullName = findViewById(R.id.etFullName);
+        etDescription = findViewById(R.id.etDescription);
+        etCompany = findViewById(R.id.etCompany);
+        etLocation = findViewById(R.id.etLocation);
+        rgGender = findViewById(R.id.rgGender);
+        rgRelationship = findViewById(R.id.rgRelationship);
+        rbMale = findViewById(R.id.rbMale);
+        rbFemale = findViewById(R.id.rbFemale);
+        rbInARelationship = findViewById(R.id.rbInARelationship);
+        rbSingle = findViewById(R.id.rbSingle);
+        ibUpdate = findViewById(R.id.ibUpdate);
     }
 }

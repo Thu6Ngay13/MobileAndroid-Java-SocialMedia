@@ -61,32 +61,7 @@
             android:paddingTop="10dp"
             android:textSize="23dp"
             android:textStyle="bold"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="15dp">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Birthday"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:textColor="@color/grey_light"
-                android:gravity="left"
-                android:layout_gravity="center"/>
-            <EditText
-                android:id="@+id/etBirthday"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="3"
-                android:background="@drawable/custom_edittext"
-                android:hint="Birthday"
-                android:paddingLeft="15dp"
-                android:inputType="none"
-                android:focusable="false"/>
-        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,27 +105,29 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="15dp">
+
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="3dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Description"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:textColor="@color/grey_light"
                 android:gravity="left"
-                android:layout_gravity="center"/>
+                android:text="Description"
+                android:textColor="@color/grey_light"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/etDescription"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="85dp"
                 android:layout_weight="3"
                 android:background="@drawable/custom_edittext"
-                android:hint="Description"
-                android:paddingLeft="15dp"
-                android:inputType="none"
                 android:focusable="false"
-                android:maxEms="50"/>
+                android:hint="Description"
+                android:inputType="none"
+                android:maxEms="50"
+                android:paddingLeft="15dp" />
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"

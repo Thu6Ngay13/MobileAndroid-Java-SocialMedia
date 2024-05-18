@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etEmailOrUsername, etPassword;
     private Button btnLogin, btnGoToRegister;
     private TextView tvForgetPassword;
-    private CheckBox cbRemember;
+    private RelativeLayout pbWait;
     private APIService apiService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         if(cancel){
             focusView.requestFocus();
         } else {
+            pbWait.setVisibility(View.VISIBLE);
             AuthRequest authRequest = new AuthRequest();
             authRequest.setEmailOrUsername(etEmailOrUsername.getText().toString());
             authRequest.setPassword(etPassword.getText().toString());
@@ -102,24 +104,29 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                     if (response.isSuccessful()) {
                         AuthResponse authResponse = response.body();
-                        saveLoginDetails(authResponse.getUsername(), authResponse.getEmail(), authResponse.getAccessToken(), authResponse.getRole().name());
+                        saveLoginDetails(authResponse.getUsername(), authResponse.getEmail(), authResponse.getAccessToken(), authResponse.getRole().name(), authResponse.getAvatarurl(), authResponse.getFullName());
+                        finish();
                         startMainActivity(authResponse.getRole().name());
+                        pbWait.setVisibility(View.GONE);
                     }
                     else {
                         Toast.makeText(LoginActivity.this, "An error occurred please try again later ...", Toast.LENGTH_SHORT).show();
                     }
+                    pbWait.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onFailure(Call<AuthResponse> call, Throwable t) {
                     Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    pbWait.setVisibility(View.GONE);
                 }
             });
         }
 
     }
-    private void saveLoginDetails(String username, String email, String accessToken, String role) {
-        PrefManager.getInstance(getApplicationContext()).login(username, email, accessToken, role);
+    private void saveLoginDetails(String username, String email, String accessToken, String role, String avatarURL, String fullname) {
+        PrefManager prefManager = new PrefManager(LoginActivity.this);
+        prefManager.getInstance(getApplicationContext()).login(username, email, accessToken, role, avatarURL, fullname);
     }
 
     private boolean isPasswordValid(String password) {
@@ -137,5 +144,7 @@ public class LoginActivity extends AppCompatActivity {
         tvForgetPassword = findViewById(R.id.tvForgetPassword);
         String textWithUnderline = "<u>Forget password</u>";
         tvForgetPassword.setText(Html.fromHtml(textWithUnderline));
+        pbWait = findViewById(R.id.pbWait);
+        pbWait.setVisibility(View.GONE);
     }
 }

@@ -26,8 +26,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.CreateGroupActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.SearchActivity"
-            android:exported="false"/>
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ResetPasswordActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.EditProfileActivity"
             android:exported="false" />
@@ -71,9 +77,6 @@
             android:name=".Activities.VerifyNewAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.VerifyOldAccountActivity"
-            android:exported="false" />
-        <activity
             android:name=".Activities.FindAccountActivity"
             android:exported="false" />
         <activity
@@ -89,10 +92,10 @@
             android:name=".Activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.LoginActivity"
+            android:name=".Activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".Activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

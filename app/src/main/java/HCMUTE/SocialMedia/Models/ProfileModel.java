@@ -3,13 +3,11 @@ package HCMUTE.SocialMedia.Models;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
-
-public class ProfileModel {
+public class ProfileModel{
     private int id;
     private String username;
     private String fullname;
     private String gender;
-    private Calendar dateOfBirth;
     private String avatarURL;
     private String email;
     private String phoneNumber;
@@ -18,11 +16,10 @@ public class ProfileModel {
     private String location;
     private boolean isSingle;
 
-    public ProfileModel(String username, String fullname, String gender, Calendar dateOfBirth, String description, String company, String location, boolean isSingle) {
+    public ProfileModel(String username, String fullname, String gender, String description, String company, String location, boolean isSingle) {
         this.username = username;
         this.fullname = fullname;
         this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
         this.description = description;
         this.company = company;
         this.location = location;
@@ -59,14 +56,6 @@ public class ProfileModel {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public Calendar getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Calendar dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
 
     public String getAvatarURL() {

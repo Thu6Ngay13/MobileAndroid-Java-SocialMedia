@@ -12,7 +12,21 @@ public class PostCardModel {
     private String postText;
     private String postMedia;
     private boolean liked;
+    private long groupId = -1;
 
+    public PostCardModel() {
+    }
+
+    public PostCardModel(String avatar, String username, String fullName, String postingTimeAt, long mode, String postText, String postMedia, boolean liked) {
+        this.avatar = avatar;
+        this.username = username;
+        this.fullName = fullName;
+        this.postingTimeAt = postingTimeAt;
+        this.mode = mode;
+        this.postText = postText;
+        this.postMedia = postMedia;
+        this.liked = liked;
+    }
     public PostCardModel(long postId, String avatar, String username, String fullName, String postingTimeAt, long mode, String postText, String postMedia, boolean liked) {
         this.postId = postId;
         this.avatar = avatar;
@@ -95,5 +109,13 @@ public class PostCardModel {
 
     public void setLiked(boolean liked) {
         this.liked = liked;
+    }
+
+    public long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(long groupId) {
+        this.groupId = groupId;
     }
 }

@@ -1,10 +1,14 @@
 package HCMUTE.SocialMedia.Fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import HCMUTE.SocialMedia.Activities.CreatePostActivity;
+import HCMUTE.SocialMedia.Activities.LoginActivity;
+import HCMUTE.SocialMedia.Activities.RegisterActivity;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
 import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.PostCardModel;
@@ -35,11 +42,19 @@ public class HomeFragment extends Fragment {
     private boolean isLoading = false;
     private int page = 0;
 
+    private Button btnCreatePost;
+    private Context context;
+
+    public HomeFragment(Context context) {
+        this.context = context;
+    }
+
     public HomeFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
+
     }
 
     @Override
@@ -49,12 +64,20 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rvPostArea);
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        postAdapter = new PostAdapter(getContext(), postCardModels);
+        postAdapter = new PostAdapter(getActivity(), postCardModels);
         recyclerView.setAdapter(postAdapter);
         handler = new Handler();
 
+        btnCreatePost = view.findViewById(R.id.ibTextPosting);
+        btnCreatePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CreatePostActivity.class);
+                startActivity(intent);
+            }
+        });
         nextPost();
         initScrollListener();
     }
@@ -76,7 +99,7 @@ public class HomeFragment extends Fragment {
 
                 } else {
                     int statusCode = response.code();
-                    // handle request errors depending on status code
+                    Toast.makeText(context, "An error occurred please try again later", Toast.LENGTH_SHORT).show();
                 }
             }
 

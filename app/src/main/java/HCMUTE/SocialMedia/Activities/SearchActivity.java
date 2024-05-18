@@ -1,5 +1,4 @@
 package HCMUTE.SocialMedia.Activities;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -84,6 +83,5 @@ public class SearchActivity extends AppCompatActivity {
                 }
             });
         });
-
     }
 }

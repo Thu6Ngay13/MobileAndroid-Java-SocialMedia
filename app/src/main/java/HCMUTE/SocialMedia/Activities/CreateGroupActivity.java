@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import HCMUTE.SocialMedia.R;
 
-public class VerifyOldAccountActivity extends AppCompatActivity {
+public class CreateGroupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify_old_account);
+        setContentView(R.layout.activity_create_group);
     }
 }

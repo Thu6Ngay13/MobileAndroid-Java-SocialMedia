@@ -1,26 +1,58 @@
 package HCMUTE.SocialMedia.Models;
 
-public class CommentCardModel {
-    private int avatar;
-    private String fullName;
-    private String commentText;
-    private int commentImage;
-    private String commentTimeAt;
+import com.google.gson.annotations.SerializedName;
 
-    public CommentCardModel(int avatar, String fullName, String commentText, int commentImage, String commentTimeAt) {
+public class CommentCardModel {
+    private String avatar;
+    private String username;
+    private String fullName;
+    private Long commentId;
+    private String commentText;
+    private String commentImage;
+    private Boolean isDeleted = false;
+    private String commentTimeAt;
+    private Long postId;
+
+    public CommentCardModel(String avatar, String username, String fullName, Long commentId, String commentText, String commentImage, Boolean isDeleted, String commentTimeAt, Long postId) {
         this.avatar = avatar;
+        this.username = username;
+        this.fullName = fullName;
+        this.commentId = commentId;
+        this.commentText = commentText;
+        this.commentImage = commentImage;
+        this.isDeleted = isDeleted;
+        this.commentTimeAt = commentTimeAt;
+        this.postId = postId;
+    }
+
+    public CommentCardModel() {
+    }
+
+    public CommentCardModel(String avatar, String username, String fullName, String commentText, String commentImage, Boolean isDeleted, String commentTimeAt, Long postId) {
+        this.avatar = avatar;
+        this.username = username;
         this.fullName = fullName;
         this.commentText = commentText;
         this.commentImage = commentImage;
+        this.isDeleted = isDeleted;
         this.commentTimeAt = commentTimeAt;
+        this.postId = postId;
     }
 
-    public int getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(int avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFullName() {
@@ -31,6 +63,14 @@ public class CommentCardModel {
         this.fullName = fullName;
     }
 
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
+
     public String getCommentText() {
         return commentText;
     }
@@ -39,12 +79,20 @@ public class CommentCardModel {
         this.commentText = commentText;
     }
 
-    public int getCommentImage() {
+    public String getCommentImage() {
         return commentImage;
     }
 
-    public void setCommentImage(int commentImage) {
+    public void setCommentImage(String commentImage) {
         this.commentImage = commentImage;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 
     public String getCommentTimeAt() {
@@ -53,5 +101,13 @@ public class CommentCardModel {
 
     public void setCommentTimeAt(String commentTimeAt) {
         this.commentTimeAt = commentTimeAt;
+    }
+
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 }
