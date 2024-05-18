@@ -15,11 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import HCMUTE.SocialMedia.Adapters.CommentCardAdapter;
 import HCMUTE.SocialMedia.Adapters.MyPersonalPageAdapter;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
 import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.AccountCardModel;
+import HCMUTE.SocialMedia.Models.CommentCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
+import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Responses.SimpleResponse;
@@ -36,12 +39,14 @@ public class GroupActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private APIService apiService;
     private MyPersonalPageAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
         ibBack = findViewById(R.id.ibBack);
         ibCreateGroup = findViewById(R.id.ibCreateGroup);
+        recyclerView = findViewById(R.id.rvGroupArea);
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,62 +56,37 @@ public class GroupActivity extends AppCompatActivity {
         ibCreateGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(GroupActivity.this, CreateGroupActivity.class);
+                startActivity(intent);
             }
         });
         loadData(Const.USERNAME);
     }
 
-    private AccountCardModel loadData(String username) {
+    private void loadData(String username) {
+        final List<PostCardModel> postCardModels = new ArrayList<>();
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getAccountByUsername(username).enqueue(new Callback<SimpleResponse<AccountCardModel>>() {
+        apiService.getPostInGroupsByUsername(username).enqueue(new Callback<ResponseModel<PostCardModel>>() {
             @Override
-            public void onResponse(Call<SimpleResponse<AccountCardModel>> call, Response<SimpleResponse<AccountCardModel>> response) {
-                if (response.isSuccessful()){
-                    SimpleResponse<AccountCardModel> simpleResponse = response.body();
-                    if (simpleResponse.getResult() != null){
-                        AccountCardModel model = simpleResponse.getResult();
-                        List<YourFriendModel> yourFriendModels = new ArrayList<>();
-                        for (AccountCardModel a: model.getFriends()) {
-                            YourFriendModel yourFriend = new YourFriendModel();
-                            yourFriend.setAvatar(a.getAvatarURL());
-                            yourFriend.setUsername(a.getUsername());
-                            yourFriendModels.add(yourFriend);
-                            if (yourFriendModels.size() > 6){
-                                break;
-                            }
-                        }
-                        List<PostCardModel> postCardModels = new ArrayList<>();
-                        for (PostCardModel p: model.getPosts()) {
-                            PostCardModel post = new PostCardModel();
-                            post.setPostId(p.getPostId());
-                            post.setAvatar(p.getAvatar());
-                            post.setUsername(p.getUsername());
-                            post.setFullName(p.getFullName());
-                            post.setPostMedia(p.getPostMedia());
-                            post.setPostingTimeAt(p.getPostingTimeAt());
-                            post.setMode(R.mipmap.ic_global_72_dark);
-                            post.setPostText(p.getPostText());
-                            post.setLiked(p.isLiked());
-                            postCardModels.add(post);
-                        }
-                        recyclerView = findViewById(R.id.rvMyPersonalPageArea);
-                        adapter = new MyPersonalPageAdapter(GroupActivity.this, model, yourFriendModels, postCardModels);
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(GroupActivity.this, LinearLayoutManager.VERTICAL, false);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(adapter);
+            public void onResponse(Call<ResponseModel<PostCardModel>> call, Response<ResponseModel<PostCardModel>> response) {
+                if (response.isSuccessful()) {
+                    ResponseModel<PostCardModel> responseModel = response.body();
+                    List<PostCardModel> responseModelResult = new ArrayList<>();
+                    if (responseModel != null && responseModel.isSuccess()) {
+                        responseModelResult = responseModel.getResult();
+                        postCardModels.addAll(responseModelResult);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(GroupActivity.this.getApplicationContext()));
+                        recyclerView.setAdapter(new PostAdapter(GroupActivity.this.getApplicationContext(), postCardModels));
                     }
-                }
-                else{
-                    Toast.makeText(GroupActivity.this, "An error occurred please try again later", Toast.LENGTH_SHORT).show();
+                } else {
+                    int statusCode = response.code();
+                    // handle request errors depending on status code
                 }
             }
 
             @Override
-            public void onFailure(Call<SimpleResponse<AccountCardModel>> call, Throwable t) {
-                Toast.makeText(GroupActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<ResponseModel<PostCardModel>> call, Throwable t) {
             }
         });
-        return null;
     }
-
 }
