@@ -28,6 +28,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -46,6 +47,13 @@ public interface APIService {
 
     @POST("post/{username}/unlike/{postId}")
     Call<ResponseModel<String>> unlikePost(@Path("username") String username, @Path("postId") long postId);
+
+    @POST("post/create")
+    Call<PostCardModel> createPost(@Body PostCardModel postCardModel);
+    @Multipart
+    @POST("post/media")
+    Call<SimpleResponse<String>> mediaPost(@Part MultipartBody.Part part);
+
 
     //    Call API FRIEND
     @GET("friend/yourfriend/{username}")
@@ -107,6 +115,11 @@ public interface APIService {
     Call<SimpleResponse<AccountCardModel>> getFriendAccountByUsername(@Path("username") String username, @Path("usernameFriend") String usernameFriend);
     @GET("comment/{postId}")
     Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);
-    @POST("post/create")
-    Call<PostCardModel> createPost(@Body PostCardModel postCardModel);
+
+    @POST("comment/create")
+    Call<CommentCardModel> createComment(@Body CommentCardModel commentCardModel);
+
+    @PUT("comment/delete/{commentId}")
+    Call<CommentCardModel> deleteComment(@Path("commentId") Long commentId);
+
 }
