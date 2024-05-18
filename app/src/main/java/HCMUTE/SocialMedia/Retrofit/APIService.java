@@ -10,19 +10,17 @@ import HCMUTE.SocialMedia.Models.GroupModel;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
+import HCMUTE.SocialMedia.Models.ReportModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.SearchModel;
 import HCMUTE.SocialMedia.Requests.AuthRequest;
-import HCMUTE.SocialMedia.Requests.ResetPasswordRequest;
-import HCMUTE.SocialMedia.Responses.AuthResponse;
-import HCMUTE.SocialMedia.Responses.ResetPasswordResponse;
-import HCMUTE.SocialMedia.Responses.SimpleResponse;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import HCMUTE.SocialMedia.Requests.RegisterRequest;
+import HCMUTE.SocialMedia.Requests.ResetPasswordRequest;
 import HCMUTE.SocialMedia.Responses.AuthResponse;
 import HCMUTE.SocialMedia.Responses.OtpResponse;
 import HCMUTE.SocialMedia.Responses.RegisterResponse;
+import HCMUTE.SocialMedia.Responses.ResetPasswordResponse;
+import HCMUTE.SocialMedia.Responses.SimpleResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -166,4 +164,16 @@ public interface APIService {
     //    Call API SEARCH
     @GET("search/{username}/{keyword}")
     Call<ResponseModel<SearchModel>> search(@Path("username") String username, @Path("keyword") String keyword);
+
+    //    Call API REPORT
+    @GET("report")
+    Call<ResponseModel<ReportModel>> getAllReports();
+
+    @Multipart
+    @POST("report/{username}/report/{postId}")
+    Call<ResponseModel<String>> reportPost(@Path("username") String username, @Path("postId") long postId, @Part("jsonBody") RequestBody jsonBody);
+
+    @POST("report/{username}/report/{postId}")
+    Call<ResponseModel<String>> handleReport(@Path("reportId") String reportId);
+
 }
