@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import HCMUTE.SocialMedia.Activities.GroupActivity;
 import HCMUTE.SocialMedia.Activities.LoginActivity;
 import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
 import HCMUTE.SocialMedia.Adapters.SettingCardAdapter;
@@ -61,6 +63,16 @@ public class SettingFragment extends Fragment {
             public void onClick(View v) {
                 PrefManager.getInstance(context).logout();
                 Intent intent = new Intent(context, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        TextView tvGroup = view.findViewById(R.id.tvGroup);
+        tvGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, GroupActivity.class);
                 startActivity(intent);
             }
         });
