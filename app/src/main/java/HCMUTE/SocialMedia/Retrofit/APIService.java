@@ -6,6 +6,7 @@ import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.CommentCardModel;
 import HCMUTE.SocialMedia.Models.ConversationCardModel;
 import HCMUTE.SocialMedia.Models.FriendModel;
+import HCMUTE.SocialMedia.Models.GroupModel;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
@@ -136,5 +137,7 @@ public interface APIService {
     @GET("group/posts/{username}")
     Call<ResponseModel<PostCardModel>> getPostInGroupsByUsername(@Path("username") String username);
 
+    @GET("group/groups/{username}")
+    Call<ResponseModel<GroupModel>> getGroupsByUsername(@Path("username") String username);
 
 }
