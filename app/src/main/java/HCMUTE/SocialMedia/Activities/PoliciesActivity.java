@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import HCMUTE.SocialMedia.R;
 
@@ -16,6 +17,10 @@ public class PoliciesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_policies);
+
+        ImageButton ibBack = findViewById(R.id.ibBack);
+        ibBack.setOnClickListener(v -> finish());
+
         btnDuLieuCaNhan = (Button) findViewById(R.id.btnDuLieuCaNhan);
         btnBaiDang = (Button) findViewById((R.id.btnBaiDang));
         btnThayDoiChinhSach = (Button) findViewById(R.id.btnThayDoiChinhSach);

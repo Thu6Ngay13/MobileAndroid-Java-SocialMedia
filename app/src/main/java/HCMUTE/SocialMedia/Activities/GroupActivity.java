@@ -17,11 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Adapters.CommentCardAdapter;
+import HCMUTE.SocialMedia.Adapters.GroupCardAdapter;
 import HCMUTE.SocialMedia.Adapters.MyPersonalPageAdapter;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
 import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.CommentCardModel;
+import HCMUTE.SocialMedia.Models.GroupModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
@@ -53,7 +55,7 @@ public class GroupActivity extends AppCompatActivity {
         btMyGroup = findViewById(R.id.btMyGroup);
 
         recyclerView = findViewById(R.id.rvGroupArea);
-
+        loadPosts(Const.USERNAME);
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +86,7 @@ public class GroupActivity extends AppCompatActivity {
         loadData(PrefManager.getUsername());
     }
 
-    private void loadData(String username) {
+    private void loadPosts(String username) {
         final List<PostCardModel> postCardModels = new ArrayList<>();
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
         apiService.getPostInGroupsByUsername(username).enqueue(new Callback<ResponseModel<PostCardModel>>() {
@@ -110,4 +112,33 @@ public class GroupActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void loadMyGroups(String username) {
+        final List<GroupModel> groupCardModels = new ArrayList<>();
+        apiService = RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getGroupsByUsername(username).enqueue(new Callback<ResponseModel<GroupModel>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<GroupModel>> call, Response<ResponseModel<GroupModel>> response) {
+                if (response.isSuccessful()) {
+                    ResponseModel<GroupModel> responseModel = response.body();
+                    List<GroupModel> responseModelResult = new ArrayList<>();
+                    if (responseModel != null && responseModel.isSuccess()) {
+                        responseModelResult = responseModel.getResult();
+                        groupCardModels.addAll(responseModelResult);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(GroupActivity.this.getApplicationContext()));
+                        recyclerView.setAdapter(new GroupCardAdapter(GroupActivity.this.getApplicationContext(), groupCardModels));
+                    }
+                } else {
+                    int statusCode = response.code();
+                    // handle request errors depending on status code
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<GroupModel>> call, Throwable t) {
+            }
+        });
+    }
+
+
 }

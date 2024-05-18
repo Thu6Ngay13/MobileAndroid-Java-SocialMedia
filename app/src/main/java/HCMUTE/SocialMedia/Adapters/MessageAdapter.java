@@ -48,7 +48,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageHolder> {
 
         String timeInput = messageCardModel.getMessageSendingAt();
         List<String> timeResult = ProcessTime.getTimeFromString(timeInput);
-        String timeShow = timeResult.get(0) + "-" + timeResult.get(1) + "-" + timeResult.get(2) + " " + timeResult.get(3) + ":" + timeResult.get(4) + ":" + timeResult.get(5);
+        String timeShow = timeResult.get(0) + "-" + timeResult.get(1) + "-" + timeResult.get(2) + " " + timeResult.get(3) + ":" + timeResult.get(4);
         holder.messageSendingAt.setText(timeShow);
 
         if (!messageCardModel.getText().isEmpty()){

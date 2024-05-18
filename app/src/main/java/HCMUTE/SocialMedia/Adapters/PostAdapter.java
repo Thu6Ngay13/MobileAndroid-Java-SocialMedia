@@ -278,8 +278,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
+            int start = getItemCount() - 1;
             posts.addAll(postCardModels);
-            notifyDataSetChanged();
+            notifyItemRangeInserted(start, postCardModels.size());
         }
 
         @Override

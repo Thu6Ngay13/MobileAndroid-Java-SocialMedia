@@ -4,12 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,11 +17,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.CreatePostActivity;
 import HCMUTE.SocialMedia.Activities.LoginActivity;
+import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
 import HCMUTE.SocialMedia.Activities.RegisterActivity;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
 import HCMUTE.SocialMedia.Consts.Const;
@@ -40,9 +42,10 @@ public class HomeFragment extends Fragment {
     private List<PostCardModel> postCardModels;
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
+
+    private Handler handler;
     private boolean isLoading = false;
     private int page = 0;
-    private static final int pageSize = 5;
 
     private Button btnCreatePost;
     private Context context;
@@ -62,6 +65,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ImageView civAvatar = view.findViewById(R.id.civAvatar);
+        Glide.with(context).load(Const.AVATAR).into(civAvatar);
+        civAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MyPersonalPageActivity.class);
+                startActivity(intent);
+            }
+        });
+
         postCardModels = new ArrayList<>();
         recyclerView = view.findViewById(R.id.rvPostArea);
 
@@ -70,6 +84,7 @@ public class HomeFragment extends Fragment {
 
         postAdapter = new PostAdapter(getActivity(), postCardModels);
         recyclerView.setAdapter(postAdapter);
+        handler = new Handler();
 
         btnCreatePost = view.findViewById(R.id.ibTextPosting);
         btnCreatePost.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +100,7 @@ public class HomeFragment extends Fragment {
 
     private void nextPost(){
         //Goi Interface trong APIService
+        int pageSize = 5;
         APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
         apiService.getPostOfNewFeedWithUsername(PrefManager.getUsername(), page, pageSize).enqueue(new Callback<ResponseModel<PostCardModel>>() {
             @Override
@@ -123,8 +139,8 @@ public class HomeFragment extends Fragment {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (!isLoading) {
                     if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == postCardModels.size()-1) {
-                        loadMore();
                         isLoading = true;
+                        loadMore();
                     }
                 }
             }
@@ -132,20 +148,22 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadMore() {
-        postCardModels.add(null);
-        postAdapter.notifyItemInserted(postCardModels.size()-1);
-
-        Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                postCardModels.add(null);
+                postAdapter.notifyItemInserted(postCardModels.size()-1);
+            }
+        });
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 postCardModels.remove(postCardModels.size() - 1);
-                int scrollPosition = postCardModels.size();
-                postAdapter.notifyItemRemoved(scrollPosition);
+                postAdapter.notifyItemRemoved(postCardModels.size());
 
                 nextPost();
                 isLoading = false;
             }
-        }, 1000);
+        }, 3000);
     }
 }
