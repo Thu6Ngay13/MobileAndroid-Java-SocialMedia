@@ -39,7 +39,7 @@ public class EditProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         AccountCardModel accountModel = new AccountCardModel();
         if (intent != null){
-            accountModel
+            //accountModel
         }
 //        listView = (ListView) findViewById(R.id.lvProfile);
 //        user = new ProfileModel(accountModel.getUsername(), accountModel.getFullname(), accountModel.getGender(), accountModel.getDescription(), accountModel.getCompany(), accountModel.getLocation(), accountModel.isSingle());

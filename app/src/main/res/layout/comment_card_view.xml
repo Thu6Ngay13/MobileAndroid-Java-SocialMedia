@@ -86,25 +86,21 @@
     <ImageButton
         android:id="@+id/ibEditComment"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
+
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="300dp"
-        android:layout_marginTop="58dp"
         android:layout_marginEnd="70dp"
+        android:layout_marginTop="60dp"
+        android:layout_toStartOf="@+id/ibDeleteComment"
         android:background="@mipmap/ic_edit_96_dark" />
 
     <ImageButton
         android:id="@+id/ibDeleteComment"
         android:layout_width="wrap_content"
-        android:layout_height="34dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="357dp"
-        android:layout_marginTop="58dp"
-        android:layout_marginEnd="10dp"
-        android:background="@mipmap/ic_delete_72_dark" />
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="20dp"
+        android:background="@mipmap/ic_delete_96_dark" />
 
 </RelativeLayout>
