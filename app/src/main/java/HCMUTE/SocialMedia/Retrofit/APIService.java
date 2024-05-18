@@ -113,6 +113,16 @@ public interface APIService {
     Call<SimpleResponse<AccountCardModel>> getAccountByUsername(@Path("username") String username);
     @GET("user/my-account/{username}/friend-account/{usernameFriend}")
     Call<SimpleResponse<AccountCardModel>> getFriendAccountByUsername(@Path("username") String username, @Path("usernameFriend") String usernameFriend);
+    @PUT("user/my-account/update")
+    Call<SimpleResponse<String>> updateProfile(
+            @Query("fullname") String fullname,
+            @Query("gender") String gender,
+            @Query("description") String description,
+            @Query("company") String company,
+            @Query("location") String location,
+            @Query("isSingle") boolean isSingle,
+            @Query("username") String username
+    );
     @GET("comment/{postId}")
     Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);
 
