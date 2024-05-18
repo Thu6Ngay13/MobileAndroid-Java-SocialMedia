@@ -22,6 +22,7 @@ import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.CreatePostActivity;
 import HCMUTE.SocialMedia.Activities.EditProfileActivity;
+import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
 import HCMUTE.SocialMedia.Activities.YourPersonalPageActivity;
 import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
@@ -84,6 +85,7 @@ public class MyPersonalPageAdapter extends RecyclerView.Adapter<MyPersonalPageAd
                 bundle.putString("MY_LOCATION", accountModel.getLocation());
                 bundle.putBoolean("MY_RELATIONSHIP", accountModel.isSingle());
                 intent.putExtras(bundle);
+                closeActivity();
                 context.startActivity(intent);
             }
         });
@@ -109,6 +111,11 @@ public class MyPersonalPageAdapter extends RecyclerView.Adapter<MyPersonalPageAd
             tvFriends = itemView.findViewById(R.id.tvFriends);
             btnEditProfile = itemView.findViewById(R.id.btnEditProfile);
             ibTextPosting = itemView.findViewById(R.id.ibTextPosting);
+        }
+    }
+    private void closeActivity() {
+        if (context instanceof MyPersonalPageActivity) {
+            ((MyPersonalPageActivity) context).finish();
         }
     }
 }

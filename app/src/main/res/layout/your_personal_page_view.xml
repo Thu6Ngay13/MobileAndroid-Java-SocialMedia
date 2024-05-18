@@ -80,7 +80,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingLeft="6dp"
-                    android:text="Friends"
+                    android:text="Friend"
+                    android:textSize="13dp"
                     android:textColor="@color/green_dark"
                     android:textStyle="bold" />
             </LinearLayout>

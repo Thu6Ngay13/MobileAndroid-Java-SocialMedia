@@ -198,22 +198,36 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ivMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showPopupMenu(v);
+                    showPopupMenu(v, postCardModel);
                 }
             });
         }
     }
 
-    private void showPopupMenu(View view) {
+    private void showPopupMenu(View view, PostCardModel postCardModel) {
         PopupMenu popupMenu = new PopupMenu(context, view);
         popupMenu.getMenuInflater().inflate(R.menu.menu_post, popupMenu.getMenu());
+        MenuItem editPostItem = popupMenu.getMenu().findItem(R.id.iEditPost);
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                return false;
-            }
-        });
+        // Kiểm tra điều kiện và ẩn mục menu nếu cần
+        if (!postCardModel.getUsername().equals(Const.USERNAME)) {
+            editPostItem.setVisible(false);
+        }
+//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                switch (item.getItemId()) {
+//                    case R.id.iReport:
+//                        // Xử lý khi chọn "Report"
+//                        return true;
+//                    case R.id.iEditPost:
+//                        // Xử lý khi chọn "Edit post"
+//                        return true;
+//                    default:
+//                        return false;
+//                }
+//            }
+//        });
 
         popupMenu.show();
     }

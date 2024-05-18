@@ -82,6 +82,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             if (response.body().isSuccess()){
                                 Toast.makeText(EditProfileActivity.this, "Update success", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(EditProfileActivity.this, MyPersonalPageActivity.class);
+                                finish();
                                 startActivity(intent);
                             }
                         }

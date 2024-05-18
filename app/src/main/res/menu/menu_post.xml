@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-
         android:id="@+id/iReport"
         android:icon="@mipmap/ic_report_72_full"
         android:title="@string/report_port" />
+    <item
+        android:id="@+id/iEditPost"
+        android:icon="@mipmap/ic_edit_96_dark"
+        android:title="Edit post"/>
 </menu>
