@@ -67,7 +67,7 @@
             android:name=".Activities.PolicyDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.LoginActivity"
+            android:name=".Activities.MyPersonalPageActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.YourPersonalPageActivity"
@@ -91,10 +91,10 @@
             android:name=".Activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.LoginActivity"
+            android:name=".Activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".Activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

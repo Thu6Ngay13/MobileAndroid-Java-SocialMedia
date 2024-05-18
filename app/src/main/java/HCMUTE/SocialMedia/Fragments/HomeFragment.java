@@ -1,5 +1,6 @@
 package HCMUTE.SocialMedia.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,6 +44,11 @@ public class HomeFragment extends Fragment {
     private static final int pageSize = 5;
 
     private Button btnCreatePost;
+    private Context context;
+
+    public HomeFragment(Context context) {
+        this.context = context;
+    }
 
     public HomeFragment() {}
 
@@ -58,41 +65,21 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rvPostArea);
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        postAdapter = new PostAdapter(getContext(), postCardModels);
+        postAdapter = new PostAdapter(getActivity(), postCardModels);
         recyclerView.setAdapter(postAdapter);
 
         btnCreatePost = view.findViewById(R.id.ibTextPosting);
         btnCreatePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CreatePostActivity.class);
+                Intent intent = new Intent(context, CreatePostActivity.class);
                 startActivity(intent);
             }
         });
         nextPost();
         initScrollListener();
-
-        /*List<PostCardModel> postCardModels = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            postCardModels.add(new PostCardModel(
-                    1,
-                    "avaterurl",
-                    "username",
-                    "Jonhny Deep",
-                    "23:59 25-02-2024",
-                    R.mipmap.ic_global_72_dark,
-                    "Hôm nay trời đẹp quá",
-                    "postMedia",
-                    false
-            ));
-        }
-
-        RecyclerView recyclerView = view.findViewById(R.id.rvPostArea);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new PostAdapter(getContext(), postCardModels));*/
-
     }
 
     private void nextPost(){
@@ -111,7 +98,7 @@ public class HomeFragment extends Fragment {
 
                 } else {
                     int statusCode = response.code();
-                    // handle request errors depending on status code
+                    Toast.makeText(context, "An error occurred please try again later", Toast.LENGTH_SHORT).show();
                 }
             }
 

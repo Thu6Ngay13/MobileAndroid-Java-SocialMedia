@@ -47,33 +47,7 @@
         android:paddingTop="10dp"
         android:textSize="23dp"
         android:textStyle="bold"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="15dp">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Birthday"
-            android:textStyle="bold"
-            android:textSize="16dp"
-            android:textColor="@color/grey_light"
-            android:gravity="left"
-            android:layout_gravity="center"/>
-        <EditText
-            android:id="@+id/etBirthday"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="3"
-            android:background="@drawable/custom_edittext"
-            android:hint="Birthday"
-            android:paddingLeft="15dp"
-            android:inputType="none"
-            android:focusable="false"
-            android:onClick="editBirthday"/>
-    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

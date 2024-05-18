@@ -1,5 +1,6 @@
 package HCMUTE.SocialMedia.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Adapters.MyPersonalPageAdapter;
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
@@ -60,7 +62,7 @@ public class MyPersonalPageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        getProfile("abc");
+        getProfile(Const.USERNAME);
     }
 
     private AccountCardModel getProfile(String username) {
@@ -78,6 +80,9 @@ public class MyPersonalPageActivity extends AppCompatActivity {
                             yourFriend.setAvatar(a.getAvatarURL());
                             yourFriend.setUsername(a.getUsername());
                             yourFriendModels.add(yourFriend);
+                            if (yourFriendModels.size() > 6){
+                                break;
+                            }
                         }
                         List<PostCardModel> postCardModels = new ArrayList<>();
                         for (PostCardModel p: model.getPosts()) {
@@ -86,25 +91,16 @@ public class MyPersonalPageActivity extends AppCompatActivity {
                             post.setAvatar(p.getAvatar());
                             post.setUsername(p.getUsername());
                             post.setFullName(p.getFullName());
+                            post.setPostMedia(p.getPostMedia());
                             post.setPostingTimeAt(p.getPostingTimeAt());
                             post.setMode(R.mipmap.ic_global_72_dark);
                             post.setPostText(p.getPostText());
                             post.setLiked(p.isLiked());
                             postCardModels.add(post);
-                            if (postCardModels.size() > 6){
-                                break;
-                            }
                         }
                         recyclerView = findViewById(R.id.rvMyPersonalPageArea);
-                        adapter = new MyPersonalPageAdapter(getApplicationContext(), model, yourFriendModels, postCardModels);
-                        adapter.setOnEditProfileClickListener(new MyPersonalPageAdapter.OnEditProfileClickListener() {
-                            @Override
-                            public void onEditProfileClick() {
-                                Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                        adapter = new MyPersonalPageAdapter(MyPersonalPageActivity.this, model, yourFriendModels, postCardModels);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(MyPersonalPageActivity.this, LinearLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
                     }

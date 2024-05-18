@@ -27,7 +27,7 @@
             app:civ_border_width="2dp"/>
 
         <TextView
-            android:id="@+id/tvUsername"
+            android:id="@+id/tvFullname"
             android:text="Cao Thị Thu Thủy"
             android:textSize="20dp"
             app:layout_column="0"
@@ -37,7 +37,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tvCountFriend"
+            android:id="@+id/tvUsername"
             android:text="147 friends"
             android:textSize="10dp"
             app:layout_column="0"

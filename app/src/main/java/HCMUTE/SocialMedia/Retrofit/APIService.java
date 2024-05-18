@@ -86,7 +86,7 @@ public interface APIService {
     @GET("post/{username}")
     Call<ResponseModel<PostCardModel>> getPostsWithUsername(@Path("username") String username);
 
-    //    Call API ACCOUNT
+    //Call API ACCOUNT
     @POST("v1/auth/register")
     Call<RegisterResponse> register(@Body RegisterRequest request);
 
@@ -103,6 +103,8 @@ public interface APIService {
     Call<ResetPasswordResponse> resetPassword(@Body ResetPasswordRequest request);
     @GET("user/my-account/{username}")
     Call<SimpleResponse<AccountCardModel>> getAccountByUsername(@Path("username") String username);
+    @GET("user/my-account/{username}/friend-account/{usernameFriend}")
+    Call<SimpleResponse<AccountCardModel>> getFriendAccountByUsername(@Path("username") String username, @Path("usernameFriend") String usernameFriend);
     @GET("comment/{postId}")
     Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);
     @POST("post/create")

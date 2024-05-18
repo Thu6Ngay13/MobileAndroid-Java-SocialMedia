@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/clPersonalPageArea"
     android:orientation="vertical">
-
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +26,7 @@
             app:civ_border_width="2dp"/>
 
         <TextView
-            android:id="@+id/tvUsername"
+            android:id="@+id/tvFullname"
             android:text="Cao Thị Thu Thủy"
             android:textSize="20dp"
             app:layout_column="0"
@@ -36,7 +34,6 @@
             app:layout_columnSpan="1"
             app:layout_gravity="center"
             android:textStyle="bold"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,30 +43,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="20"
-                android:id="@+id/tvCountFriend"
+                android:id="@+id/tvUsername"
                 android:text="147 friends"
                 android:textSize="10dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:gravity="right"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/tvDot"
-                android:text="."
-                android:layout_gravity="top"
-                android:gravity="center"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="20"
-                android:id="@+id/tvMutual"
-                android:text="5 mutual"
-                android:textSize="10dp"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"/>
+                android:gravity="center"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -130,16 +109,17 @@
                     android:textStyle="bold"/>
             </LinearLayout>
             <Button
+                android:id="@+id/btnDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="37dp"
                 android:layout_weight="2"
                 android:background="@drawable/custom_edittext"
                 app:backgroundTint="@null"
                 android:text="Details"
-                android:textColor="@color/green_dark"/>
+                android:textColor="@color/green_dark"
+                android:gravity="center"/>
         </LinearLayout>
     </androidx.gridlayout.widget.GridLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -164,15 +144,14 @@
                 android:textSize="18dp"/>
 
             <TextView
-                android:id="@+id/btnSeeAll"
+                android:id="@+id/tvSeeAll"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="7dp"
                 android:layout_weight="1"
-                android:text="Find Friends"
+                android:text="See all >"
                 android:textColor="@color/green_dark"
-                android:textStyle="bold"
                 android:gravity="bottom|right"
                 android:paddingRight="10dp"/>
         </LinearLayout>
@@ -195,62 +174,6 @@
             android:background="@color/white">
 
         </androidx.recyclerview.widget.RecyclerView>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginTop="7dp"
-        android:orientation="vertical"
-        android:paddingBottom="7dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Posts"
-            android:textStyle="bold"
-            android:paddingLeft="17dp"
-            android:paddingTop="5dp"
-            app:layout_column="0"
-            app:layout_row="0"
-            android:textSize="18dp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="15dp"
-            android:paddingBottom="10dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/civAvatarSmall"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:background="@color/white"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:src="@drawable/post_image" />
-
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:id="@+id/ibTextPosting"
-                android:layout_width="200dp"
-                android:text="Write something to ..."
-                android:layout_gravity="center"
-                android:textSize="18sp"
-                android:paddingLeft="10dp"/>
-
-            <ImageButton
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/ibImagePosting"
-                android:layout_width="50dp"
-                android:gravity="center"
-                android:background="@color/white"
-                android:src="@mipmap/ic_image_72_dark"
-                android:layout_gravity="center"/>
-        </LinearLayout>
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPostArea"

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Adapters.CreatePostAdapter;
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
@@ -52,8 +53,8 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
         setContentView(R.layout.activity_create_post);
         initialize();
         loadData();
-        createPost();
-        ivBack.setOnClickListener(v -> finish());
+//        createPost();
+//        ivBack.setOnClickListener(v -> finish());
     }
 
     private void createPost() {
@@ -85,11 +86,10 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
 
     private void loadData(){
         spin.setOnItemSelectedListener(this);
-        CreatePostAdapter createPostAdapter=new CreatePostAdapter(getApplicationContext(),modeImage,modeName);
+        CreatePostAdapter createPostAdapter = new CreatePostAdapter(CreatePostActivity.this, modeImage, modeName);
         spin.setAdapter(createPostAdapter);
-        apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        tvFullName.setText(fullName);
-
+//        apiService = RetrofitClient.getRetrofit().create(APIService.class);
+//        tvFullName.setText(Const.FULLNAME);
     }
 
     //Performing action onItemSelected and onNothing selected

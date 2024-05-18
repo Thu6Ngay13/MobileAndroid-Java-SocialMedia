@@ -19,6 +19,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
+import HCMUTE.SocialMedia.Activities.YourPersonalPageActivity;
 import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Activities.CommentActivity;
 import HCMUTE.SocialMedia.Enums.TypeViewLoad;
@@ -64,18 +66,38 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             List<String> timeResult = ProcessTime.getTimeFromString(timeInput);
             String timeShow = timeResult.get(0) + "-" + timeResult.get(1) + "-" + timeResult.get(2) + " " + timeResult.get(3) + ":" + timeResult.get(4);
             postHolder.postingTimeAt.setText(timeShow);
-
-            //        holder.mode.setImageResource((int) postCardModel.getMode());
             postHolder.postText.setText(postCardModel.getPostText());
 
-            //        postCardModel.getPostMedia().endsWith(".jpg");
             Glide.with(context)
                     .load(postCardModel.getAvatar())
                     .into(postHolder.avatar);
+            postHolder.avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (postCardModel.getUsername().equals(Const.USERNAME)){
+                        Intent intent = new Intent(context, MyPersonalPageActivity.class);
+                        context.startActivity(intent);
+                    }
+                    else {
+                        Intent intent = new Intent(context, YourPersonalPageActivity.class);
+                        context.startActivity(intent);
+                    }
+                }
+            });
 
             Glide.with(context)
                     .load(postCardModel.getPostMedia())
                     .into(postHolder.postImage);
+            if (postCardModel.getMode() == 1){
+                postHolder.mode.setImageResource(R.mipmap.ic_global_72_dark);
+            } else if (postCardModel.getMode() == 2) {
+                postHolder.mode.setImageResource(R.mipmap.ic_friend_72_full);
+            } else if (postCardModel.getMode() == 3) {
+                postHolder.mode.setImageResource(R.mipmap.ic_lock_72_dark);
+            }
+            else {
+                postHolder.mode.setImageResource(R.mipmap.ic_user_groups_72_full);
+            }
 
             CardView cvLike = (CardView) holder.itemView.findViewById(R.id.cvLike);
             ImageView ivLike = (ImageView) cvLike.findViewById(R.id.ivLike);

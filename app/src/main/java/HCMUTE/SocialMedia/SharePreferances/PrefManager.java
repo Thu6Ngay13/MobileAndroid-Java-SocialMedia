@@ -16,7 +16,7 @@ public class PrefManager {
     private static final String KEY_ACCESS_TOKEN = "keyaccesstoken";
     private static final String KEY_ROLE = "keyrole";
     private static final String KEY_AVATAR = "keyavatar";
-    private static final String KEY_FULLNAME = "keyavatar";
+    private static final String KEY_FULLNAME = "keyfullname";
     private static PrefManager mIntance;
     private static Context ctx;
 
@@ -49,15 +49,23 @@ public class PrefManager {
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_USERNAME, null) != null;
     }
-    public String getUsername(){
+    public static String getUsername(){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_USERNAME, "");
     }
-    public String getAccessToken(){
+    public static String getFullname(){
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_FULLNAME, "");
+    }
+    public static String getAvatarURL(){
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY_AVATAR, "");
+    }
+    public static String getAccessToken(){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_ACCESS_TOKEN, "");
     }
-    public String getRole(){
+    public static String getRole(){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_ROLE, "");
     }

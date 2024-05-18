@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gvMyProfile"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
@@ -13,8 +14,8 @@
         app:columnCount="2"
         app:rowCount="1">
 
-        <ImageView
-            android:id="@+id/ibAvatar"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civAvatar"
             android:layout_width="100dp"
             android:background="@color/white"
             android:gravity="center"
@@ -35,12 +36,6 @@
             app:layout_rowWeight="1" />
 
     </androidx.gridlayout.widget.GridLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvSettingArea"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"

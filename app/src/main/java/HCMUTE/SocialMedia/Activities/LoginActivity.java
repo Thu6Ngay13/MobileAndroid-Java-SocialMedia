@@ -105,8 +105,8 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         AuthResponse authResponse = response.body();
                         saveLoginDetails(authResponse.getUsername(), authResponse.getEmail(), authResponse.getAccessToken(), authResponse.getRole().name(), authResponse.getAvatarurl(), authResponse.getFullName());
-                        startMainActivity(authResponse.getRole().name());
                         finish();
+                        startMainActivity(authResponse.getRole().name());
                         pbWait.setVisibility(View.GONE);
                     }
                     else {
@@ -125,7 +125,8 @@ public class LoginActivity extends AppCompatActivity {
 
     }
     private void saveLoginDetails(String username, String email, String accessToken, String role, String avatarURL, String fullname) {
-        PrefManager.getInstance(getApplicationContext()).login(username, email, accessToken, role, avatarURL, fullname);
+        PrefManager prefManager = new PrefManager(LoginActivity.this);
+        prefManager.getInstance(getApplicationContext()).login(username, email, accessToken, role, avatarURL, fullname);
     }
 
     private boolean isPasswordValid(String password) {

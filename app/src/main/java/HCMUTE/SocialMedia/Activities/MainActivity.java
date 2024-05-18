@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -26,6 +27,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.Objects;
 
 import HCMUTE.SocialMedia.Adapters.MainPager2Adapter;
+import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.RealTime.SocketIO;
 import HCMUTE.SocialMedia.databinding.ActivityMainBinding;
@@ -42,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         SocketIO.connectToServer();
         SocketIO.onNotifyPush(onNotifyPush);
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         this.activityMainBinding.customTabLayout.addTab(settingTab);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        this.mainPager2Adapter = new MainPager2Adapter(fragmentManager, getLifecycle(), getApplicationContext());
+        this.mainPager2Adapter = new MainPager2Adapter(fragmentManager, getLifecycle(), MainActivity.this);
         this.activityMainBinding.viewPager2.setAdapter(this.mainPager2Adapter);
         this.activityMainBinding.customTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() { // from class: HCMUTE.SocialMedia.Activities.MainActivity.1
             @Override

@@ -34,7 +34,7 @@ public class MainPager2Adapter extends FragmentStateAdapter {
             return new SettingFragment(context);
         }
         else {
-            return new HomeFragment();
+            return new HomeFragment(context);
         }
     }
 

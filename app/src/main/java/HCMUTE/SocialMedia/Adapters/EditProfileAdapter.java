@@ -48,7 +48,6 @@ public class EditProfileAdapter extends BaseAdapter {
         convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.edit_profile_view, parent, false);
         //anh xa.
         EditText etFullName = (EditText) convertView.findViewById(R.id.etFullName);
-        EditText etBirthday = (EditText) convertView.findViewById(R.id.etBirthday);
         RadioGroup rgGender = (RadioGroup) convertView.findViewById(R.id.rgGender);
         EditText etDescription = (EditText) convertView.findViewById(R.id.etDescription);
         EditText etCompany = (EditText) convertView.findViewById(R.id.etCompany);
@@ -56,11 +55,7 @@ public class EditProfileAdapter extends BaseAdapter {
         RadioGroup rgRelationship = (RadioGroup) convertView.findViewById(R.id.rgRelationship);
         //set data.
         ProfileModel user = userList.get(position);
-        this.position = position;
         etFullName.setText(user.getFullname());
-        String dateFormat = "dd/MM/yyyy";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.getDefault());
-        etBirthday.setText(simpleDateFormat.format(user.getDateOfBirth().getTime()));
         if (user.getGender() == "male"){
             rgGender.check(R.id.rbMale);
         } else{
