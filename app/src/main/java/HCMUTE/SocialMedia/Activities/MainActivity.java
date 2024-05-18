@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding activityMainBinding;
     private MainPager2Adapter mainPager2Adapter;
     private ImageButton ibMessage;
+    private ImageButton ibSearch;
 
     @Override
 
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         setupTabs();
         ibMessage = (ImageButton) findViewById(R.id.ibMessage);
         ibMessage.setOnClickListener(view -> onClickMessage());
+
+        ibSearch = (ImageButton) findViewById(R.id.ibSearch);
+        ibSearch.setOnClickListener(view -> onClickSearch());
     }
 
     private void setupTabs() {
@@ -104,6 +108,11 @@ public class MainActivity extends AppCompatActivity {
         ((Drawable) Objects.requireNonNull(friendTab.getIcon())).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.black), PorterDuff.Mode.SRC_IN);
         ((Drawable) Objects.requireNonNull(notifyTab.getIcon())).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.black), PorterDuff.Mode.SRC_IN);
         ((Drawable) Objects.requireNonNull(settingTab.getIcon())).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.black), PorterDuff.Mode.SRC_IN);
+    }
+
+    private void onClickSearch() {
+        Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+        startActivity(intent);
     }
 
     private void onClickMessage() {

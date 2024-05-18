@@ -6,6 +6,7 @@ import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
+import HCMUTE.SocialMedia.Models.SearchModel;
 import HCMUTE.SocialMedia.Requests.AuthRequest;
 import HCMUTE.SocialMedia.Requests.RegisterRequest;
 import HCMUTE.SocialMedia.Responses.AuthResponse;
@@ -85,4 +86,8 @@ public interface APIService {
 
     @POST("v1/auth/authenticate")
     Call<AuthResponse> authenticate(@Body AuthRequest request);
+
+    //    Call API GROUP
+    @GET("search/{username}/{keyword}")
+    Call<ResponseModel<SearchModel>> search(@Path("username") String username, @Path("keyword") String keyword);
 }

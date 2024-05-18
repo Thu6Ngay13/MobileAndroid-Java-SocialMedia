@@ -26,16 +26,16 @@ import retrofit2.Response;
 public class ConversationActivity extends AppCompatActivity {
 
     private ImageButton ibBack;
+    private List<ConversationCardModel> conversationCards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
+        conversationCards = new ArrayList<>();
 
         ibBack = findViewById(R.id.ibBack);
         ibBack.setOnClickListener(v -> finish());
-
-        final List<ConversationCardModel> conversationCards = new ArrayList<>();
 
         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
         apiService.getConversationsWithUsername(Const.USERNAME).enqueue(new Callback<ResponseModel<ConversationCardModel>>() {
