@@ -164,9 +164,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             cvComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Comment", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, CommentActivity.class);
-                    //intent.putExtra("id", postId.getText());
+                    intent.putExtra("postId", String.valueOf(postCardModel.getPostId()));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }

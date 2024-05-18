@@ -3,6 +3,7 @@ package HCMUTE.SocialMedia.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class GroupActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private APIService apiService;
     private MyPersonalPageAdapter adapter;
+    private Button btPostGroup, btMyGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,11 @@ public class GroupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group);
         ibBack = findViewById(R.id.ibBack);
         ibCreateGroup = findViewById(R.id.ibCreateGroup);
+        btPostGroup = findViewById(R.id.btPostGroup);
+        btMyGroup = findViewById(R.id.btMyGroup);
+
         recyclerView = findViewById(R.id.rvGroupArea);
+
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +64,20 @@ public class GroupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(GroupActivity.this, CreateGroupActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        btPostGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData(Const.USERNAME);
+            }
+        });
+
+        btMyGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData(Const.USERNAME);
             }
         });
         loadData(Const.USERNAME);
