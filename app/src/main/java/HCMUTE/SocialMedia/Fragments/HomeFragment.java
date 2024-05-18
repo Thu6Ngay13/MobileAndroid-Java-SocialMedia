@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ImageView civAvatar = view.findViewById(R.id.civAvatar);
-        Glide.with(context).load(Const.AVATAR).into(civAvatar);
+        Glide.with(context).load(PrefManager.getAvatarURL()).into(civAvatar);
         civAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

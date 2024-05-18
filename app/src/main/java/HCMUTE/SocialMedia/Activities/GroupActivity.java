@@ -55,7 +55,7 @@ public class GroupActivity extends AppCompatActivity {
         btMyGroup = findViewById(R.id.btMyGroup);
 
         recyclerView = findViewById(R.id.rvGroupArea);
-        loadPosts(Const.USERNAME);
+        loadPosts(PrefManager.getUsername());
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +84,32 @@ public class GroupActivity extends AppCompatActivity {
             }
         });
         loadData(PrefManager.getUsername());
+    }
+    private void loadData(String username) {
+        final List<PostCardModel> postCardModels = new ArrayList<>();
+        apiService = RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getPostInGroupsByUsername(username).enqueue(new Callback<ResponseModel<PostCardModel>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<PostCardModel>> call, Response<ResponseModel<PostCardModel>> response) {
+                if (response.isSuccessful()) {
+                    ResponseModel<PostCardModel> responseModel = response.body();
+                    List<PostCardModel> responseModelResult = new ArrayList<>();
+                    if (responseModel != null && responseModel.isSuccess()) {
+                        responseModelResult = responseModel.getResult();
+                        postCardModels.addAll(responseModelResult);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(GroupActivity.this.getApplicationContext()));
+                        recyclerView.setAdapter(new PostAdapter(GroupActivity.this.getApplicationContext(), postCardModels));
+                    }
+                } else {
+                    int statusCode = response.code();
+                    // handle request errors depending on status code
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<PostCardModel>> call, Throwable t) {
+            }
+        });
     }
 
     private void loadPosts(String username) {
