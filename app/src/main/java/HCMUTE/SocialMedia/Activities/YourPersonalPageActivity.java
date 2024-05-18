@@ -24,6 +24,7 @@ import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Responses.SimpleResponse;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,7 +59,7 @@ public class YourPersonalPageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        getProfile(Const.USERNAME, friend_username);
+        getProfile(PrefManager.getUsername(), friend_username);
     }
     private void getProfile(String username, String friendUsername) {
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
@@ -74,7 +75,7 @@ public class YourPersonalPageActivity extends AppCompatActivity {
                             YourFriendModel yourFriend = new YourFriendModel();
                             yourFriend.setAvatar(a.getAvatarURL());
                             yourFriend.setUsername(a.getUsername());
-                            if (!yourFriend.getUsername().equals(Const.USERNAME)){
+                            if (!yourFriend.getUsername().equals(PrefManager.getUsername())){
                                 yourFriendModels.add(yourFriend);
                             }
                         }

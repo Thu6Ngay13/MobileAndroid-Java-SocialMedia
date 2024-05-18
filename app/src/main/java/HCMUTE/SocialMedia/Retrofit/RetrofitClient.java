@@ -24,7 +24,7 @@ public class RetrofitClient {
     public static OkHttpClient getClient() {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain -> {
             Request newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", " Bearer " + Const.TOKEN)
+                    .addHeader("Authorization", " Bearer " + PrefManager.getAccessToken())
                     .build();
             return chain.proceed(newRequest);
         }).build();

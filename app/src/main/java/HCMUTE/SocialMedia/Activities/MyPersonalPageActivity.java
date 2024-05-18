@@ -62,7 +62,7 @@ public class MyPersonalPageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        getProfile(Const.USERNAME);
+        getProfile(PrefManager.getUsername());
     }
 
     private AccountCardModel getProfile(String username) {

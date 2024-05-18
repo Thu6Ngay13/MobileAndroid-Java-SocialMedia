@@ -22,6 +22,7 @@ import HCMUTE.SocialMedia.Activities.YourPersonalPageActivity;
 import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 
 public class FriendInPersonalPageAdapter extends RecyclerView.Adapter<FriendInPersonalPageAdapter.FriendHolder> {
     private Context context;
@@ -49,7 +50,7 @@ public class FriendInPersonalPageAdapter extends RecyclerView.Adapter<FriendInPe
         holder.cvUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (yourFriendModel.getUsername().equals(Const.USERNAME)){
+                if (yourFriendModel.getUsername().equals(PrefManager.getUsername())){
                     Intent intent = new Intent(context, MyPersonalPageActivity.class);
                     context.startActivity(intent);
                 }

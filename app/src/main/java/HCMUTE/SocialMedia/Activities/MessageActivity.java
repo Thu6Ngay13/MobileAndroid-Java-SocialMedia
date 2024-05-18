@@ -42,6 +42,7 @@ import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.RealTime.SocketIO;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import HCMUTE.SocialMedia.Utils.ProcessTime;
 import HCMUTE.SocialMedia.Utils.RealPathUtil;
 import io.socket.emitter.Emitter;
@@ -126,7 +127,7 @@ public class MessageActivity extends AppCompatActivity {
 
     private void getMessage() {
         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getMessagesWithConversationIdAndUsername(this.conversationId,  Const.USERNAME).enqueue(new Callback<ResponseModel<MessageModel>>() {
+        apiService.getMessagesWithConversationIdAndUsername(this.conversationId,  PrefManager.getUsername()).enqueue(new Callback<ResponseModel<MessageModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<MessageModel>> call, Response<ResponseModel<MessageModel>> response) {
                 if (response.isSuccessful()) {
@@ -182,8 +183,8 @@ public class MessageActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("typeSender", "MESSAGE");
             jsonObject.put("conversationId", conversationId);
-            jsonObject.put("username",  Const.USERNAME);
-            jsonObject.put("fullname",  Const.USERNAME);
+            jsonObject.put("username",  PrefManager.getUsername());
+            jsonObject.put("fullname",  PrefManager.getUsername());
             jsonObject.put("messageSendingAt", ProcessTime.getNow());
             jsonObject.put("message", message);
             jsonObject.put("media", "");
@@ -204,8 +205,8 @@ public class MessageActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("typeSender", "MEDIA");
                     jsonObject.put("conversationId", conversationId);
-                    jsonObject.put("username",  Const.USERNAME);
-                    jsonObject.put("fullname",  Const.USERNAME);
+                    jsonObject.put("username",  PrefManager.getUsername());
+                    jsonObject.put("fullname",  PrefManager.getUsername());
                     jsonObject.put("messageSendingAt", ProcessTime.getNow());
                     jsonObject.put("message", "");
                     jsonObject.put("media", "");

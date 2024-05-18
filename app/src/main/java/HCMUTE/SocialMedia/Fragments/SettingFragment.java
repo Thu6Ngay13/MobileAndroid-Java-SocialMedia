@@ -25,6 +25,7 @@ import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.GroupActivity;
 import HCMUTE.SocialMedia.Activities.LoginActivity;
+import HCMUTE.SocialMedia.Activities.MainActivity;
 import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
 import HCMUTE.SocialMedia.Adapters.SettingCardAdapter;
 import HCMUTE.SocialMedia.Consts.Const;
@@ -47,9 +48,9 @@ public class SettingFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Glide.with(context).load(Const.AVATAR).into(((ImageView) view.findViewById(R.id.civAvatar)));
+        Glide.with(context).load(PrefManager.getAvatarURL()).into(((ImageView) view.findViewById(R.id.civAvatar)));
         TextView tvFullname = view.findViewById(R.id.tvFullname);
-        tvFullname.setText(Const.FULLNAME);
+        tvFullname.setText(PrefManager.getFullname());
         tvFullname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +64,7 @@ public class SettingFragment extends Fragment {
             public void onClick(View v) {
                 PrefManager.getInstance(context).logout();
                 Intent intent = new Intent(context, LoginActivity.class);
+                closeActivity();
                 startActivity(intent);
             }
         });
@@ -76,5 +78,10 @@ public class SettingFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+    private void closeActivity() {
+        if (context instanceof MainActivity) {
+            ((MainActivity) context).finish();
+        }
     }
 }

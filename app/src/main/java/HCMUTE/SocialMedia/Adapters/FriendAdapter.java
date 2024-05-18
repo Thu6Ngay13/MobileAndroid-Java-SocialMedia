@@ -28,6 +28,7 @@ import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import HCMUTE.SocialMedia.Utils.ProcessTime;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,7 +71,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendHolder> {
             btSendMessage.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.getConversationWithFriend(Const.USERNAME, friendModel.getUsername()).enqueue(new Callback<ResponseModel<ConversationCardModel>>() {
+                    apiService.getConversationWithFriend(PrefManager.getUsername(), friendModel.getUsername()).enqueue(new Callback<ResponseModel<ConversationCardModel>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<ConversationCardModel>> call, Response<ResponseModel<ConversationCardModel>> response) {
                             if (response.isSuccessful()) {
@@ -117,7 +118,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendHolder> {
                 @Override
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.acceptFriend(Const.USERNAME, friendModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
+                    apiService.acceptFriend(PrefManager.getUsername(), friendModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {
@@ -143,7 +144,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendHolder> {
                 @Override
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.declineFriend(Const.USERNAME, friendModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
+                    apiService.declineFriend(PrefManager.getUsername(), friendModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {

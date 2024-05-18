@@ -20,6 +20,7 @@ import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Responses.SimpleResponse;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,7 +75,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void updateProfile() {
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.updateProfile(etFullName.getText().toString(), rbMale.isChecked() ? "male":"female", etDescription.getText().toString(), etCompany.getText().toString(), etLocation.getText().toString(), rbSingle.isChecked()? true:false, Const.USERNAME)
+        apiService.updateProfile(etFullName.getText().toString(), rbMale.isChecked() ? "male":"female", etDescription.getText().toString(), etCompany.getText().toString(), etLocation.getText().toString(), rbSingle.isChecked()? true:false, PrefManager.getUsername())
                 .enqueue(new Callback<SimpleResponse<String>>() {
                     @Override
                     public void onResponse(Call<SimpleResponse<String>> call, Response<SimpleResponse<String>> response) {

@@ -29,6 +29,7 @@ import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.RealTime.SocketIO;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import HCMUTE.SocialMedia.Utils.ProcessTime;
 import io.socket.emitter.Emitter;
 import retrofit2.Call;
@@ -54,7 +55,7 @@ public class NotifyFragment extends Fragment {
 
         //G0i Interface trong APIService
         APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getNotificationReceiptsWithUsername(Const.USERNAME).enqueue(new Callback<ResponseModel<NotifyCardModel>>() {
+        apiService.getNotificationReceiptsWithUsername(PrefManager.getUsername()).enqueue(new Callback<ResponseModel<NotifyCardModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<NotifyCardModel>> call, Response<ResponseModel<NotifyCardModel>> response) {
                 if (response.isSuccessful()) {

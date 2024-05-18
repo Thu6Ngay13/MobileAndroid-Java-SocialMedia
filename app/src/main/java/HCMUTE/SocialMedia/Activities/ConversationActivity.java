@@ -19,6 +19,7 @@ import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,7 +39,7 @@ public class ConversationActivity extends AppCompatActivity {
         final List<ConversationCardModel> conversationCards = new ArrayList<>();
 
         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getConversationsWithUsername(Const.USERNAME).enqueue(new Callback<ResponseModel<ConversationCardModel>>() {
+        apiService.getConversationsWithUsername(PrefManager.getUsername()).enqueue(new Callback<ResponseModel<ConversationCardModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<ConversationCardModel>> call, Response<ResponseModel<ConversationCardModel>> response) {
                 if (response.isSuccessful()) {

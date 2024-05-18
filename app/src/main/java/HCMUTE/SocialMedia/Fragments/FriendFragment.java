@@ -25,6 +25,7 @@ import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -71,7 +72,7 @@ public class FriendFragment extends Fragment {
         final List<FriendModel> FriendModels = new ArrayList<>();
 
         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getYourFriendsWithUsername(Const.USERNAME).enqueue(new Callback<ResponseModel<FriendModel>>() { // from class: HCMUTE.SocialMedia.Fragments.FriendFragment.1
+        apiService.getYourFriendsWithUsername(PrefManager.getUsername()).enqueue(new Callback<ResponseModel<FriendModel>>() { // from class: HCMUTE.SocialMedia.Fragments.FriendFragment.1
             @Override
             public void onResponse(Call<ResponseModel<FriendModel>> call, Response<ResponseModel<FriendModel>> response) {
                 if (response.isSuccessful()) {
@@ -106,7 +107,7 @@ public class FriendFragment extends Fragment {
         final List<FriendModel> FriendModels = new ArrayList<>();
 
         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getFriendRequestsWithUsername(Const.USERNAME).enqueue(new Callback<ResponseModel<FriendModel>>() { // from class: HCMUTE.SocialMedia.Fragments.FriendFragment.2
+        apiService.getFriendRequestsWithUsername(PrefManager.getUsername()).enqueue(new Callback<ResponseModel<FriendModel>>() { // from class: HCMUTE.SocialMedia.Fragments.FriendFragment.2
             @Override
             public void onResponse(Call<ResponseModel<FriendModel>> call, Response<ResponseModel<FriendModel>> response) {
                 if (response.isSuccessful()) {

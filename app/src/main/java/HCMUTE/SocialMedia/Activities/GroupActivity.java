@@ -29,6 +29,7 @@ import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Responses.SimpleResponse;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,17 +71,17 @@ public class GroupActivity extends AppCompatActivity {
         btPostGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadData(Const.USERNAME);
+                loadData(PrefManager.getUsername());
             }
         });
 
         btMyGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadData(Const.USERNAME);
+                loadData(PrefManager.getUsername());
             }
         });
-        loadData(Const.USERNAME);
+        loadData(PrefManager.getUsername());
     }
 
     private void loadData(String username) {

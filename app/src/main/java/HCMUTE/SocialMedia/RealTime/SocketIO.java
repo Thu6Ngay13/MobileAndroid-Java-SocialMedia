@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.util.EventListener;
 
 import HCMUTE.SocialMedia.Consts.Const;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -33,7 +34,7 @@ public class SocketIO {
                     System.out.println("Connected to server");
                     try {
                         JSONObject newClient = new JSONObject();
-                        newClient.put("username", Const.USERNAME);
+                        newClient.put("username", PrefManager.getUsername());
                         SocketIO.socketClient.emit("new", newClient);
                     } catch (Exception e) {
                         Log.d(SocketIO.TAG, "Failed on connectToServer when Socket.EVENT_CONNECT: " + e.getMessage());
