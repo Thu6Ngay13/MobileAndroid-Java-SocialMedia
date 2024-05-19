@@ -3,6 +3,7 @@ package HCMUTE.SocialMedia.Retrofit;
 import java.util.Map;
 
 import HCMUTE.SocialMedia.Models.AccountCardModel;
+import HCMUTE.SocialMedia.Models.BanAccountModel;
 import HCMUTE.SocialMedia.Models.CommentCardModel;
 import HCMUTE.SocialMedia.Models.ConversationCardModel;
 import HCMUTE.SocialMedia.Models.FriendModel;
@@ -178,5 +179,15 @@ public interface APIService {
 
     @POST("report/{username}/report/{postId}")
     Call<ResponseModel<String>> handleReport(@Path("reportId") String reportId);
+
+    //    Call API ADMIN
+    @GET("v1/admin/banaccount")
+    Call<ResponseModel<BanAccountModel>> getBanAccount();
+
+    @POST("v1/admin/banaccount/ban/{username}")
+    Call<ResponseModel<String>> banAccount(@Path("username") String username);
+
+    @POST("v1/admin/banaccount/unban/{username}")
+    Call<ResponseModel<String>> unbanAccount(@Path("username") String username);
 
 }
