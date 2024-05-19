@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -67,7 +68,6 @@ public class RegisterActivity extends AppCompatActivity {
         btnCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pbWait.setVisibility(View.VISIBLE);
                 RegisterRequest registerRequest = new RegisterRequest();
                 registerRequest.setUsername(etUsername.getText().toString());
                 registerRequest.setEmail(etEmail.getText().toString());
@@ -104,18 +104,21 @@ public class RegisterActivity extends AppCompatActivity {
                 || !validateUsername()|| !validatePassword()){
             return;
         }
+        pbWait.setVisibility(View.VISIBLE);
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
         Call<RegisterResponse> call = apiService.register(request);
         call.enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(RegisterActivity.this, "Create account successful", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegisterActivity.this, VerifyNewAccountActivity.class);
-                    intent.putExtra("registeredEmail", request.getEmail());
-                    startActivity(intent);
-                    pbWait.setVisibility(View.GONE);
-                    finish();
+                    if (response.body().isSuccess()){
+                        Toast.makeText(RegisterActivity.this, "Create account successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegisterActivity.this, VerifyNewAccountActivity.class);
+                        intent.putExtra("registeredEmail", request.getEmail());
+                        startActivity(intent);
+                        pbWait.setVisibility(View.GONE);
+                        finish();
+                    }
                 }
                 else {
                     Toast.makeText(RegisterActivity.this, "An error occurred please try again later ...", Toast.LENGTH_SHORT).show();

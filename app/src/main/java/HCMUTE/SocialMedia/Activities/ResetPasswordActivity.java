@@ -43,11 +43,17 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
         initialize();
+        model = new AccountCardModel();
         Intent intent = getIntent();
-        if (intent != null) {
-            model = (AccountCardModel) intent.getSerializableExtra("findaccount");
-            tvNotify.setText("Enter the code we sent to " + model.getEmail());
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            model.setUsername(bundle.getString("RESET_USERNAME"));
+            model.setFullname(bundle.getString("RESET_FULLNAME"));
+            model.setAvatarURL(bundle.getString("RESET_AVATARURL"));
+            model.setEmail(bundle.getString("RESET_EMAIL"));
         }
+        tvNotify.setText("Enter the code we sent to " + model.getEmail());
+        etToken1.requestFocus();
         etToken1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
