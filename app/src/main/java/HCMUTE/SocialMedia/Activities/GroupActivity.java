@@ -79,7 +79,7 @@ public class GroupActivity extends AppCompatActivity {
         btMyGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadData(PrefManager.getUsername());
+                loadMyGroups(PrefManager.getUsername());
             }
         });
         loadData(PrefManager.getUsername());

@@ -12,6 +12,7 @@ import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.SearchModel;
+import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.Requests.AuthRequest;
 import HCMUTE.SocialMedia.Requests.ResetPasswordRequest;
 import HCMUTE.SocialMedia.Responses.AuthResponse;
@@ -148,7 +149,18 @@ public interface APIService {
             @Query("modeId") long modeId,
             @Query("description") String description
     );
+    @GET("group/memberInOneGroup")
+    Call<ResponseModel<YourFriendModel>> getMembersInGroup(
+            @Query("groupId") long groupId);
+    @GET("group/postInOneGroup")
+    Call<ResponseModel<PostCardModel>> getPostsInGroup(
+            @Query("username") String username,
+            @Query("groupId") long groupId);
+    @GET("group/{groupId}")
+    Call<SimpleResponse<GroupModel>> getGroupByGroupId(@Path("groupId") Long groupId);
 
+    @POST("group/createPost")
+    Call<PostCardModel> createPostInGroup(@Body PostCardModel postCardModel);
     //    Call API GROUP
     @GET("search/{username}/{keyword}")
     Call<ResponseModel<SearchModel>> search(@Path("username") String username, @Path("keyword") String keyword);

@@ -18,6 +18,7 @@ import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Responses.SimpleResponse;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,11 +36,15 @@ public class CreateGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
 
+
         initialize();
+
+
+
         rbPublic.setChecked(true);
         rbPrivate.setChecked(false);
 
-        groupModel.setHolderUsername(Const.USERNAME);
+        groupModel.setHolderUsername(PrefManager.getUsername());
         groupModel.setGroupName(etGroupName.getText().toString());
         groupModel.setModeId(rbPublic.isChecked() ? 1:2);
         groupModel.setDescription(etDescription.getText().toString());
@@ -60,7 +65,7 @@ public class CreateGroupActivity extends AppCompatActivity {
 
     private void createGroup() {
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.createGroup(Const.USERNAME, etGroupName.getText().toString(), rbPublic.isChecked() ? 1:2, etDescription.getText().toString()).enqueue(new Callback<SimpleResponse<GroupModel>>() {
+        apiService.createGroup(PrefManager.getUsername(), etGroupName.getText().toString(), rbPublic.isChecked() ? 1:2, etDescription.getText().toString()).enqueue(new Callback<SimpleResponse<GroupModel>>() {
             @Override
             public void onResponse(Call<SimpleResponse<GroupModel>> call, Response<SimpleResponse<GroupModel>> response) {
                 if (response.isSuccessful()){
