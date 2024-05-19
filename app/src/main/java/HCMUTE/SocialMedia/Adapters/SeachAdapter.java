@@ -214,7 +214,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
                                     String[] fullname = searchModel.getFullName().split(" ");
                                     Toast.makeText(context, "You unmake friends " + fullname[fullname.length - 1], Toast.LENGTH_SHORT).show();
 
-                                    btDoSomething.setText("Unmake Friend");
+                                    btDoSomething.setText("Make Friend");
                                     searchModel.setViewType(TypeSearchEnum.MAKED_FRIEND);
                                     notifyItemChanged(position);
                                 }
@@ -257,7 +257,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
                                     String[] fullname = searchModel.getFullName().split(" ");
                                     Toast.makeText(context, "You make friends " + fullname[fullname.length - 1], Toast.LENGTH_SHORT).show();
 
-                                    btDoSomething.setText("Make Friend");
+                                    btDoSomething.setText("Unmake Friend");
                                     searchModel.setViewType(TypeSearchEnum.MAKE_FRIEND);
                                     notifyItemChanged(position);
                                 }
