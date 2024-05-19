@@ -26,6 +26,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.ViewProfileGroupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.EditProfileGroupActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.CreatePostInGroupActivity"
             android:exported="false" />
         <activity
