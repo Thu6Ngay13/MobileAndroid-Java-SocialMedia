@@ -25,11 +25,13 @@ import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.CreatePostActivity;
 import HCMUTE.SocialMedia.Activities.LoginActivity;
+import HCMUTE.SocialMedia.Activities.MessageActivity;
 import HCMUTE.SocialMedia.Activities.SeeAllFriendActivity;
 import HCMUTE.SocialMedia.Activities.VerifyNewAccountActivity;
 import HCMUTE.SocialMedia.Activities.ViewProfileActivity;
 import HCMUTE.SocialMedia.Enums.TypeSearchEnum;
 import HCMUTE.SocialMedia.Models.AccountCardModel;
+import HCMUTE.SocialMedia.Models.ConversationCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
@@ -186,6 +188,44 @@ public class YourPersonalPageAdapter extends RecyclerView.Adapter<YourPersonalPa
                 Intent intent = new Intent(context, SeeAllFriendActivity.class);
                 intent.putExtra("SEE_FRIEND", accountModel.getUsername());
                 context.startActivity(intent);
+            }
+        });
+        holder.llMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+                apiService.getConversationWithFriend(PrefManager.getUsername(), accountModel.getUsername()).enqueue(new Callback<ResponseModel<ConversationCardModel>>() {
+                    @Override
+                    public void onResponse(Call<ResponseModel<ConversationCardModel>> call, Response<ResponseModel<ConversationCardModel>> response) {
+                        if (response.isSuccessful()) {
+                            ResponseModel<ConversationCardModel> responseModel = response.body();
+                            if (responseModel != null && responseModel.isSuccess()) {
+                                List<ConversationCardModel> responseModelResult = responseModel.getResult();
+                                ConversationCardModel conversationCardModel = responseModelResult.get(0);
+
+                                Intent intent = new Intent(context, MessageActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                Bundle bundle = new Bundle();
+                                bundle.putLong("conversationId", conversationCardModel.getConversationId());
+                                bundle.putString("conversationAvatar", conversationCardModel.getConversationAvatar());
+                                bundle.putString("conversationName", conversationCardModel.getConversationName());
+                                intent.putExtras(bundle);
+
+                                context.startActivity(intent);
+                            }
+                            else {
+                                Toast.makeText(context, "You two are not friends", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(context, "You two are not friends", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseModel<ConversationCardModel>> call, Throwable t) {
+                    }
+                });
             }
         });
     }

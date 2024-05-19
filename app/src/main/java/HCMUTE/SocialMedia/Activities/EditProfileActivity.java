@@ -54,12 +54,15 @@ public class EditProfileActivity extends AppCompatActivity {
         etDescription.setText(accountModel.getDescription());
         etCompany.setText(accountModel.getCompany());
         etLocation.setText(accountModel.getLocation());
-        if (accountModel.getGender().equals("male")){
-            rbMale.setChecked(true);
+        if (accountModel.getGender() != null){
+            if (accountModel.getGender().equals("male")){
+                rbMale.setChecked(true);
+            }
+            else{
+                rbFemale.setChecked(true);
+            }
         }
-        else{
-            rbFemale.setChecked(true);
-        }
+
         if (accountModel.isSingle()){
             rbSingle.setChecked(true);
         }else {
