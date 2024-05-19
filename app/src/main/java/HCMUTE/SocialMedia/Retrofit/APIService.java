@@ -183,6 +183,9 @@ public interface APIService {
     Call<ResponseModel<String>> unjoinGroupByUsernameAndGroupId(@Path("username") String username, @Path("groupId") long groupId);
 
     //    Call API SEARCH
+    @GET("search/{username}")
+    Call<ResponseModel<SearchModel>> getSuggestFriend(@Path("username") String username);
+
     @GET("search/{username}/{keyword}")
     Call<ResponseModel<SearchModel>> search(@Path("username") String username, @Path("keyword") String keyword);
 
