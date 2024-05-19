@@ -224,7 +224,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 RequestBody jsonBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
 
                 APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                apiService.reportPost(Const.USERNAME, postCardModel.getPostId(), jsonBody).enqueue(new Callback<ResponseModel<String>>() {
+                apiService.reportPost(PrefManager.getUsername(), postCardModel.getPostId(), jsonBody).enqueue(new Callback<ResponseModel<String>>() {
                     @Override
                     public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                         if (response.isSuccessful()) {

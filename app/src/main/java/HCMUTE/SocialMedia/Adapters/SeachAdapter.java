@@ -197,7 +197,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
             btDoSomething.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.makeFriend(Const.USERNAME, searchModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
+                    apiService.makeFriend(PrefManager.getUsername(), searchModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {
@@ -237,7 +237,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
             btDoSomething.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.unmakeFriend(Const.USERNAME, searchModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
+                    apiService.unmakeFriend(PrefManager.getUsername(), searchModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {
@@ -268,7 +268,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
             btDoSomething.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.viewGroupByUsernameAndGroupId(Const.USERNAME, searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<GroupModel>>() {
+                    apiService.viewGroupByUsernameAndGroupId(PrefManager.getUsername(), searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<GroupModel>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<GroupModel>> call, Response<ResponseModel<GroupModel>> response) {
                             if (response.isSuccessful()) {
@@ -295,7 +295,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
             btDoSomething.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.joinGroupByUsernameAndGroupId(Const.USERNAME, searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<String>>() {
+                    apiService.joinGroupByUsernameAndGroupId(PrefManager.getUsername(), searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<String>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {
@@ -334,7 +334,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
             btDoSomething.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.joinGroupByUsernameAndGroupId(Const.USERNAME, searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<String>>() {
+                    apiService.joinGroupByUsernameAndGroupId(PrefManager.getUsername(), searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<String>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {
@@ -364,7 +364,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
             btDoSomething.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.unjoinGroupByUsernameAndGroupId(Const.USERNAME, searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<String>>() {
+                    apiService.unjoinGroupByUsernameAndGroupId(PrefManager.getUsername(), searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<String>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {
@@ -402,7 +402,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
             btDoSomething.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-                    apiService.unjoinGroupByUsernameAndGroupId(Const.USERNAME, searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<String>>() {
+                    apiService.unjoinGroupByUsernameAndGroupId(PrefManager.getUsername(), searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<String>>() {
                         @Override
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {
