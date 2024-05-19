@@ -10,20 +10,18 @@ import HCMUTE.SocialMedia.Models.GroupModel;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
+import HCMUTE.SocialMedia.Models.ReportModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.SearchModel;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.Requests.AuthRequest;
-import HCMUTE.SocialMedia.Requests.ResetPasswordRequest;
-import HCMUTE.SocialMedia.Responses.AuthResponse;
-import HCMUTE.SocialMedia.Responses.ResetPasswordResponse;
-import HCMUTE.SocialMedia.Responses.SimpleResponse;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import HCMUTE.SocialMedia.Requests.RegisterRequest;
+import HCMUTE.SocialMedia.Requests.ResetPasswordRequest;
 import HCMUTE.SocialMedia.Responses.AuthResponse;
 import HCMUTE.SocialMedia.Responses.OtpResponse;
 import HCMUTE.SocialMedia.Responses.RegisterResponse;
+import HCMUTE.SocialMedia.Responses.ResetPasswordResponse;
+import HCMUTE.SocialMedia.Responses.SimpleResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -51,12 +49,15 @@ public interface APIService {
     @POST("post/{username}/unlike/{postId}")
     Call<ResponseModel<String>> unlikePost(@Path("username") String username, @Path("postId") long postId);
 
+    @GET("post/{username}")
+    Call<ResponseModel<PostCardModel>> getPostsWithUsername(@Path("username") String username);
+
     @POST("post/create")
     Call<PostCardModel> createPost(@Body PostCardModel postCardModel);
+
     @Multipart
     @POST("post/media")
     Call<SimpleResponse<String>> mediaPost(@Part MultipartBody.Part part);
-
 
     //    Call API FRIEND
     @GET("friend/yourfriend/{username}")
@@ -71,11 +72,17 @@ public interface APIService {
     @POST("friend/friendrequest/{username1}/decline/{username2}")
     Call<ResponseModel<String>> declineFriend(@Path("username1") String username1, @Path("username2") String username2);
 
+    @POST("friend/{username1}/make/{username2}")
+    Call<ResponseModel<String>> makeFriend(@Path("username1") String username1, @Path("username2") String username2);
+
+    @POST("friend/{username1}/unmake/{username2}")
+    Call<ResponseModel<String>> unmakeFriend(@Path("username1") String username1, @Path("username2") String username2);
+
     //    Call API NOTIFY
     @GET("notification/{username}")
     Call<ResponseModel<NotifyCardModel>> getNotificationReceiptsWithUsername(@Path("username") String username);
 
-    //    Call API Conversation
+    //    Call API CONVERSATION
     @GET("conversation/{username}")
     Call<ResponseModel<ConversationCardModel>> getConversationsWithUsername(@Path("username") String username);
 
@@ -94,9 +101,6 @@ public interface APIService {
     @POST("message/sendmedia")
     Call<ResponseModel<String>> sendMedia(@Part("jsonBody") RequestBody jsonBody, @Part MultipartBody.Part part);
 
-    @GET("post/{username}")
-    Call<ResponseModel<PostCardModel>> getPostsWithUsername(@Path("username") String username);
-
     //Call API ACCOUNT
     @POST("v1/auth/register")
     Call<RegisterResponse> register(@Body RegisterRequest request);
@@ -106,16 +110,22 @@ public interface APIService {
 
     @POST("v1/auth/authenticate")
     Call<AuthResponse> authenticate(@Body AuthRequest request);
+
     @POST("v1/auth/find-account")
     Call<SimpleResponse<AccountCardModel>> findByEmail(@Query("email") String email);
+
     @POST("v1/auth/send-email")
     Call<SimpleResponse<String>> sendEmail(@Body Map<String, String> reqBody);
+
     @POST("v1/auth/reset-password")
     Call<ResetPasswordResponse> resetPassword(@Body ResetPasswordRequest request);
+
     @GET("user/my-account/{username}")
     Call<SimpleResponse<AccountCardModel>> getAccountByUsername(@Path("username") String username);
+
     @GET("user/my-account/{username}/friend-account/{usernameFriend}")
     Call<SimpleResponse<AccountCardModel>> getFriendAccountByUsername(@Path("username") String username, @Path("usernameFriend") String usernameFriend);
+
     @PUT("user/my-account/update")
     Call<SimpleResponse<String>> updateProfile(
             @Query("fullname") String fullname,
@@ -126,6 +136,7 @@ public interface APIService {
             @Query("isSingle") boolean isSingle,
             @Query("username") String username
     );
+
     @GET("comment/{postId}")
     Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);
 
@@ -135,7 +146,7 @@ public interface APIService {
     @PUT("comment/delete/{commentId}")
     Call<CommentCardModel> deleteComment(@Path("commentId") Long commentId);
 
-    //GROUP
+    //    Call API GROUP
     @GET("group/posts/{username}")
     Call<ResponseModel<PostCardModel>> getPostInGroupsByUsername(@Path("username") String username);
 
@@ -162,7 +173,28 @@ public interface APIService {
     @POST("group/createPost")
     Call<PostCardModel> createPostInGroup(@Body PostCardModel postCardModel);
     //    Call API GROUP
+    @GET("group/{username}/viewgroup/{groupId}")
+    Call<ResponseModel<GroupModel>> viewGroupByUsernameAndGroupId(@Path("username") String username, @Path("groupId") long groupId);
+
+    @GET("group/{username}/joingroup/{groupId}")
+    Call<ResponseModel<String>> joinGroupByUsernameAndGroupId(@Path("username") String username, @Path("groupId") long groupId);
+
+    @GET("group/{username}/unjoingroup/{groupId}")
+    Call<ResponseModel<String>> unjoinGroupByUsernameAndGroupId(@Path("username") String username, @Path("groupId") long groupId);
+
+    //    Call API SEARCH
     @GET("search/{username}/{keyword}")
     Call<ResponseModel<SearchModel>> search(@Path("username") String username, @Path("keyword") String keyword);
+
+    //    Call API REPORT
+    @GET("report")
+    Call<ResponseModel<ReportModel>> getAllReports();
+
+    @Multipart
+    @POST("report/{username}/report/{postId}")
+    Call<ResponseModel<String>> reportPost(@Path("username") String username, @Path("postId") long postId, @Part("jsonBody") RequestBody jsonBody);
+
+    @POST("report/{username}/report/{postId}")
+    Call<ResponseModel<String>> handleReport(@Path("reportId") String reportId);
 
 }

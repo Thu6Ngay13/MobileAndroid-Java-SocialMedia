@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Enums.TypeSearchEnum;
 import HCMUTE.SocialMedia.Holders.SearchHolder;
 import HCMUTE.SocialMedia.Models.ConversationCardModel;
+import HCMUTE.SocialMedia.Models.GroupModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.SearchModel;
 import HCMUTE.SocialMedia.R;
@@ -33,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SeachAdapter extends RecyclerView.Adapter<SearchHolder>{
+public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
     private Context context;
     private List<SearchModel> searchs;
 
@@ -47,18 +49,19 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder>{
     public SearchHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TypeSearchEnum.YOUR_FRIEND.ordinal()) {
             return new SearchHolder(LayoutInflater.from(this.context).inflate(R.layout.your_friend_view, parent, false));
-        }
-        else if (viewType == TypeSearchEnum.FRIEND_REQUEST.ordinal()) {
+        } else if (viewType == TypeSearchEnum.FRIEND_REQUEST.ordinal()) {
             return new SearchHolder(LayoutInflater.from(this.context).inflate(R.layout.friend_request_view, parent, false));
-        }
-        else if (viewType == TypeSearchEnum.MAKE_FRIEND.ordinal() || viewType == TypeSearchEnum.MAKED_FRIEND.ordinal()) {
+        } else if (viewType == TypeSearchEnum.MAKE_FRIEND.ordinal() || viewType == TypeSearchEnum.MAKED_FRIEND.ordinal()) {
             return new SearchHolder(LayoutInflater.from(this.context).inflate(R.layout.friend_search_view, parent, false));
-        }
-        else if (viewType == TypeSearchEnum.JOIN_GROUP.ordinal() || viewType == TypeSearchEnum.UNJOIN_GROUP.ordinal() || viewType == TypeSearchEnum.JOINED_GROUP.ordinal()) {
+        } else if (viewType == TypeSearchEnum.JOINED_GROUP.ordinal()) {
             return new SearchHolder(LayoutInflater.from(this.context).inflate(R.layout.group_search_view, parent, false));
+        } else if (viewType == TypeSearchEnum.JOIN_GROUP_PRIVATE.ordinal() || viewType == TypeSearchEnum.UNJOIN_GROUP_PRIVATE.ordinal()) {
+            return new SearchHolder(LayoutInflater.from(this.context).inflate(R.layout.group_private_search_view, parent, false));
+        } else if (viewType == TypeSearchEnum.JOIN_GROUP_PUBLIC.ordinal() || viewType == TypeSearchEnum.UNJOIN_GROUP_PUBLIC.ordinal()) {
+            return new SearchHolder(LayoutInflater.from(this.context).inflate(R.layout.group_public_search_view, parent, false));
         }
 
-        return new SearchHolder(LayoutInflater.from(this.context).inflate(R.layout.group_search_view, parent, false));
+        return new SearchHolder(LayoutInflater.from(this.context).inflate(R.layout.group_public_search_view, parent, false));
     }
 
     @Override
@@ -69,12 +72,14 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder>{
 
         if (searchModel.getViewType() == TypeSearchEnum.YOUR_FRIEND) {
             Button btViewProfile = (Button) holder.itemView.findViewById(R.id.btViewProfile);
-            Button btSendMessage = (Button) holder.itemView.findViewById(R.id.btSendMessage);
             btViewProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Toast.makeText(context, "View profile", Toast.LENGTH_SHORT).show();
                 }
             });
+
+            Button btSendMessage = (Button) holder.itemView.findViewById(R.id.btSendMessage);
             btSendMessage.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
@@ -129,11 +134,14 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder>{
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {
                                 ResponseModel<String> responseModel = response.body();
+                                if (responseModel != null && responseModel.isSuccess()){
+                                    String[] fullname = searchModel.getFullName().split(" ");
+                                    Toast.makeText(context, "You and " + fullname[fullname.length - 1] + " have become friends", Toast.LENGTH_SHORT).show();
 
-                                String[] fullname = searchModel.getFullName().split(" ");
-                                Toast.makeText(context, "You and " + fullname[fullname.length -1] + " have become friends", Toast.LENGTH_SHORT).show();
+                                    searchModel.setViewType(TypeSearchEnum.YOUR_FRIEND);
+                                    notifyItemChanged(position);
+                                }
 
-                                removeItem(searchModel, null);
                             } else {
                                 int statusCode = response.code();
                                 // handle request errors depending on status code
@@ -155,11 +163,13 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder>{
                         public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                             if (response.isSuccessful()) {
                                 ResponseModel<String> responseModel = response.body();
+                                if (responseModel != null && responseModel.isSuccess()){
+                                    String[] fullname = searchModel.getFullName().split(" ");
+                                    Toast.makeText(context, "You declined " + fullname[fullname.length - 1] + "'s friend request", Toast.LENGTH_SHORT).show();
 
-                                String[] fullname = searchModel.getFullName().split(" ");
-                                Toast.makeText(context, "You declined " + fullname[fullname.length -1] + "'s friend request", Toast.LENGTH_SHORT).show();
-
-                                removeItem(searchModel, null);
+                                    searchModel.setViewType(TypeSearchEnum.MAKE_FRIEND);
+                                    notifyItemChanged(position);
+                                }
                             } else {
                                 int statusCode = response.code();
                                 // handle request errors depending on status code
@@ -174,52 +184,247 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder>{
             });
         }
         else if (searchModel.getViewType() == TypeSearchEnum.MAKE_FRIEND) {
+            Button btViewProfile = (Button) holder.itemView.findViewById(R.id.btViewProfile);
+            btViewProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "View profile", Toast.LENGTH_SHORT).show();
+                }
+            });
+
             Button btDoSomething = (Button) holder.itemView.findViewById(R.id.btDoSomething);
             btDoSomething.setText("Make Friend");
             btDoSomething.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+                    apiService.makeFriend(PrefManager.getUsername(), searchModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
+                        @Override
+                        public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
+                            if (response.isSuccessful()) {
+                                ResponseModel<String> responseModel = response.body();
+                                if (responseModel != null && responseModel.isSuccess()){
+                                    String[] fullname = searchModel.getFullName().split(" ");
+                                    Toast.makeText(context, "You unmake friends " + fullname[fullname.length - 1], Toast.LENGTH_SHORT).show();
 
+                                    btDoSomething.setText("Unmake Friend");
+                                    searchModel.setViewType(TypeSearchEnum.MAKED_FRIEND);
+                                    notifyItemChanged(position);
+                                }
+                            } else {
+                                int statusCode = response.code();
+                                // handle request errors depending on status code
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                        }
+                    });
                 }
             });
         }
         else if (searchModel.getViewType() == TypeSearchEnum.MAKED_FRIEND) {
+            Button btViewProfile = (Button) holder.itemView.findViewById(R.id.btViewProfile);
+            btViewProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "View profile", Toast.LENGTH_SHORT).show();
+                }
+            });
+
             Button btDoSomething = (Button) holder.itemView.findViewById(R.id.btDoSomething);
             btDoSomething.setText("Unmake Friend");
             btDoSomething.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+                    apiService.unmakeFriend(PrefManager.getUsername(), searchModel.getUsername()).enqueue(new Callback<ResponseModel<String>>() {
+                        @Override
+                        public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
+                            if (response.isSuccessful()) {
+                                ResponseModel<String> responseModel = response.body();
+                                if (responseModel != null && responseModel.isSuccess()){
+                                    String[] fullname = searchModel.getFullName().split(" ");
+                                    Toast.makeText(context, "You make friends " + fullname[fullname.length - 1], Toast.LENGTH_SHORT).show();
 
+                                    btDoSomething.setText("Make Friend");
+                                    searchModel.setViewType(TypeSearchEnum.MAKE_FRIEND);
+                                    notifyItemChanged(position);
+                                }
+                            } else {
+                                int statusCode = response.code();
+                                // handle request errors depending on status code
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                        }
+                    });
                 }
             });
-        }
-        else if (searchModel.getViewType() == TypeSearchEnum.JOINED_GROUP) {
+        } else if (searchModel.getViewType() == TypeSearchEnum.JOINED_GROUP) {
             Button btDoSomething = (Button) holder.itemView.findViewById(R.id.btDoSomething);
             btDoSomething.setText("View Group");
             btDoSomething.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+                    apiService.viewGroupByUsernameAndGroupId(PrefManager.getUsername(), searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<GroupModel>>() {
+                        @Override
+                        public void onResponse(Call<ResponseModel<GroupModel>> call, Response<ResponseModel<GroupModel>> response) {
+                            if (response.isSuccessful()) {
+                                ResponseModel<GroupModel> responseModel = response.body();
+                                if (responseModel != null && responseModel.isSuccess()){
+                                    List<GroupModel> groupModels = responseModel.getResult();
+                                    Toast.makeText(context, "View group public " + groupModels.get(0).getGroupName(), Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                int statusCode = response.code();
+                                // handle request errors depending on status code
+                            }
+                        }
 
+                        @Override
+                        public void onFailure(Call<ResponseModel<GroupModel>> call, Throwable t) {
+                        }
+                    });
                 }
             });
-        }
-        else if (searchModel.getViewType() == TypeSearchEnum.JOIN_GROUP) {
+        } else if (searchModel.getViewType() == TypeSearchEnum.JOIN_GROUP_PRIVATE) {
             Button btDoSomething = (Button) holder.itemView.findViewById(R.id.btDoSomething);
             btDoSomething.setText("Join Group");
             btDoSomething.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+                    apiService.joinGroupByUsernameAndGroupId(PrefManager.getUsername(), searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<String>>() {
+                        @Override
+                        public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
+                            if (response.isSuccessful()) {
+                                ResponseModel<String> responseModel = response.body();
+                                if (responseModel != null && responseModel.isSuccess()) {
+                                    Toast.makeText(context, "You join group ", Toast.LENGTH_SHORT).show();
 
+                                    btDoSomething.setText("Unjoin Group");
+                                    searchModel.setViewType(TypeSearchEnum.UNJOIN_GROUP_PRIVATE);
+                                    notifyItemChanged(position);
+                                }
+
+                            } else {
+                                int statusCode = response.code();
+                                // handle request errors depending on status code
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                        }
+                    });
                 }
             });
-        }
-        else if (searchModel.getViewType() == TypeSearchEnum.UNJOIN_GROUP) {
+        } else if (searchModel.getViewType() == TypeSearchEnum.JOIN_GROUP_PUBLIC) {
+            Button btViewGroup = (Button) holder.itemView.findViewById(R.id.btViewGroup);
+            btViewGroup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "View group public", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            Button btDoSomething = (Button) holder.itemView.findViewById(R.id.btDoSomething);
+            btDoSomething.setText("Join Group");
+            btDoSomething.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+                    apiService.joinGroupByUsernameAndGroupId(PrefManager.getUsername(), searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<String>>() {
+                        @Override
+                        public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
+                            if (response.isSuccessful()) {
+                                ResponseModel<String> responseModel = response.body();
+                                if (responseModel != null && responseModel.isSuccess()){
+                                    Toast.makeText(context, "You join group ", Toast.LENGTH_SHORT).show();
+
+                                    btDoSomething.setText("Unjoin Group");
+                                    searchModel.setViewType(TypeSearchEnum.UNJOIN_GROUP_PUBLIC);
+                                    notifyItemChanged(position);
+                                }
+                            } else {
+                                int statusCode = response.code();
+                                // handle request errors depending on status code
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                        }
+                    });
+                }
+            });
+        } else if (searchModel.getViewType() == TypeSearchEnum.UNJOIN_GROUP_PRIVATE) {
             Button btDoSomething = (Button) holder.itemView.findViewById(R.id.btDoSomething);
             btDoSomething.setText("Unjoin Group");
             btDoSomething.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+                    apiService.unjoinGroupByUsernameAndGroupId(PrefManager.getUsername(), searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<String>>() {
+                        @Override
+                        public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
+                            if (response.isSuccessful()) {
+                                ResponseModel<String> responseModel = response.body();
+                                if (responseModel != null && responseModel.isSuccess()){
+                                    Toast.makeText(context, "You unjoin group ", Toast.LENGTH_SHORT).show();
 
+                                    btDoSomething.setText("Join Group");
+                                    searchModel.setViewType(TypeSearchEnum.JOIN_GROUP_PRIVATE);
+                                    notifyItemChanged(position);
+                                }
+                            } else {
+                                int statusCode = response.code();
+                                // handle request errors depending on status code
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                        }
+                    });
+                }
+            });
+        } else if (searchModel.getViewType() == TypeSearchEnum.UNJOIN_GROUP_PUBLIC) {
+            Button btViewGroup = (Button) holder.itemView.findViewById(R.id.btViewGroup);
+            btViewGroup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "View group public", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            Button btDoSomething = (Button) holder.itemView.findViewById(R.id.btDoSomething);
+            btDoSomething.setText("Unjoin Group");
+            btDoSomething.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+                    apiService.unjoinGroupByUsernameAndGroupId(PrefManager.getUsername(), searchModel.getGroupdId()).enqueue(new Callback<ResponseModel<String>>() {
+                        @Override
+                        public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
+                            if (response.isSuccessful()) {
+                                ResponseModel<String> responseModel = response.body();
+                                if (responseModel != null && responseModel.isSuccess()){
+                                    Toast.makeText(context, "You unjoin group ", Toast.LENGTH_SHORT).show();
+
+                                    btDoSomething.setText("Join Group");
+                                    searchModel.setViewType(TypeSearchEnum.JOIN_GROUP_PUBLIC);
+                                    notifyItemChanged(position);
+
+                                }
+                            } else {
+                                int statusCode = response.code();
+                                // handle request errors depending on status code
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                        }
+                    });
                 }
             });
         }

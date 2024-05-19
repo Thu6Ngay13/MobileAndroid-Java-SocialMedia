@@ -29,9 +29,10 @@
         android:layout_toEndOf="@+id/ivAvatar"
         android:textColor="@color/black"
         android:gravity="center"
-        android:text="@string/full_name"
+        android:text="@string/name_group"
         android:textSize="18sp"
         android:textStyle="bold" />
+
 
     <androidx.gridlayout.widget.GridLayout
         android:layout_width="match_parent"
@@ -46,8 +47,8 @@
         app:rowCount="1">
 
         <Button
-            android:id="@+id/btViewProfile"
-            android:text="@string/view_profile"
+            android:id="@+id/btViewGroup"
+            android:text="@string/view_group"
             android:gravity="center"
             android:textColor="@color/white"
             android:layout_marginRight="4px"
@@ -61,7 +62,7 @@
 
         <Button
             android:id="@+id/btDoSomething"
-            android:layout_width="90dp"
+            android:layout_width="85dp"
             android:layout_marginLeft="4px"
             android:background="@drawable/custom_button_selector_line"
             android:gravity="center"
@@ -75,5 +76,4 @@
             app:layout_rowWeight="1" />
 
     </androidx.gridlayout.widget.GridLayout>
-
 </RelativeLayout>
