@@ -13,6 +13,7 @@ import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ReportModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.SearchModel;
+import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.Requests.AuthRequest;
 import HCMUTE.SocialMedia.Requests.RegisterRequest;
 import HCMUTE.SocialMedia.Requests.ResetPasswordRequest;
@@ -152,6 +153,26 @@ public interface APIService {
     @GET("group/groups/{username}")
     Call<ResponseModel<GroupModel>> getGroupsByUsername(@Path("username") String username);
 
+    @POST("group/createGroup")
+    Call<SimpleResponse<GroupModel>> createGroup(
+            @Query("holderUsername") String holderUsername,
+            @Query("groupName") String groupName,
+            @Query("modeId") long modeId,
+            @Query("description") String description
+    );
+    @GET("group/memberInOneGroup")
+    Call<ResponseModel<YourFriendModel>> getMembersInGroup(
+            @Query("groupId") long groupId);
+    @GET("group/postInOneGroup")
+    Call<ResponseModel<PostCardModel>> getPostsInGroup(
+            @Query("username") String username,
+            @Query("groupId") long groupId);
+    @GET("group/{groupId}")
+    Call<SimpleResponse<GroupModel>> getGroupByGroupId(@Path("groupId") Long groupId);
+
+    @POST("group/createPost")
+    Call<PostCardModel> createPostInGroup(@Body PostCardModel postCardModel);
+    //    Call API GROUP
     @GET("group/{username}/viewgroup/{groupId}")
     Call<ResponseModel<GroupModel>> viewGroupByUsernameAndGroupId(@Path("username") String username, @Path("groupId") long groupId);
 

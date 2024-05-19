@@ -1,5 +1,7 @@
 package HCMUTE.SocialMedia.Models;
 
+import java.util.List;
+
 public class GroupModel {
     private long groupId;
     private String groupName;
@@ -8,8 +10,11 @@ public class GroupModel {
     private long modeId;
     private String holderFullName;
     private String holderUsername;
+    private String description;
+    public GroupModel() {
+    }
 
-    public GroupModel(long groupId, String groupName, String avatarURL, String creationTimeAt, long modeId, String holderFullName, String holderUsername) {
+    public GroupModel(long groupId, String groupName, String avatarURL, String creationTimeAt, long modeId, String holderFullName, String holderUsername, String description) {
         this.groupId = groupId;
         this.groupName = groupName;
         this.avatarURL = avatarURL;
@@ -17,6 +22,7 @@ public class GroupModel {
         this.modeId = modeId;
         this.holderFullName = holderFullName;
         this.holderUsername = holderUsername;
+        this.description = description;
     }
 
     public long getGroupId() {
@@ -73,5 +79,27 @@ public class GroupModel {
 
     public void setHolderUsername(String holderUsername) {
         this.holderUsername = holderUsername;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "GroupModel{" +
+                "groupId=" + groupId +
+                ", groupName='" + groupName + '\'' +
+                ", avatarURL='" + avatarURL + '\'' +
+                ", creationTimeAt='" + creationTimeAt + '\'' +
+                ", modeId=" + modeId +
+                ", holderFullName='" + holderFullName + '\'' +
+                ", holderUsername='" + holderUsername + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
