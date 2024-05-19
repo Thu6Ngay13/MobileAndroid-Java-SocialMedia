@@ -250,6 +250,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             editPostItem.setVisible(false);
         }
 
+        // Kiểm tra điều kiện và ẩn mục menu nếu cần
+        if (postCardModel.getUsername().equals(PrefManager.getUsername())) {
+            iReport.setVisible(false);
+        }
+
         popupMenu.show();
     }
 
