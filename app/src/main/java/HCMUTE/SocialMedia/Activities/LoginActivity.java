@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -31,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvForgetPassword;
     private RelativeLayout pbWait;
     private APIService apiService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,11 +66,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void startMainActivity(String role) {
-        if (role.equals("USER")){
+        if (role.equals("USER")) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
-        }
-        else {
+        } else {
             Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
             startActivity(intent);
         }
@@ -81,17 +82,17 @@ public class LoginActivity extends AppCompatActivity {
         String password = etPassword.getText().toString();
         boolean cancel = false;
         View focusView = null;
-        if (TextUtils.isEmpty(password) && !isPasswordValid(password)){
+        if (TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             etPassword.setError(getString(R.string.error_invalid_password));
             focusView = etPassword;
             cancel = true;
         }
-        if (TextUtils.isEmpty(emailOrUsername)){
+        if (TextUtils.isEmpty(emailOrUsername)) {
             etEmailOrUsername.setError(getString(R.string.error_field_required));
             focusView = etEmailOrUsername;
             cancel = true;
         }
-        if(cancel){
+        if (cancel) {
             focusView.requestFocus();
         } else {
             pbWait.setVisibility(View.VISIBLE);
@@ -135,7 +136,8 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isEmailOrUsernameValid(String emailOrUsername) {
         return emailOrUsername.length() > 0;
     }
-    public void initialize(){
+
+    public void initialize() {
         etEmailOrUsername = findViewById(R.id.etEmailOrUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);

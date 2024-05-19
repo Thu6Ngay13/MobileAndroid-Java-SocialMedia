@@ -48,11 +48,11 @@
 
         <Button
             android:id="@+id/btDoSomething"
-            android:layout_width="126dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@null"
             android:background="@drawable/custom_button_selector_full"
-            android:text="@string/join_group"
+            android:text="@string/do_something"
             android:textColor="@color/white"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />

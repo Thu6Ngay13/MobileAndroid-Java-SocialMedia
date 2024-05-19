@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
@@ -33,6 +35,8 @@ import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
 import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import HCMUTE.SocialMedia.Utils.ProcessTime;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -209,27 +213,42 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void showPopupMenu(View view, PostCardModel postCardModel) {
         PopupMenu popupMenu = new PopupMenu(context, view);
         popupMenu.getMenuInflater().inflate(R.menu.menu_post, popupMenu.getMenu());
+
+        MenuItem iReport = popupMenu.getMenu().findItem(R.id.iReport);
         MenuItem editPostItem = popupMenu.getMenu().findItem(R.id.iEditPost);
+
+        iReport.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                JSONObject jsonObject = new JSONObject();
+                RequestBody jsonBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
+
+                APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+                apiService.reportPost(Const.USERNAME, postCardModel.getPostId(), jsonBody).enqueue(new Callback<ResponseModel<String>>() {
+                    @Override
+                    public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
+                        if (response.isSuccessful()) {
+                            ResponseModel<String> responseModel = response.body();
+                            Toast.makeText(context, "Report successful", Toast.LENGTH_SHORT).show();
+                        } else {
+                            int statusCode = response.code();
+                            // handle request errors depending on status code
+                            Toast.makeText(context, "Report failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                    }
+                });
+                return false;
+            }
+        });
 
         // Kiểm tra điều kiện và ẩn mục menu nếu cần
         if (!postCardModel.getUsername().equals(PrefManager.getUsername())) {
             editPostItem.setVisible(false);
         }
-//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.iReport:
-//                        // Xử lý khi chọn "Report"
-//                        return true;
-//                    case R.id.iEditPost:
-//                        // Xử lý khi chọn "Edit post"
-//                        return true;
-//                    default:
-//                        return false;
-//                }
-//            }
-//        });
 
         popupMenu.show();
     }

@@ -58,5 +58,6 @@
     <string name="make_friend">Make friend</string>
     <string name="join_group">Join group</string>
     <string name="view_group">View group</string>
+    <string name="do_something">Do something</string>
 
 </resources>
