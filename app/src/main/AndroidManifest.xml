@@ -32,10 +32,16 @@
             android:name=".Activities.EditProfileGroupActivity"
             android:exported="false" />
         <activity
+            android:name=".Activities.SeeAllFriendActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.CreatePostInGroupActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.ProfileGroupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.AdminProcessReportActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.CreateGroupActivity"

@@ -3,6 +3,7 @@ package HCMUTE.SocialMedia.Retrofit;
 import java.util.Map;
 
 import HCMUTE.SocialMedia.Models.AccountCardModel;
+import HCMUTE.SocialMedia.Models.BanAccountModel;
 import HCMUTE.SocialMedia.Models.CommentCardModel;
 import HCMUTE.SocialMedia.Models.ConversationCardModel;
 import HCMUTE.SocialMedia.Models.FriendModel;
@@ -77,6 +78,8 @@ public interface APIService {
 
     @POST("friend/{username1}/unmake/{username2}")
     Call<ResponseModel<String>> unmakeFriend(@Path("username1") String username1, @Path("username2") String username2);
+    @POST("friend/{usernameYou}/unfriend/{usernameFriend}")
+    Call<ResponseModel<String>> unfriend(@Path("usernameYou") String usernameYou, @Path("usernameFriend") String usernameFriend);
 
     //    Call API NOTIFY
     @GET("notification/{username}")
@@ -198,6 +201,9 @@ public interface APIService {
             @Query("groupId") long groupId);
 
     //    Call API SEARCH
+    @GET("search/{username}")
+    Call<ResponseModel<SearchModel>> getSuggestFriend(@Path("username") String username);
+
     @GET("search/{username}/{keyword}")
     Call<ResponseModel<SearchModel>> search(@Path("username") String username, @Path("keyword") String keyword);
 
@@ -211,5 +217,15 @@ public interface APIService {
 
     @POST("report/{username}/report/{postId}")
     Call<ResponseModel<String>> handleReport(@Path("reportId") String reportId);
+
+    //    Call API ADMIN
+    @GET("v1/admin/banaccount")
+    Call<ResponseModel<BanAccountModel>> getBanAccount();
+
+    @POST("v1/admin/banaccount/ban/{username}")
+    Call<ResponseModel<String>> banAccount(@Path("username") String username);
+
+    @POST("v1/admin/banaccount/unban/{username}")
+    Call<ResponseModel<String>> unbanAccount(@Path("username") String username);
 
 }

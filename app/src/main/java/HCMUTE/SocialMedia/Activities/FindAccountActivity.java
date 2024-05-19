@@ -31,27 +31,26 @@ public class FindAccountActivity extends AppCompatActivity {
     private CircleImageView civAvatar;
     private Button btnContinue;
     private ImageView ivBack;
-    private AccountCardModel model;
     private APIService apiService;
+    private AccountCardModel model;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_account);
         initialize();
+        model = new AccountCardModel();
         Intent intent = getIntent();
-        if(intent != null) {
-            model = (AccountCardModel) intent.getSerializableExtra("findaccount");
-            if (model.getAvatarURL() == "" || model.getAvatarURL() == null) {
-                Glide.with(this)
-                        .load("https://cdn.pixabay.com/photo/2024/01/16/16/45/ai-generated-8512588_1280.jpg")
-                        .into(civAvatar);
-            } else {
-                Glide.with(this)
-                        .load(model.getAvatarURL())
-                        .into(civAvatar);
-            }
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            model.setUsername(bundle.getString("FIND_USERNAME"));
+            model.setFullname(bundle.getString("FIND_FULLNAME"));
+            model.setAvatarURL(bundle.getString("FIND_AVATARURL"));
+            model.setEmail(bundle.getString("FIND_EMAIL"));
         }
         tvUsername.setText(model.getUsername());
+        Glide.with(this)
+                .load(model.getAvatarURL())
+                .into(civAvatar);
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +70,12 @@ public class FindAccountActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     if (response.body().isSuccess()){
                         Intent intent = new Intent(FindAccountActivity.this, ResetPasswordActivity.class);
-                        intent.putExtra("findaccount", model);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("RESET_USERNAME", model.getUsername());
+                        bundle.putString("RESET_AVATARURL", model.getAvatarURL());
+                        bundle.putString("RESET_EMAIL", model.getEmail());
+                        bundle.putString("RESET_FULLNAME", model.getFullname());
+                        intent.putExtras(bundle);
                         startActivity(intent);
                     }
                 }

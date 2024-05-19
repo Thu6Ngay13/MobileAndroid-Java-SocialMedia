@@ -50,10 +50,12 @@ public class ViewProfileActivity extends AppCompatActivity {
         etDescription.setText(accountModel.getDescription());
         etCompany.setText(accountModel.getCompany());
         etLocation.setText(accountModel.getLocation());
-        if (accountModel.getGender().equals("male")){
-            rgGender.check(R.id.rbMale);
-        } else {
-            rgGender.check(R.id.rbFemale);
+        if (accountModel.getGender() != null){
+            if (accountModel.getGender().equals("male")){
+                rgGender.check(R.id.rbMale);
+            } else {
+                rgGender.check(R.id.rbFemale);
+            }
         }
         if (accountModel.isSingle()){
             rgRelationship.check(R.id.rbSingle);

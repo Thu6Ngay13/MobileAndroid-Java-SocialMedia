@@ -72,7 +72,8 @@
                     android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="15dp"
-                    android:src="@mipmap/ic_accepted_48_dark" />
+                    android:src="@mipmap/ic_accepted_48_dark"
+                    android:id="@+id/ivFriend"/>
 
                 <TextView
                     android:id="@+id/tvFriend"
@@ -83,7 +84,9 @@
                     android:text="Friend"
                     android:textSize="13dp"
                     android:textColor="@color/green_dark"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginStart="5dp"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/llMessage"

@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.MessageActivity;
+import HCMUTE.SocialMedia.Activities.YourPersonalPageActivity;
 import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Enums.TypeSearchEnum;
 import HCMUTE.SocialMedia.Holders.SearchHolder;
@@ -76,6 +77,10 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, "View profile", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, YourPersonalPageActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("YOUR_FRIEND_USERNAME", searchModel.getUsername());
+                    context.startActivity(intent);
                 }
             });
 
@@ -188,7 +193,10 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
             btViewProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "View profile", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, YourPersonalPageActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("YOUR_FRIEND_USERNAME", searchModel.getUsername());
+                    context.startActivity(intent);
                 }
             });
 
@@ -206,7 +214,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
                                     String[] fullname = searchModel.getFullName().split(" ");
                                     Toast.makeText(context, "You unmake friends " + fullname[fullname.length - 1], Toast.LENGTH_SHORT).show();
 
-                                    btDoSomething.setText("Unmake Friend");
+                                    btDoSomething.setText("Make Friend");
                                     searchModel.setViewType(TypeSearchEnum.MAKED_FRIEND);
                                     notifyItemChanged(position);
                                 }
@@ -228,7 +236,10 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
             btViewProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "View profile", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, YourPersonalPageActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("YOUR_FRIEND_USERNAME", searchModel.getUsername());
+                    context.startActivity(intent);
                 }
             });
 
@@ -246,7 +257,7 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
                                     String[] fullname = searchModel.getFullName().split(" ");
                                     Toast.makeText(context, "You make friends " + fullname[fullname.length - 1], Toast.LENGTH_SHORT).show();
 
-                                    btDoSomething.setText("Make Friend");
+                                    btDoSomething.setText("Unmake Friend");
                                     searchModel.setViewType(TypeSearchEnum.MAKE_FRIEND);
                                     notifyItemChanged(position);
                                 }

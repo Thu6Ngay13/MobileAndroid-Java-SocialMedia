@@ -25,6 +25,7 @@ import HCMUTE.SocialMedia.Responses.AuthResponse;
 import HCMUTE.SocialMedia.Responses.SimpleResponse;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.Utils.StringHelper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,6 +56,10 @@ public class ForgetAccountActivity extends AppCompatActivity {
     }
 
     private void findByEmail(String email) {
+        etEmail.setError(null);
+        if (!validateEmail()){
+            return;
+        }
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
         Call<SimpleResponse<AccountCardModel>> call = apiService.findByEmail(email);
         call.enqueue(new Callback<SimpleResponse<AccountCardModel>>() {
@@ -62,11 +67,14 @@ public class ForgetAccountActivity extends AppCompatActivity {
             public void onResponse(Call<SimpleResponse<AccountCardModel>> call, Response<SimpleResponse<AccountCardModel>> response) {
                 if (response.isSuccessful()){
                     SimpleResponse<AccountCardModel> simpleResponse = response.body();
-                    Gson gson = new Gson();
                     if (simpleResponse.isSuccess()) {
-                        AccountCardModel model = gson.fromJson(gson.toJson(simpleResponse.getResult()), AccountCardModel.class);
                         Intent intent = new Intent(ForgetAccountActivity.this, FindAccountActivity.class);
-                        intent.putExtra("findaccount", model);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("FIND_USERNAME", simpleResponse.getResult().getUsername());
+                        bundle.putString("FIND_AVATARURL", simpleResponse.getResult().getAvatarURL());
+                        bundle.putString("FIND_EMAIL", simpleResponse.getResult().getEmail());
+                        bundle.putString("FIND_FULLNAME", simpleResponse.getResult().getFullname());
+                        intent.putExtras(bundle);
                         startActivity(intent);
                     }
                     else {
@@ -83,6 +91,19 @@ public class ForgetAccountActivity extends AppCompatActivity {
                 Log.e("NetworkError", "Error: " + t.getMessage());
             }
         });
+    }
+    private boolean validateEmail(){
+        String email = etEmail.getText().toString();
+        if (email.isEmpty()){
+            etEmail.setError("Email cannot be empty!");
+            return false;
+        } else if (!StringHelper.regexEmailValidationPattern(email)){
+            etEmail.setError("Please enter a valid email");
+            return false;
+        }else {
+            etEmail.setError(null);
+            return true;
+        }
     }
 
     private void initialize(){

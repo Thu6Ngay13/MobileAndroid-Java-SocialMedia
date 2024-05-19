@@ -46,6 +46,8 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         searchModels = new ArrayList<>();
+        getSuggestFriend();
+
         ibBack = findViewById(R.id.ibBack);
         etKeyword = findViewById(R.id.etKeyword);
         ibSearch = findViewById(R.id.ibSearch);
@@ -83,6 +85,37 @@ public class SearchActivity extends AppCompatActivity {
                 public void onFailure(Call<ResponseModel<SearchModel>> call, Throwable t) {
                 }
             });
+        });
+    }
+
+    private void getSuggestFriend(){
+        searchModels.clear();
+        APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+        apiService.getSuggestFriend(PrefManager.getUsername()).enqueue(new Callback<ResponseModel<SearchModel>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<SearchModel>> call, Response<ResponseModel<SearchModel>> response) {
+                if (response.isSuccessful()) {
+                    ResponseModel<SearchModel> responseModel = response.body();
+                    if (responseModel != null && responseModel.isSuccess()) {
+                        List<SearchModel> responseModelResult = responseModel.getResult();
+                        searchModels.addAll(responseModelResult);
+
+                    }
+
+                    RecyclerView recyclerView = (RecyclerView) SearchActivity.this.findViewById(R.id.rvSearch);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(SearchActivity.this.getApplicationContext()));
+                    recyclerView.setAdapter(new SeachAdapter(SearchActivity.this.getApplicationContext(), searchModels));
+
+                } else {
+                    int statusCode = response.code();
+                    // handle request errors depending on status code
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<SearchModel>> call, Throwable t) {
+            }
         });
     }
 }

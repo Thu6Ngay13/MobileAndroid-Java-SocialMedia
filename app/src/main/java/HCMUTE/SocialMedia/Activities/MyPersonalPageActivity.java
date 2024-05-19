@@ -93,7 +93,7 @@ public class MyPersonalPageActivity extends AppCompatActivity {
                             post.setFullName(p.getFullName());
                             post.setPostMedia(p.getPostMedia());
                             post.setPostingTimeAt(p.getPostingTimeAt());
-                            post.setMode(R.mipmap.ic_global_72_dark);
+                            post.setMode(p.getMode());
                             post.setPostText(p.getPostText());
                             post.setLiked(p.isLiked());
                             postCardModels.add(post);
