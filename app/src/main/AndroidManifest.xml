@@ -35,6 +35,9 @@
             android:name=".Activities.ProfileGroupActivity"
             android:exported="false" />
         <activity
+            android:name=".Activities.AdminProcessReportActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.CreateGroupActivity"
             android:exported="false" />
         <activity

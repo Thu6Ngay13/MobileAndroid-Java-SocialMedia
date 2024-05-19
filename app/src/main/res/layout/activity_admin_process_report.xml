@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.AdminBanAccountActivity"
+    tools:context=".Activities.AdminProcessReportActivity"
     android:orientation="vertical">
 
     <androidx.gridlayout.widget.GridLayout
@@ -26,7 +26,7 @@
             android:layout_marginRight="50dp"
             android:background="@color/white"
             android:gravity="center"
-            android:text="@string/ban_account"
+            android:text="@string/process_report"
             android:textColor="@color/green_dark"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -35,7 +35,7 @@
     </androidx.gridlayout.widget.GridLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBanAccount"
+        android:id="@+id/rvProcessReport"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
