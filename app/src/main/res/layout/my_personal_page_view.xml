@@ -80,7 +80,7 @@
                 android:textSize="18dp"/>
 
             <TextView
-                android:id="@+id/btnSeeAll"
+                android:id="@+id/tvFindFriend"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"

@@ -75,9 +75,7 @@ public class YourPersonalPageActivity extends AppCompatActivity {
                             YourFriendModel yourFriend = new YourFriendModel();
                             yourFriend.setAvatar(a.getAvatarURL());
                             yourFriend.setUsername(a.getUsername());
-                            if (!yourFriend.getUsername().equals(PrefManager.getUsername())){
-                                yourFriendModels.add(yourFriend);
-                            }
+                            yourFriendModels.add(yourFriend);
                         }
                         List<PostCardModel> postCardModels = new ArrayList<>();
                         for (PostCardModel p: model.getPosts()) {

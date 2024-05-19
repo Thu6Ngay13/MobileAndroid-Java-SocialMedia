@@ -77,6 +77,8 @@ public interface APIService {
 
     @POST("friend/{username1}/unmake/{username2}")
     Call<ResponseModel<String>> unmakeFriend(@Path("username1") String username1, @Path("username2") String username2);
+    @POST("friend/{usernameYou}/unfriend/{usernameFriend}")
+    Call<ResponseModel<String>> unfriend(@Path("usernameYou") String usernameYou, @Path("usernameFriend") String usernameFriend);
 
     //    Call API NOTIFY
     @GET("notification/{username}")

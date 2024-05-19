@@ -23,11 +23,13 @@ import java.util.List;
 import HCMUTE.SocialMedia.Activities.CreatePostActivity;
 import HCMUTE.SocialMedia.Activities.EditProfileActivity;
 import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
+import HCMUTE.SocialMedia.Activities.SeeAllFriendActivity;
 import HCMUTE.SocialMedia.Activities.YourPersonalPageActivity;
 import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyPersonalPageAdapter extends RecyclerView.Adapter<MyPersonalPageAdapter.MyPersonalPageHolder>{
@@ -96,11 +98,19 @@ public class MyPersonalPageAdapter extends RecyclerView.Adapter<MyPersonalPageAd
                 context.startActivity(intent);
             }
         });
+        holder.tvFindFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SeeAllFriendActivity.class);
+                intent.putExtra("SEE_FRIEND", PrefManager.getUsername());
+                context.startActivity(intent);
+            }
+        });
     }
 
     class MyPersonalPageHolder extends RecyclerView.ViewHolder {
         private CircleImageView civAvatar, civAvatarSmall;
-        private TextView tvUsername, tvFullname, tvFriends, ibTextPosting;
+        private TextView tvUsername, tvFullname, tvFriends, ibTextPosting, tvFindFriend;
         private Button btnEditProfile;
         public MyPersonalPageHolder(@NonNull View itemView) {
             super(itemView);
@@ -111,6 +121,7 @@ public class MyPersonalPageAdapter extends RecyclerView.Adapter<MyPersonalPageAd
             tvFriends = itemView.findViewById(R.id.tvFriends);
             btnEditProfile = itemView.findViewById(R.id.btnEditProfile);
             ibTextPosting = itemView.findViewById(R.id.ibTextPosting);
+            tvFindFriend = itemView.findViewById(R.id.tvFindFriend);
         }
     }
     private void closeActivity() {
