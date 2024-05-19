@@ -24,16 +24,12 @@ public class PolicyAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        if (listGroup != null)
-            return listGroup.size();
-        return 0;
+        return listGroup != null ? listGroup.size() : 0;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        if (listGroup!= null && listPolicy != null)
-            return listPolicy.get(listGroup.get(groupPosition)).size();
-        return 0;
+        return listGroup != null && listPolicy != null ? listPolicy.get(listGroup.get(groupPosition)).size() : 0;
     }
 
     @Override
@@ -48,46 +44,65 @@ public class PolicyAdapter extends BaseExpandableListAdapter {
 
     @Override
     public long getGroupId(int groupPosition) {
-        PolicyGroupModel group = listGroup.get(groupPosition);
-        return group.getId();
+        return listGroup.get(groupPosition).getId();
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        PolicyModel policy = listPolicy.get(listGroup.get(groupPosition)).get(childPosition);
-        return policy.getId();
+        return listPolicy.get(listGroup.get(groupPosition)).get(childPosition).getId();
     }
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        if (convertView == null){
+        GroupViewHolder holder;
+        if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_policy_group, parent, false);
-            TextView tvGroup = (TextView) convertView.findViewById(R.id.tvPolicyName);
-            PolicyGroupModel group = listGroup.get(groupPosition);
-            tvGroup.setText(group.getGroupName());
+            holder = new GroupViewHolder();
+            holder.tvGroup = convertView.findViewById(R.id.tvPolicyName);
+            convertView.setTag(holder);
+        } else {
+            holder = (GroupViewHolder) convertView.getTag();
         }
+
+        PolicyGroupModel group = (PolicyGroupModel) getGroup(groupPosition);
+        holder.tvGroup.setText(group.getGroupName());
 
         return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        if (convertView == null){
+        ChildViewHolder holder;
+        if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_policy_detail, parent, false);
-            TextView tvDetail = (TextView) convertView.findViewById(R.id.tvPolicyDetail);
-            PolicyModel item = listPolicy.get(listGroup.get(groupPosition)).get(childPosition);
-            tvDetail.setText(item.getDetail());
+            holder = new ChildViewHolder();
+            holder.tvDetail = convertView.findViewById(R.id.tvPolicyDetail);
+            convertView.setTag(holder);
+        } else {
+            holder = (ChildViewHolder) convertView.getTag();
         }
+
+        PolicyModel item = (PolicyModel) getChild(groupPosition, childPosition);
+        holder.tvDetail.setText(item.getDetail());
+
         return convertView;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    static class GroupViewHolder {
+        TextView tvGroup;
+    }
+
+    static class ChildViewHolder {
+        TextView tvDetail;
     }
 }

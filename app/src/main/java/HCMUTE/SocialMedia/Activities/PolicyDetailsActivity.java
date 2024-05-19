@@ -2,6 +2,7 @@ package HCMUTE.SocialMedia.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ExpandableListView;
@@ -32,7 +33,8 @@ public class PolicyDetailsActivity extends AppCompatActivity {
         ibBack.setOnClickListener(v -> finish());
 
         elvPolicies = (ExpandableListView) findViewById(R.id.elvPolicies);
-        String data = getIntent().getStringExtra("policy");
+        Intent intent = getIntent();
+        String data = intent.getStringExtra("policy");
 
         if (data.equals("dulieucanhan")) {
             listPolicy = getData1();

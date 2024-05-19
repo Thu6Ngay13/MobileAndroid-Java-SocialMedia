@@ -3,7 +3,7 @@ package HCMUTE.SocialMedia.Models;
 import java.io.Serializable;
 import java.util.List;
 
-import HCMUTE.SocialMedia.Enums.TypeRoleEnum;
+import HCMUTE.SocialMedia.Enums.Role;
 
 public class AccountCardModel implements Serializable {
     private String username;
@@ -16,7 +16,7 @@ public class AccountCardModel implements Serializable {
     private String company;
     private String location;
     private boolean isSingle;
-    private TypeRoleEnum typeRoleEnum;
+    private Role role;
     private long countFriend;
     private List<AccountCardModel> friends;
     private List<PostCardModel> posts;
@@ -24,7 +24,7 @@ public class AccountCardModel implements Serializable {
     public AccountCardModel() {
     }
 
-    public AccountCardModel(String username, String fullname, String gender, String avatarURL, String email, String phoneNumber, String description, String company, String location, boolean isSingle, TypeRoleEnum typeRoleEnum, long countFriend, List<AccountCardModel> friends, List<PostCardModel> posts) {
+    public AccountCardModel(String username, String fullname, String gender, String avatarURL, String email, String phoneNumber, String description, String company, String location, boolean isSingle, Role role, long countFriend, List<AccountCardModel> friends, List<PostCardModel> posts) {
         this.username = username;
         this.fullname = fullname;
         this.gender = gender;
@@ -35,7 +35,7 @@ public class AccountCardModel implements Serializable {
         this.company = company;
         this.location = location;
         this.isSingle = isSingle;
-        this.typeRoleEnum = typeRoleEnum;
+        this.role = role;
         this.countFriend = countFriend;
         this.friends = friends;
         this.posts = posts;
@@ -121,12 +121,12 @@ public class AccountCardModel implements Serializable {
         isSingle = single;
     }
 
-    public TypeRoleEnum getRole() {
-        return typeRoleEnum;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRole(TypeRoleEnum typeRoleEnum) {
-        this.typeRoleEnum = typeRoleEnum;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public long getCountFriend() {
@@ -166,7 +166,7 @@ public class AccountCardModel implements Serializable {
                 ", company='" + company + '\'' +
                 ", location='" + location + '\'' +
                 ", isSingle=" + isSingle +
-                ", role=" + typeRoleEnum +
+                ", role=" + role +
                 ", countFriend=" + countFriend +
                 ", friends=" + friends +
                 '}';

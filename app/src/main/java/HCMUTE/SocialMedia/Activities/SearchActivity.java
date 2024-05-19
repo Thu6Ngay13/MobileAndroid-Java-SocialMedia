@@ -22,6 +22,7 @@ import HCMUTE.SocialMedia.Models.SearchModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,7 +57,7 @@ public class SearchActivity extends AppCompatActivity {
 
             searchModels.clear();
             APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-            apiService.search(Const.USERNAME, keyword).enqueue(new Callback<ResponseModel<SearchModel>>() {
+            apiService.search(PrefManager.getUsername(), keyword).enqueue(new Callback<ResponseModel<SearchModel>>() {
                 @Override
                 public void onResponse(Call<ResponseModel<SearchModel>> call, Response<ResponseModel<SearchModel>> response) {
                     if (response.isSuccessful()) {

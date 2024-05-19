@@ -1,6 +1,6 @@
 package HCMUTE.SocialMedia.Responses;
 
-import HCMUTE.SocialMedia.Enums.TypeRoleEnum;
+import HCMUTE.SocialMedia.Enums.Role;
 
 public class AuthResponse {
     private String accessToken;
@@ -12,9 +12,9 @@ public class AuthResponse {
     private String username;
     private String email;
     private String avatarurl;
-    private TypeRoleEnum typeRoleEnum;
+    private Role role;
 
-    public AuthResponse(String accessToken, String refreshToken, boolean error, boolean success, String message, String fullName, String username, String email, String avatarurl, TypeRoleEnum typeRoleEnum) {
+    public AuthResponse(String accessToken, String refreshToken, boolean error, boolean success, String message, String fullName, String username, String email, String avatarurl, Role role) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.error = error;
@@ -24,7 +24,7 @@ public class AuthResponse {
         this.username = username;
         this.email = email;
         this.avatarurl = avatarurl;
-        this.typeRoleEnum = typeRoleEnum;
+        this.role = role;
     }
 
     public String getAccessToken() {
@@ -99,11 +99,11 @@ public class AuthResponse {
         this.avatarurl = avatarurl;
     }
 
-    public TypeRoleEnum getRole() {
-        return typeRoleEnum;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRole(TypeRoleEnum typeRoleEnum) {
-        this.typeRoleEnum = typeRoleEnum;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

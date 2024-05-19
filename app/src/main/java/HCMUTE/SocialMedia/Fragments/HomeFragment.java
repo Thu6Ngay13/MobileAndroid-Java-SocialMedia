@@ -33,6 +33,7 @@ import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -66,7 +67,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ImageView civAvatar = view.findViewById(R.id.civAvatar);
-        Glide.with(context).load(Const.AVATAR).into(civAvatar);
+        Glide.with(context).load(PrefManager.getAvatarURL()).into(civAvatar);
         civAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +102,7 @@ public class HomeFragment extends Fragment {
         //Goi Interface trong APIService
         int pageSize = 5;
         APIService apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getPostOfNewFeedWithUsername(Const.USERNAME, page, pageSize).enqueue(new Callback<ResponseModel<PostCardModel>>() {
+        apiService.getPostOfNewFeedWithUsername(PrefManager.getUsername(), page, pageSize).enqueue(new Callback<ResponseModel<PostCardModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<PostCardModel>> call, Response<ResponseModel<PostCardModel>> response) {
                 if (response.isSuccessful()) {

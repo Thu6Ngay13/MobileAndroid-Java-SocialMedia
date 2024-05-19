@@ -29,6 +29,7 @@ import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
+import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,7 +57,7 @@ public class CommentCardAdapter extends RecyclerView.Adapter<CommentCardHolder> 
         if (!TextUtils.isEmpty(commentCardModel.getAvatar())) {
             Glide.with(context).load(commentCardModel.getAvatar()).into(holder.commentImage);
         } else {
-            Glide.with(context).load(Const.AVATAR).into(holder.commentImage);
+            Glide.with(context).load(PrefManager.getAvatarURL()).into(holder.commentImage);
         }
 
         Glide.with(context).load(commentCardModel.getAvatar()).into(holder.avatar);
