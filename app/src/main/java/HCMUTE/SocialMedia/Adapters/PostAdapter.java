@@ -17,14 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
 
+import HCMUTE.SocialMedia.Activities.CommentActivity;
 import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
 import HCMUTE.SocialMedia.Activities.YourPersonalPageActivity;
-import HCMUTE.SocialMedia.Consts.Const;
-import HCMUTE.SocialMedia.Activities.CommentActivity;
 import HCMUTE.SocialMedia.Enums.TypeViewLoad;
 import HCMUTE.SocialMedia.Holders.PostHolder;
 import HCMUTE.SocialMedia.Holders.WaitingLoadingHolder;
@@ -79,11 +79,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             postHolder.avatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (postCardModel.getUsername().equals(PrefManager.getUsername())){
+                    if (postCardModel.getUsername().equals(PrefManager.getUsername())) {
                         Intent intent = new Intent(context, MyPersonalPageActivity.class);
                         context.startActivity(intent);
-                    }
-                    else {
+                    } else {
                         Intent intent = new Intent(context, YourPersonalPageActivity.class);
                         intent.putExtra("YOUR_FRIEND_USERNAME", postCardModel.getUsername());
                         context.startActivity(intent);
@@ -94,14 +93,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Glide.with(context)
                     .load(postCardModel.getPostMedia())
                     .into(postHolder.postImage);
-            if (postCardModel.getMode() == 1){
+            if (postCardModel.getMode() == 1) {
                 postHolder.mode.setImageResource(R.mipmap.ic_global_72_dark);
             } else if (postCardModel.getMode() == 2) {
                 postHolder.mode.setImageResource(R.mipmap.ic_friend_72_full);
             } else if (postCardModel.getMode() == 3) {
                 postHolder.mode.setImageResource(R.mipmap.ic_lock_72_dark);
-            }
-            else {
+            } else {
                 postHolder.mode.setImageResource(R.mipmap.ic_user_groups_72_full);
             }
 
@@ -221,6 +219,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
                 JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("contentReport", "Spam");
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
                 RequestBody jsonBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
 
                 APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);

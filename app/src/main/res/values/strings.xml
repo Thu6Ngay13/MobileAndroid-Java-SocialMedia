@@ -45,7 +45,7 @@
         <item>Newest</item>
     </string-array>
 
-    <string name="report_port">Report this port</string>
+    <string name="report_port">Report this post as spam</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -61,5 +61,11 @@
     <string name="do_something">Do something</string>
     <string name="ban_account">Ban account</string>
     <string name="process_report">Process report</string>
+    <string name="content_report">Content report</string>
+    <string name="view_post">View Post</string>
+    <string name="report_time_at">Report time at</string>
+    <string name="all_report_about_post">All report about post</string>
+    <string name="ignore_all_report_of_post">Ignore all report of post</string>
+    <string name="delete_post">Delete post</string>
 
 </resources>
