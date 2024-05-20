@@ -85,6 +85,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     } else {
                         Intent intent = new Intent(context, YourPersonalPageActivity.class);
                         intent.putExtra("YOUR_FRIEND_USERNAME", postCardModel.getUsername());
+
                         context.startActivity(intent);
                     }
                 }
