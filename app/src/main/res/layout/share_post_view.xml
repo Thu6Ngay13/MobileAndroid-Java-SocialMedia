@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    android:background="@color/white"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="8dp"
+    android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -83,14 +83,11 @@
 
         <TextView
             android:id="@+id/tvPostText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/ivAvatar"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="90dp"
-            android:layout_marginEnd="211dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/post_text"
             android:textSize="20sp" />
     </RelativeLayout>
@@ -100,12 +97,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativeLayout"
-        android:background="@drawable/custom_edittext"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="0dp">
+        android:layout_marginTop="4dp"
+        android:background="@drawable/custom_edittext">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivAvatarMainPost"
@@ -161,14 +154,11 @@
 
         <TextView
             android:id="@+id/tvMainPostText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/ivAvatarMainPost"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="90dp"
-            android:layout_marginEnd="211dp"
+            android:layout_marginEnd="8dp"
             android:text="Main Post Text"
             android:textSize="20sp" />
 
@@ -176,12 +166,12 @@
             android:id="@+id/ivPostImage"
             android:layout_width="wrap_content"
             android:layout_height="300dp"
+            android:layout_below="@+id/tvMainPostText"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="124dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/post_image"/>
+            android:src="@drawable/post_image" />
 
     </RelativeLayout>
 
@@ -197,106 +187,58 @@
         android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="2dp"
-        android:background="@color/white"
-        app:columnCount="3"
-        app:rowCount="1">
+        android:background="@color/white">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvLike"
-            app:layout_column="0"
-            app:layout_columnWeight="1"
-            app:layout_row="0"
-            app:layout_rowWeight="1">
+        <LinearLayout
+            android:id="@+id/llLike"
+            android:layout_width="99dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_columnWeight="1">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|center_horizontal"
+            <ImageView
+                android:id="@+id/ivLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:padding="3dp"
+                android:src="@mipmap/ic_like_72_line" />
 
-                <ImageView
-                    android:id="@+id/ivLike"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="3dp"
-                    android:src="@mipmap/ic_like_72_line" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="3dp"
-                    android:text="@string/like" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvComment"
-            app:layout_column="1"
-            app:layout_columnWeight="1"
-            app:layout_row="0"
-            app:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|center_horizontal"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:gravity="center">
+                android:padding="3dp"
+                android:text="@string/like" />
+        </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/ivComment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="3dp"
-                    android:src="@mipmap/ic_comment_72_dark" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center"
+            app:layout_columnWeight="1">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="3dp"
-                    android:text="@string/comment" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvShare"
-            app:layout_column="2"
-            app:layout_columnWeight="1"
-            app:layout_row="0"
-            app:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|center_horizontal"
+            <ImageView
+                android:id="@+id/ivComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:gravity="center">
+                android:padding="3dp"
+                android:src="@mipmap/ic_comment_72_dark" />
 
-                <ImageView
-                    android:id="@+id/ivShare"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="3dp"
-                    android:src="@mipmap/ic_share_72_dark" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="3dp"
+                android:text="@string/comment" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="3dp"
-                    android:text="@string/share" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
     </androidx.gridlayout.widget.GridLayout>
-
 
 
 </RelativeLayout>
