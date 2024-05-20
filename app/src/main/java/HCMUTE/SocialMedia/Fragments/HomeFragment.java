@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 
@@ -24,6 +25,7 @@ import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.CreatePostActivity;
 import HCMUTE.SocialMedia.Activities.LoginActivity;
+import HCMUTE.SocialMedia.Activities.MainActivity;
 import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
 import HCMUTE.SocialMedia.Activities.RegisterActivity;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
@@ -49,6 +51,7 @@ public class HomeFragment extends Fragment {
 
     private Button btnCreatePost;
     private Context context;
+    private SwipeRefreshLayout slHome;
 
     public HomeFragment(Context context) {
         this.context = context;
@@ -75,6 +78,11 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        slHome = view.findViewById(R.id.slHome);
+        slHome.setOnRefreshListener(() -> {
+            slHome.setRefreshing(true);
+            reloadActivity();
+        });
 
         postCardModels = new ArrayList<>();
         recyclerView = view.findViewById(R.id.rvPostArea);
@@ -96,6 +104,17 @@ public class HomeFragment extends Fragment {
         });
         nextPost();
         initScrollListener();
+    }
+
+    private void reloadActivity() {
+        Intent intent = new Intent(context, MainActivity.class);
+        closeActivity();
+        context.startActivity(intent);
+    }
+    private void closeActivity() {
+        if (context instanceof MainActivity) {
+            ((MainActivity) context).finish();
+        }
     }
 
     private void nextPost(){

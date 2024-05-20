@@ -139,6 +139,8 @@ public interface APIService {
             @Query("isSingle") boolean isSingle,
             @Query("username") String username
     );
+    @PUT("user/my-account/{username}/updateAvatar")
+    Call<SimpleResponse<String>> updateAvatar(@Query("username") String username, @Body Map<String, String> reqBody);
 
     @GET("comment/{postId}")
     Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);

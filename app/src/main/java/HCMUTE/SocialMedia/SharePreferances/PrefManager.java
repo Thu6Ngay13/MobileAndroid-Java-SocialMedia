@@ -55,6 +55,12 @@ public class PrefManager {
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_AVATAR, "");
     }
+    public static void setAvatarURL(String avatarURL){
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_AVATAR, avatarURL);
+        editor.apply();
+    }
     public static String getAccessToken(){
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_ACCESS_TOKEN, "");

@@ -26,6 +26,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.SetAvatarActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.SeeAllFriendActivity"
             android:exported="false" />
         <activity
