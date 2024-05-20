@@ -94,9 +94,6 @@ public class MyPersonalPageActivity extends AppCompatActivity {
                             yourFriend.setAvatar(a.getAvatarURL());
                             yourFriend.setUsername(a.getUsername());
                             yourFriendModels.add(yourFriend);
-                            if (yourFriendModels.size() > 6){
-                                break;
-                            }
                         }
                         List<PostCardModel> postCardModels = new ArrayList<>();
                         for (PostCardModel p: model.getPosts()) {
