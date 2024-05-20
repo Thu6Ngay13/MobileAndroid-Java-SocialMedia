@@ -28,6 +28,7 @@ import HCMUTE.SocialMedia.Activities.EditProfileActivity;
 import HCMUTE.SocialMedia.Activities.EditProfileGroupActivity;
 import HCMUTE.SocialMedia.Activities.GroupActivity;
 import HCMUTE.SocialMedia.Activities.ProfileGroupActivity;
+import HCMUTE.SocialMedia.Activities.ViewProfileGroupActivity;
 import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.GroupModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
@@ -200,7 +201,7 @@ public class ProfileGroupAdapter extends RecyclerView.Adapter<ProfileGroupAdapte
                     closeActivity();
                     context.startActivity(intent);}
                     else {
-                        Intent intent = new Intent(context, EditProfileGroupActivity.class);
+                        Intent intent = new Intent(context, ViewProfileGroupActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putLong("GROUP_GROUPID", groupModel.getGroupId());
                         bundle.putString("GROUP_GROUPNAME", groupModel.getGroupName());
