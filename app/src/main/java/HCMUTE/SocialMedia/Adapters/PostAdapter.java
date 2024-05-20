@@ -119,7 +119,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             cvLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if (postCardModel.isLiked()) {
                         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
                         apiService.unlikePost(PrefManager.getUsername(), postCardModel.getPostId()).enqueue(new Callback<ResponseModel<String>>() {
