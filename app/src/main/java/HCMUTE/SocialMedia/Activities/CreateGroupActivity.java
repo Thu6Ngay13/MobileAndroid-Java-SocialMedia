@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,24 +31,13 @@ public class CreateGroupActivity extends AppCompatActivity {
     private ImageButton ibCreate;
     private RadioButton rbPublic, rbPrivate;
     private APIService apiService;
-    GroupModel groupModel = new GroupModel();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
-
-
         initialize();
-
-
-
         rbPublic.setChecked(true);
         rbPrivate.setChecked(false);
-
-        groupModel.setHolderUsername(PrefManager.getUsername());
-        groupModel.setGroupName(etGroupName.getText().toString());
-        groupModel.setModeId(rbPublic.isChecked() ? 1:2);
-        groupModel.setDescription(etDescription.getText().toString());
         ibCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +55,9 @@ public class CreateGroupActivity extends AppCompatActivity {
 
     private void createGroup() {
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.createGroup(PrefManager.getUsername(), etGroupName.getText().toString(), rbPublic.isChecked() ? 1:2, etDescription.getText().toString()).enqueue(new Callback<SimpleResponse<GroupModel>>() {
+
+        Log.d("", ""+PrefManager.getUsername() +"//"+ etGroupName.getText().toString() +"//"+ String.valueOf(rbPublic.isChecked() ? 1:2 ) +"//"+etDescription.getText().toString());
+        apiService.createGroup(String.valueOf(PrefManager.getUsername()), String.valueOf(etGroupName.getText()), rbPublic.isChecked() ? 1:2, etDescription.getText().toString()).enqueue(new Callback<SimpleResponse<GroupModel>>() {
             @Override
             public void onResponse(Call<SimpleResponse<GroupModel>> call, Response<SimpleResponse<GroupModel>> response) {
                 if (response.isSuccessful()){

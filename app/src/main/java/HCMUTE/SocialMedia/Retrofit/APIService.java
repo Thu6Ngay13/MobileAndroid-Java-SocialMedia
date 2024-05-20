@@ -160,10 +160,20 @@ public interface APIService {
 
     @POST("group/createGroup")
     Call<SimpleResponse<GroupModel>> createGroup(
-            @Query("holderUsername") String holderUsername,
+            @Query("username") String username,
             @Query("groupName") String groupName,
             @Query("modeId") long modeId,
             @Query("description") String description
+    );
+
+    @POST("group/updateGroup")
+    Call<SimpleResponse<GroupModel>> updateGroup(
+            @Query("groupId") long groupId,
+            @Query("username") String username,
+            @Query("groupName") String groupName,
+            @Query("modeId") long modeId,
+            @Query("description") String description,
+            @Query("groupImage") String groupImage
     );
     @GET("group/memberInOneGroup")
     Call<ResponseModel<YourFriendModel>> getMembersInGroup(
@@ -186,6 +196,11 @@ public interface APIService {
 
     @GET("group/{username}/unjoingroup/{groupId}")
     Call<ResponseModel<String>> unjoinGroupByUsernameAndGroupId(@Path("username") String username, @Path("groupId") long groupId);
+
+    @GET("group/isAcceptGroup")
+    Call<SimpleResponse<String>> isAcceptGroup(
+            @Query("username") String username,
+            @Query("groupId") long groupId);
 
     //    Call API SEARCH
     @GET("search/{username}")

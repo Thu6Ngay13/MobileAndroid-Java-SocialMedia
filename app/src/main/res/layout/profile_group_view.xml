@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="80dp"
-                android:text="Join"/>
+                android:text="Join Group"/>
 
             <Button
                 android:id="@+id/btnEditProfile"
@@ -67,7 +67,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="Edit"/>
+                android:text="Edit Profile"/>
         </LinearLayout>
 
     </androidx.gridlayout.widget.GridLayout>

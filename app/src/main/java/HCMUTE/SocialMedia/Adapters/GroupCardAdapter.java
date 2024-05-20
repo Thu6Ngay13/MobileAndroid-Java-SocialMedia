@@ -33,8 +33,6 @@ public class GroupCardAdapter extends RecyclerView.Adapter<GroupCardHolder> {
     private Context context;
     private List<GroupModel> groupCards;
 
-    private GroupModel groupCardModel;
-
     public GroupCardAdapter(Context context, List<GroupModel> groupCards) {
         this.context = context;
         this.groupCards = groupCards;
@@ -48,7 +46,7 @@ public class GroupCardAdapter extends RecyclerView.Adapter<GroupCardHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull GroupCardHolder holder, int position) {
-        groupCardModel = groupCards.get(position);
+        final GroupModel groupCardModel = groupCards.get(position);
         Glide.with(context)
                 .load(groupCardModel.getAvatarURL())
                 .into(holder.avatar);

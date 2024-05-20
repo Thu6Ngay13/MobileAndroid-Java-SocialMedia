@@ -29,6 +29,12 @@
             android:name=".Activities.SetAvatarActivity"
             android:exported="false" />
         <activity
+            android:name=".Activities.ViewProfileGroupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.EditProfileGroupActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.SeeAllFriendActivity"
             android:exported="false" />
         <activity
