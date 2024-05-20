@@ -7,6 +7,8 @@
     android:layout_marginBottom="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
+    android:layout_marginEnd="5dp"
+    android:layout_marginStart="8dp"
     >
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -67,8 +69,8 @@
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
-        android:textSize="20sp"
-        android:enabled="false"/>
+        android:textSize="18sp"
+        android:enabled="true"/>
 
     <ImageView
         android:id="@+id/ivCommentImage"
@@ -92,7 +94,7 @@
 
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="70dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="55dp"
         android:layout_toStartOf="@+id/ibDeleteComment"
         android:background="@mipmap/ic_edit_96_dark" />
 
@@ -101,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="55dp"
         android:layout_marginEnd="20dp"
         android:background="@mipmap/ic_delete_96_dark" />
 

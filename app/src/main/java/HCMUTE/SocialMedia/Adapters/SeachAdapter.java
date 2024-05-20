@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.MessageActivity;
+import HCMUTE.SocialMedia.Activities.ProfileGroupActivity;
 import HCMUTE.SocialMedia.Activities.YourPersonalPageActivity;
 import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Enums.TypeSearchEnum;
@@ -28,6 +29,7 @@ import HCMUTE.SocialMedia.Models.GroupModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.SearchModel;
 import HCMUTE.SocialMedia.R;
+import HCMUTE.SocialMedia.Responses.SimpleResponse;
 import HCMUTE.SocialMedia.Retrofit.APIService;
 import HCMUTE.SocialMedia.Retrofit.RetrofitClient;
 import HCMUTE.SocialMedia.SharePreferances.PrefManager;
@@ -286,7 +288,42 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
                                 ResponseModel<GroupModel> responseModel = response.body();
                                 if (responseModel != null && responseModel.isSuccess()){
                                     List<GroupModel> groupModels = responseModel.getResult();
-                                    Toast.makeText(context, "View group public " + groupModels.get(0).getGroupName(), Toast.LENGTH_SHORT).show();
+                                    apiService.findOne(groupModels.get(0).getGroupId()).enqueue(new Callback<SimpleResponse<GroupModel>>() {
+                                        @Override
+                                        public void onResponse(Call<SimpleResponse<GroupModel>> call, Response<SimpleResponse<GroupModel>> response) {
+                                            if (response.isSuccessful()) {
+                                                SimpleResponse<GroupModel> simpleResponse = response.body();
+                                                if (simpleResponse.getResult() != null) {
+                                                    GroupModel groupCardModel = simpleResponse.getResult();
+                                                    Toast.makeText(context, "View group public " + groupModels.get(0).getGroupId(), Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(context, ProfileGroupActivity.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putLong("GROUP_GROUPID", groupCardModel.getGroupId());
+                                                    bundle.putString("GROUP_GROUPNAME", groupCardModel.getGroupName());
+                                                    bundle.putString("GROUP_AVATARURL", groupCardModel.getAvatarURL());
+                                                    bundle.putString("GROUP_DESCRIPSION", groupCardModel.getDescription());
+                                                    bundle.putString("GROUP_TIME", groupCardModel.getCreationTimeAt());
+                                                    bundle.putLong("GROUP_MODEID", groupCardModel.getModeId());
+                                                    bundle.putString("GROUP_USERNAME", groupCardModel.getHolderUsername());
+                                                    bundle.putString("GROUP_FULLNAME", groupCardModel.getHolderFullName());
+                                                    intent.putExtras(bundle);
+                                                    context.startActivity(intent);
+                                                    Log.d("TAG", groupCardModel.toString());
+
+                                                } else {
+                                                    Toast.makeText(context, "An error occurred please try again later", Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<SimpleResponse<GroupModel>> call, Throwable t) {
+
+                                        }
+                                    });
+
                                 }
                             } else {
                                 int statusCode = response.code();
@@ -336,7 +373,43 @@ public class SeachAdapter extends RecyclerView.Adapter<SearchHolder> {
             btViewGroup.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "View group public", Toast.LENGTH_SHORT).show();
+                    APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
+
+                    apiService.findOne(searchModel.getGroupdId()).enqueue(new Callback<SimpleResponse<GroupModel>>() {
+                        @Override
+                        public void onResponse(Call<SimpleResponse<GroupModel>> call, Response<SimpleResponse<GroupModel>> response) {
+                            if (response.isSuccessful()) {
+                                SimpleResponse<GroupModel> simpleResponse = response.body();
+                                if (simpleResponse.getResult() != null) {
+                                    GroupModel groupCardModel = simpleResponse.getResult();
+                                    Toast.makeText(context, "View group public " + searchModel.getGroupdId(), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(context, ProfileGroupActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong("GROUP_GROUPID", groupCardModel.getGroupId());
+                                    bundle.putString("GROUP_GROUPNAME", groupCardModel.getGroupName());
+                                    bundle.putString("GROUP_AVATARURL", groupCardModel.getAvatarURL());
+                                    bundle.putString("GROUP_DESCRIPSION", groupCardModel.getDescription());
+                                    bundle.putString("GROUP_TIME", groupCardModel.getCreationTimeAt());
+                                    bundle.putLong("GROUP_MODEID", groupCardModel.getModeId());
+                                    bundle.putString("GROUP_USERNAME", groupCardModel.getHolderUsername());
+                                    bundle.putString("GROUP_FULLNAME", groupCardModel.getHolderFullName());
+                                    intent.putExtras(bundle);
+                                    context.startActivity(intent);
+                                    Log.d("TAG", groupCardModel.toString());
+
+                                } else {
+                                    Toast.makeText(context, "An error occurred please try again later", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<SimpleResponse<GroupModel>> call, Throwable t) {
+
+                        }
+                    });
                 }
             });
 
