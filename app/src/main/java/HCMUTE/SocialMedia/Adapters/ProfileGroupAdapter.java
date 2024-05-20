@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import HCMUTE.SocialMedia.Activities.AcceptMemberInGroupActivity;
 import HCMUTE.SocialMedia.Activities.CommentActivity;
 import HCMUTE.SocialMedia.Activities.CreatePostActivity;
 import HCMUTE.SocialMedia.Activities.CreatePostInGroupActivity;
@@ -88,6 +89,12 @@ public class ProfileGroupAdapter extends RecyclerView.Adapter<ProfileGroupAdapte
         Glide.with(context).load(groupModel.getAvatarURL()).into(holder.civAvatar);
         Glide.with(context).load(groupModel.getAvatarURL()).into(holder.civAvatarSmall);
 
+        if(PrefManager.getUsername().equals(groupModel.getHolderUsername())) {
+            holder.btnAcceptMembers.setVisibility(View.VISIBLE);
+            holder.btnEditProfile.setText("Edit Profile");
+        } else {
+            holder.btnEditProfile.setText("View Profile");
+        }
         apiService = RetrofitClient.getRetrofit().create(APIService.class);
         apiService.isAcceptGroup(PrefManager.getUsername(), groupModel.getGroupId()).enqueue(new Callback<SimpleResponse<String>>() {
             @Override
@@ -179,8 +186,6 @@ public class ProfileGroupAdapter extends RecyclerView.Adapter<ProfileGroupAdapte
                 public void onClick(View v) {
                     if(PrefManager.getUsername().equals(groupModel.getHolderUsername()))
                     {
-                        holder.btnEditProfile.setText("Edit Profile");
-                    Log.d("", groupModel.toString());
                     Intent intent = new Intent(context, EditProfileGroupActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putLong("GROUP_GROUPID", groupModel.getGroupId());
@@ -195,9 +200,7 @@ public class ProfileGroupAdapter extends RecyclerView.Adapter<ProfileGroupAdapte
                     closeActivity();
                     context.startActivity(intent);}
                     else {
-                        holder.btnEditProfile.setText("View Profile");
-                        Log.d("", groupModel.toString());
-                        Intent intent = new Intent(context, EditProfileGroupActivity    .class);
+                        Intent intent = new Intent(context, EditProfileGroupActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putLong("GROUP_GROUPID", groupModel.getGroupId());
                         bundle.putString("GROUP_GROUPNAME", groupModel.getGroupName());
@@ -213,6 +216,28 @@ public class ProfileGroupAdapter extends RecyclerView.Adapter<ProfileGroupAdapte
                     }
                 }
             });
+
+
+        holder.btnAcceptMembers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.btnAcceptMembers.setVisibility(View.VISIBLE);
+                Log.d("", groupModel.toString());
+                Intent intent = new Intent(context, AcceptMemberInGroupActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putLong("GROUP_GROUPID", groupModel.getGroupId());
+                bundle.putString("GROUP_GROUPNAME", groupModel.getGroupName());
+                bundle.putString("GROUP_AVATARURL", groupModel.getAvatarURL());
+                bundle.putString("GROUP_DESCRIPSION", groupModel.getDescription());
+                bundle.putString("GROUP_TIME", groupModel.getCreationTimeAt());
+                bundle.putLong("GROUP_MODEID", groupModel.getModeId());
+                bundle.putString("GROUP_USERNAME", groupModel.getHolderUsername());
+                bundle.putString("GROUP_FULLNAME", groupModel.getHolderFullName());
+                intent.putExtras(bundle);
+                closeActivity();
+                context.startActivity(intent);}
+
+        });
         holder.ibTextPosting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,7 +252,7 @@ public class ProfileGroupAdapter extends RecyclerView.Adapter<ProfileGroupAdapte
 
     class ProfileGroupHolder extends RecyclerView.ViewHolder {
         private CircleImageView civAvatar, civAvatarSmall;
-        private TextView tvHolderFullName, tvGroupName,  ibTextPosting;
+        private TextView tvHolderFullName, tvGroupName,  ibTextPosting, btnAcceptMembers;
         private Button btnEditProfile, btnJoinGroup;
         public ProfileGroupHolder(@NonNull View itemView) {
             super(itemView);
@@ -238,6 +263,7 @@ public class ProfileGroupAdapter extends RecyclerView.Adapter<ProfileGroupAdapte
             btnEditProfile = itemView.findViewById(R.id.btnEditProfile);
             btnJoinGroup = itemView.findViewById(R.id.btnJoinGroup);
             ibTextPosting = itemView.findViewById(R.id.ibTextPosting);
+            btnAcceptMembers = itemView.findViewById(R.id.btnAcceptMembers);
         }
     }
     private void closeActivity() {

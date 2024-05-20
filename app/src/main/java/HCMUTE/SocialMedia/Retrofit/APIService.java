@@ -176,6 +176,11 @@ public interface APIService {
     @GET("group/memberInOneGroup")
     Call<ResponseModel<YourFriendModel>> getMembersInGroup(
             @Query("groupId") long groupId);
+
+    @GET("group/listAcceptMemberGroup")
+    Call<ResponseModel<AccountCardModel>> listAcceptMemberGroup(
+            @Query("groupId") long groupId);
+
     @GET("group/postInOneGroup")
     Call<ResponseModel<PostCardModel>> getPostsInGroup(
             @Query("username") String username,
@@ -200,6 +205,15 @@ public interface APIService {
             @Query("username") String username,
             @Query("groupId") long groupId);
 
+    @GET("group/acceptMember")
+    Call<SimpleResponse<String>> acceptMember(
+            @Query("username") String username,
+            @Query("groupId") long groupId);
+
+
+    @GET("group/findOne")
+    Call<SimpleResponse<GroupModel>> findOne(
+            @Query("groupId") long groupId);
     //    Call API SEARCH
     @GET("search/{username}")
     Call<ResponseModel<SearchModel>> getSuggestFriend(@Path("username") String username);

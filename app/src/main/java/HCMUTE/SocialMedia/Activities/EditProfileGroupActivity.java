@@ -228,7 +228,6 @@ public class EditProfileGroupActivity extends AppCompatActivity {
                 Toast.makeText(EditProfileGroupActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void initialize(){

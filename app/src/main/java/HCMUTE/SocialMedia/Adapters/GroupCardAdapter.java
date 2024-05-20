@@ -2,12 +2,7 @@ package HCMUTE.SocialMedia.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
-import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +16,9 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.ProfileGroupActivity;
-import HCMUTE.SocialMedia.Activities.ViewProfileActivity;
 import HCMUTE.SocialMedia.Holders.GroupCardHolder;
-import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.GroupModel;
 import HCMUTE.SocialMedia.R;
-import HCMUTE.SocialMedia.Utils.ProcessTime;
 
 public class GroupCardAdapter extends RecyclerView.Adapter<GroupCardHolder> {
 
