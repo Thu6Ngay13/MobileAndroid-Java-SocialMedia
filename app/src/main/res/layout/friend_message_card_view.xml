@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvTextMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginStart="4dp"
+        android:padding="4dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/content_message"
+        android:textColor="@color/black"
+        android:background="@drawable/custom_message"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvMessageSendingAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginStart="4dp"
+        android:layout_below="@+id/tvTextMessage"
+        android:text="@string/message_sending_at"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="italic" />
+
+</RelativeLayout>

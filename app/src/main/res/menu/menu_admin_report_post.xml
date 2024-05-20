@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/iBanAccount"
+        android:title="@string/ban_account" />
+    <item
+        android:id="@+id/iDeletePost"
+        android:title="@string/delete_post"/>
+    <item
+        android:id="@+id/iIgnoreAllReport"
+        android:title="@string/ignore_all_report_of_post"/>
+</menu>

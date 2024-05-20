@@ -1,3 +1,71 @@
-<resources>
-    <string name="app_name">MobileAndroid-Java-SocialMedia</string>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Pie</string>
+
+    <string name="avatar">Avatar</string>
+    <string name="full_name">Johnny Deep</string>
+    <string name="posting_time_at">20:20 25–02-2024</string>
+    <string name="post_text">Hôm nay trời đẹp quá</string>
+    <string name="like">Like</string>
+    <string name="comment">Comment</string>
+    <string name="share">Share</string>
+
+    <string name="your_friend">Your friend</string>
+    <string name="friend_request">Friend Requests</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="friend_request_time_at">20:20 25–02-2024</string>
+    <string name="view_profile">Profile</string>
+    <string name="send_message">Message</string>
+
+    <string name="notify_time">Time</string>
+    <string name="notify_today">Today</string>
+    <string name="notify_3days_ago">3 days ago</string>
+    <string name="notify_7days_ago">7 days ago</string>
+    <string name="full_name_and_content">AAA BBB CCC</string>
+
+    <string name="what_are_you_thinking">What are you thinking?</string>
+    <string name="setting_function_name">Function name</string>
+    <string name="profile">Profile</string>
+    <string name="admin">Admin</string>
+    <string name="group">Group</string>
+    <string name="policy">Policy</string>
+    <string name="logout">Logout</string>
+
+    <string name="you">You</string>
+    <string name="conversation">Conversation</string>
+    <string name="type_message">Type message</string>
+    <string name="content_message">Content message </string>
+    <string name="message_sending_at">20:20 25–02-2024</string>
+    <string name="seen">Seen</string>
+    <string name="Received">Received</string>
+
+    <string name="mode_name">Public</string>
+    <string-array name="filter_comments">
+        <item>All comments</item>
+        <item>Newest</item>
+    </string-array>
+
+    <string name="report_port">Report this post as spam</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="error_invalid_password">Password must be greater than 8 characters</string>
+    <string name="error_invalid_email">Email invalidate</string>
+    <string name="error_field_required">Email cannot be empty</string>
+    <string name="Search">Search</string>
+
+    <string name="name_group">Group: AAA</string>
+    <string name="make_friend">Make friend</string>
+    <string name="join_group">Join group</string>
+    <string name="view_group">View group</string>
+    <string name="do_something">Do something</string>
+    <string name="ban_account">Ban account</string>
+    <string name="process_report">Process report</string>
+    <string name="content_report">Content report</string>
+    <string name="view_post">View Post</string>
+    <string name="report_time_at">Report time at</string>
+    <string name="all_report_about_post">All report about post</string>
+    <string name="ignore_all_report_of_post">Ignore all report of post</string>
+    <string name="delete_post">Delete post</string>
+
 </resources>
