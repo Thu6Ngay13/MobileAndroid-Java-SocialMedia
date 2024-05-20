@@ -29,6 +29,9 @@
             android:name=".Activities.SetAvatarActivity"
             android:exported="false" />
         <activity
+            android:name=".Activities.AcceptMemberInGroupActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ViewProfileGroupActivity"
             android:exported="false" />
         <activity

@@ -20,6 +20,7 @@ import HCMUTE.SocialMedia.Adapters.CommentCardAdapter;
 import HCMUTE.SocialMedia.Adapters.GroupCardAdapter;
 import HCMUTE.SocialMedia.Adapters.MyPersonalPageAdapter;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
+import HCMUTE.SocialMedia.Adapters.PostGroupAdapter;
 import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.CommentCardModel;
@@ -97,7 +98,7 @@ public class GroupActivity extends AppCompatActivity {
                         responseModelResult = responseModel.getResult();
                         postCardModels.addAll(responseModelResult);
                         recyclerView.setLayoutManager(new LinearLayoutManager(GroupActivity.this.getApplicationContext()));
-                        recyclerView.setAdapter(new PostAdapter(GroupActivity.this.getApplicationContext(), postCardModels));
+                        recyclerView.setAdapter(new PostGroupAdapter(GroupActivity.this.getApplicationContext(), postCardModels));
                     }
                 } else {
                     int statusCode = response.code();
@@ -124,7 +125,7 @@ public class GroupActivity extends AppCompatActivity {
                         responseModelResult = responseModel.getResult();
                         postCardModels.addAll(responseModelResult);
                         recyclerView.setLayoutManager(new LinearLayoutManager(GroupActivity.this.getApplicationContext()));
-                        recyclerView.setAdapter(new PostAdapter(GroupActivity.this.getApplicationContext(), postCardModels));
+                        recyclerView.setAdapter(new PostGroupAdapter(GroupActivity.this.getApplicationContext(), postCardModels));
                     }
                 } else {
                     int statusCode = response.code();

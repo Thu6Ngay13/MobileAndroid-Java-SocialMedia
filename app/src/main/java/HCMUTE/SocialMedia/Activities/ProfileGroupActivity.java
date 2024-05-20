@@ -33,7 +33,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileGroupActivity extends AppCompatActivity {
-
     private ImageButton ibBack;
     private LinearLayout llSearch;
     private RecyclerView recyclerView;

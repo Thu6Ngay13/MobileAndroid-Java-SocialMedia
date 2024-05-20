@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:id="@+id/clPersonalPageArea"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/ibBack"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:src="@mipmap/ic_arrow_left_72_dark" />
+
+        <LinearLayout
+            android:id="@+id/llSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:background="@drawable/custom_selector_gray"
+            android:layout_weight="10"
+            android:padding="5dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_search_72_dark"
+                android:paddingLeft="5dp"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                android:textColor="@color/green_dark"
+                android:paddingLeft="10dp"
+                android:layout_gravity="center"
+                android:textSize="18dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rowCount="4"
+        app:columnCount="1"
+        android:background="@color/white">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civAvatar"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/ic_user_72_dark"
+            app:civ_border_color="@color/green_dark"
+            app:layout_column="0"
+            app:layout_row="0"
+            app:layout_columnSpan="1"
+            app:layout_gravity="center"
+            android:layout_margin="10dp"
+            app:civ_border_width="2dp"/>
+
+        <TextView
+            android:id="@+id/tvGroupName"
+            android:layout_height="wrap_content"
+            android:text="Nhóm 1"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_column="0"
+            app:layout_columnSpan="1"
+            app:layout_gravity="center"
+            app:layout_row="1" />
+
+        <TextView
+            android:id="@+id/tvHolderFullName"
+            android:layout_margin="5dp"
+            android:text="Phap Nguyen"
+            android:textSize="12dp"
+            app:layout_column="0"
+
+            app:layout_columnSpan="1"
+            app:layout_gravity="center"
+            app:layout_row="2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_column="0"
+            app:layout_columnSpan="1"
+            android:orientation="horizontal"
+            app:layout_row="3">
+            <TextView
+                android:id="@+id/tvMember"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/green_dark"
+                android:textSize="18dp"
+                android:text="Accept Members"/>
+        </LinearLayout>
+
+    </androidx.gridlayout.widget.GridLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAcceptMemberArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>
