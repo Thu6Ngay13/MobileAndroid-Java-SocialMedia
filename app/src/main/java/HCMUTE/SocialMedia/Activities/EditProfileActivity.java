@@ -29,7 +29,7 @@ import retrofit2.Retrofit;
 public class EditProfileActivity extends AppCompatActivity {
 
     private EditText etFullName, etDescription, etCompany, etLocation;
-    private ImageButton ibUpdate;
+    private ImageButton ibUpdate, ibBack;
     private RadioGroup rgGender, rgRelationship;
     private RadioButton rbMale, rbFemale, rbInARelationship, rbSingle;
     private APIService apiService;
@@ -54,17 +54,26 @@ public class EditProfileActivity extends AppCompatActivity {
         etDescription.setText(accountModel.getDescription());
         etCompany.setText(accountModel.getCompany());
         etLocation.setText(accountModel.getLocation());
-        if (accountModel.getGender().equals("male")){
-            rbMale.setChecked(true);
+        if (accountModel.getGender() != null){
+            if (accountModel.getGender().equals("male")){
+                rbMale.setChecked(true);
+            }
+            else{
+                rbFemale.setChecked(true);
+            }
         }
-        else{
-            rbFemale.setChecked(true);
-        }
+
         if (accountModel.isSingle()){
             rbSingle.setChecked(true);
         }else {
             rbInARelationship.setChecked(true);
         }
+        ibBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         ibUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,5 +120,6 @@ public class EditProfileActivity extends AppCompatActivity {
         rbInARelationship = findViewById(R.id.rbInARelationship);
         rbSingle = findViewById(R.id.rbSingle);
         ibUpdate = findViewById(R.id.ibUpdate);
+        ibBack = findViewById(R.id.ibBack);
     }
 }

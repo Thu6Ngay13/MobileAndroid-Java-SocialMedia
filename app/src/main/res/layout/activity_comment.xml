@@ -4,8 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
+    <ImageButton
+        android:id="@+id/ibBack"
+        android:layout_width="84dp"
+        android:layout_height="58dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="327dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:src="@mipmap/ic_arrow_left_72_dark" />
 
     <Spinner
         android:id="@+id/FilterComment"
@@ -14,9 +29,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="199dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="154dp"
         android:entries="@array/filter_comments"
         tools:ignore="MissingConstraints" />
 

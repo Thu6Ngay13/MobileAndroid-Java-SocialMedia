@@ -38,6 +38,7 @@ public class VerifyNewAccountActivity extends AppCompatActivity {
             String email = intent.getStringExtra("registeredEmail"); // Lấy dữ liệu từ Intent bằng key
             tvEmail.setText("Enter the code we sent to " + email);
         }
+        etToken1.requestFocus();
         etToken1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

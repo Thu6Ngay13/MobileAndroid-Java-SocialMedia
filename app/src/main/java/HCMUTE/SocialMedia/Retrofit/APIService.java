@@ -14,6 +14,7 @@ import HCMUTE.SocialMedia.Models.PostCardModel;
 import HCMUTE.SocialMedia.Models.ReportPostModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.SearchModel;
+import HCMUTE.SocialMedia.Models.YourFriendModel;
 import HCMUTE.SocialMedia.Requests.AuthRequest;
 import HCMUTE.SocialMedia.Requests.RegisterRequest;
 import HCMUTE.SocialMedia.Requests.ResetPasswordRequest;
@@ -77,6 +78,8 @@ public interface APIService {
 
     @POST("friend/{username1}/unmake/{username2}")
     Call<ResponseModel<String>> unmakeFriend(@Path("username1") String username1, @Path("username2") String username2);
+    @POST("friend/{usernameYou}/unfriend/{usernameFriend}")
+    Call<ResponseModel<String>> unfriend(@Path("usernameYou") String usernameYou, @Path("usernameFriend") String usernameFriend);
 
     //    Call API NOTIFY
     @GET("notification/{username}")
@@ -136,6 +139,8 @@ public interface APIService {
             @Query("isSingle") boolean isSingle,
             @Query("username") String username
     );
+    @PUT("user/my-account/{username}/updateAvatar")
+    Call<SimpleResponse<String>> updateAvatar(@Query("username") String username, @Body Map<String, String> reqBody);
 
     @GET("comment/{postId}")
     Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);
@@ -146,6 +151,12 @@ public interface APIService {
     @PUT("comment/delete/{commentId}")
     Call<CommentCardModel> deleteComment(@Path("commentId") Long commentId);
 
+    @PUT("comment/update")
+    Call<SimpleResponse<CommentCardModel>> updateComment(
+            @Query("commentId") long commentId,
+            @Query("commentText") String commentText
+    );
+
     //    Call API GROUP
     @GET("group/posts/{username}")
     Call<ResponseModel<PostCardModel>> getPostInGroupsByUsername(@Path("username") String username);
@@ -153,6 +164,41 @@ public interface APIService {
     @GET("group/groups/{username}")
     Call<ResponseModel<GroupModel>> getGroupsByUsername(@Path("username") String username);
 
+    @POST("group/createGroup")
+    Call<SimpleResponse<GroupModel>> createGroup(
+            @Query("username") String username,
+            @Query("groupName") String groupName,
+            @Query("modeId") long modeId,
+            @Query("description") String description
+    );
+
+    @POST("group/updateGroup")
+    Call<SimpleResponse<GroupModel>> updateGroup(
+            @Query("groupId") long groupId,
+            @Query("username") String username,
+            @Query("groupName") String groupName,
+            @Query("modeId") long modeId,
+            @Query("description") String description,
+            @Query("groupImage") String groupImage
+    );
+    @GET("group/memberInOneGroup")
+    Call<ResponseModel<YourFriendModel>> getMembersInGroup(
+            @Query("groupId") long groupId);
+
+    @GET("group/listAcceptMemberGroup")
+    Call<ResponseModel<AccountCardModel>> listAcceptMemberGroup(
+            @Query("groupId") long groupId);
+
+    @GET("group/postInOneGroup")
+    Call<ResponseModel<PostCardModel>> getPostsInGroup(
+            @Query("username") String username,
+            @Query("groupId") long groupId);
+    @GET("group/{groupId}")
+    Call<SimpleResponse<GroupModel>> getGroupByGroupId(@Path("groupId") Long groupId);
+
+    @POST("group/createPost")
+    Call<PostCardModel> createPostInGroup(@Body PostCardModel postCardModel);
+    //    Call API GROUP
     @GET("group/{username}/viewgroup/{groupId}")
     Call<ResponseModel<GroupModel>> viewGroupByUsernameAndGroupId(@Path("username") String username, @Path("groupId") long groupId);
 
@@ -162,6 +208,20 @@ public interface APIService {
     @GET("group/{username}/unjoingroup/{groupId}")
     Call<ResponseModel<String>> unjoinGroupByUsernameAndGroupId(@Path("username") String username, @Path("groupId") long groupId);
 
+    @GET("group/isAcceptGroup")
+    Call<SimpleResponse<String>> isAcceptGroup(
+            @Query("username") String username,
+            @Query("groupId") long groupId);
+
+    @GET("group/acceptMember")
+    Call<SimpleResponse<String>> acceptMember(
+            @Query("username") String username,
+            @Query("groupId") long groupId);
+
+
+    @GET("group/findOne")
+    Call<SimpleResponse<GroupModel>> findOne(
+            @Query("groupId") long groupId);
     //    Call API SEARCH
     @GET("search/{username}")
     Call<ResponseModel<SearchModel>> getSuggestFriend(@Path("username") String username);

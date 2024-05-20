@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.SetAvatarActivity"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:layout_marginBottom="5dp">
+
+        <ImageButton
+            android:id="@+id/ibBack"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:src="@mipmap/ic_arrow_left_72_dark" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:text="Change Avatar"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:paddingLeft="10dp"/>
+        <ImageButton
+            android:id="@+id/ibUpdate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/ic_check_90_dark"
+            android:background="@color/white"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/ic_launcher_background"/>
+    <Button
+        android:id="@+id/btnSelectAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_button_selector_line"
+        app:backgroundTint="@null"
+        android:text="Select avatar"
+        android:textColor="@color/green_dark"
+        android:layout_marginTop="80dp"
+        android:layout_gravity="center"/>
+</LinearLayout>

@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.MessageActivity;
+import HCMUTE.SocialMedia.Activities.YourPersonalPageActivity;
 import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Enums.TypeFriendEnum;
 import HCMUTE.SocialMedia.Holders.FriendHolder;
@@ -66,6 +67,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendHolder> {
             btViewProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent intent = new Intent(context, YourPersonalPageActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("YOUR_FRIEND_USERNAME", friendModel.getUsername());
+                    context.startActivity(intent);
                 }
             });
             btSendMessage.setOnClickListener(new View.OnClickListener() {

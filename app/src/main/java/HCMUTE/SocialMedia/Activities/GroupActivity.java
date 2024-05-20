@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import HCMUTE.SocialMedia.Adapters.CommentCardAdapter;
 import HCMUTE.SocialMedia.Adapters.GroupCardAdapter;
 import HCMUTE.SocialMedia.Adapters.MyPersonalPageAdapter;
 import HCMUTE.SocialMedia.Adapters.PostAdapter;
+import HCMUTE.SocialMedia.Adapters.PostGroupAdapter;
 import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.CommentCardModel;
@@ -37,18 +39,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GroupActivity extends AppCompatActivity {
-
+    private SwipeRefreshLayout slGroup;
     private ImageButton ibBack;
     private ImageButton ibCreateGroup;
     private RecyclerView recyclerView;
     private APIService apiService;
-    private MyPersonalPageAdapter adapter;
     private Button btPostGroup, btMyGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
+
+        slGroup = findViewById(R.id.slGroup);
+        slGroup.setOnRefreshListener(() -> {
+            slGroup.setRefreshing(true);
+            reloadActivity();
+        });
+
         ibBack = findViewById(R.id.ibBack);
         ibCreateGroup = findViewById(R.id.ibCreateGroup);
         btPostGroup = findViewById(R.id.btPostGroup);
@@ -66,6 +74,7 @@ public class GroupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GroupActivity.this, CreateGroupActivity.class);
+                finish();
                 startActivity(intent);
             }
         });
@@ -80,10 +89,16 @@ public class GroupActivity extends AppCompatActivity {
         btMyGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadData(PrefManager.getUsername());
+                loadMyGroups(PrefManager.getUsername());
             }
         });
         loadData(PrefManager.getUsername());
+    }
+
+    private void reloadActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
     private void loadData(String username) {
         final List<PostCardModel> postCardModels = new ArrayList<>();
@@ -98,7 +113,7 @@ public class GroupActivity extends AppCompatActivity {
                         responseModelResult = responseModel.getResult();
                         postCardModels.addAll(responseModelResult);
                         recyclerView.setLayoutManager(new LinearLayoutManager(GroupActivity.this.getApplicationContext()));
-                        recyclerView.setAdapter(new PostAdapter(GroupActivity.this.getApplicationContext(), postCardModels));
+                        recyclerView.setAdapter(new PostGroupAdapter(GroupActivity.this.getApplicationContext(), postCardModels));
                     }
                 } else {
                     int statusCode = response.code();
@@ -125,7 +140,7 @@ public class GroupActivity extends AppCompatActivity {
                         responseModelResult = responseModel.getResult();
                         postCardModels.addAll(responseModelResult);
                         recyclerView.setLayoutManager(new LinearLayoutManager(GroupActivity.this.getApplicationContext()));
-                        recyclerView.setAdapter(new PostAdapter(GroupActivity.this.getApplicationContext(), postCardModels));
+                        recyclerView.setAdapter(new PostGroupAdapter(GroupActivity.this.getApplicationContext(), postCardModels));
                     }
                 } else {
                     int statusCode = response.code();

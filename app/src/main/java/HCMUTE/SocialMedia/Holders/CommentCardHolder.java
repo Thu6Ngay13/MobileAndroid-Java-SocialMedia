@@ -1,6 +1,7 @@
 package HCMUTE.SocialMedia.Holders;
 
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,7 +14,7 @@ public class CommentCardHolder extends RecyclerView.ViewHolder {
 
     public ImageView avatar;
     public TextView fullName;
-    public TextView commentText;
+    public EditText commentText;
     public ImageView commentImage;
     public TextView commentTimeAt;
 

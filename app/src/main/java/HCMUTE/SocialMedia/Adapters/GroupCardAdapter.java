@@ -1,12 +1,11 @@
 package HCMUTE.SocialMedia.Adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
-import android.text.style.TextAppearanceSpan;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,10 +15,12 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import HCMUTE.SocialMedia.Activities.GroupActivity;
+import HCMUTE.SocialMedia.Activities.MainActivity;
+import HCMUTE.SocialMedia.Activities.ProfileGroupActivity;
 import HCMUTE.SocialMedia.Holders.GroupCardHolder;
 import HCMUTE.SocialMedia.Models.GroupModel;
 import HCMUTE.SocialMedia.R;
-import HCMUTE.SocialMedia.Utils.ProcessTime;
 
 public class GroupCardAdapter extends RecyclerView.Adapter<GroupCardHolder> {
 
@@ -39,18 +40,48 @@ public class GroupCardAdapter extends RecyclerView.Adapter<GroupCardHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull GroupCardHolder holder, int position) {
-        GroupModel groupCardModel = groupCards.get(position);
+        final GroupModel groupCardModel = groupCards.get(position);
         Glide.with(context)
                 .load(groupCardModel.getAvatarURL())
                 .into(holder.avatar);
 
+        if (groupCardModel.getModeId() == 1){
+            holder.ivMode.setImageResource(R.mipmap.ic_global_72_dark);
+        } else if (groupCardModel.getModeId() == 2) {
+            holder.ivMode.setImageResource(R.mipmap.ic_friend_72_full);
+        }
         String holderFullName = groupCardModel.getHolderFullName();
         String groupName = groupCardModel.getGroupName();
 
         holder.holderFullName.setText(holderFullName);
         holder.groupName.setText(groupName);
-    }
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("", groupCardModel.toString());
+                Intent intent = new Intent(context, ProfileGroupActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Bundle bundle = new Bundle();
+                bundle.putLong("GROUP_GROUPID", groupCardModel.getGroupId());
+                bundle.putString("GROUP_GROUPNAME", groupCardModel.getGroupName());
+                bundle.putString("GROUP_AVATARURL", groupCardModel.getAvatarURL());
+                bundle.putString("GROUP_DESCRIPSION", groupCardModel.getDescription());
+                bundle.putString("GROUP_TIME", groupCardModel.getCreationTimeAt());
+                bundle.putLong("GROUP_MODEID", groupCardModel.getModeId());
+                bundle.putString("GROUP_USERNAME", groupCardModel.getHolderUsername());
+                bundle.putString("GROUP_FULLNAME", groupCardModel.getHolderFullName());
+                intent.putExtras(bundle);
+                closeActivity();
+                context.startActivity(intent);
+            }
+        });
+    }
+    private void closeActivity() {
+        if (context instanceof GroupActivity) {
+            ((GroupActivity) context).finish();
+        }
+    }
     @Override
     public int getItemCount() {
         if (groupCards != null)

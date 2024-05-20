@@ -44,6 +44,10 @@ public class YourPersonalPageActivity extends AppCompatActivity {
         if (intent != null){
             friend_username = intent.getStringExtra("YOUR_FRIEND_USERNAME");
         }
+        if (friend_username.equals(PrefManager.getUsername())){
+            Intent intent2 = new Intent(YourPersonalPageActivity.this, MyPersonalPageActivity.class);
+            startActivity(intent2);
+        }
         ibBack = findViewById(R.id.ibBack);
         llSearch = findViewById(R.id.llSearch);
         ibBack.setOnClickListener(new View.OnClickListener() {
@@ -75,9 +79,7 @@ public class YourPersonalPageActivity extends AppCompatActivity {
                             YourFriendModel yourFriend = new YourFriendModel();
                             yourFriend.setAvatar(a.getAvatarURL());
                             yourFriend.setUsername(a.getUsername());
-                            if (!yourFriend.getUsername().equals(PrefManager.getUsername())){
-                                yourFriendModels.add(yourFriend);
-                            }
+                            yourFriendModels.add(yourFriend);
                         }
                         List<PostCardModel> postCardModels = new ArrayList<>();
                         for (PostCardModel p: model.getPosts()) {
@@ -88,7 +90,7 @@ public class YourPersonalPageActivity extends AppCompatActivity {
                             post.setFullName(p.getFullName());
                             post.setPostMedia(p.getPostMedia());
                             post.setPostingTimeAt(p.getPostingTimeAt());
-                            post.setMode(R.mipmap.ic_global_72_dark);
+                            post.setMode(p.getMode());
                             post.setPostText(p.getPostText());
                             post.setLiked(p.isLiked());
                             postCardModels.add(post);

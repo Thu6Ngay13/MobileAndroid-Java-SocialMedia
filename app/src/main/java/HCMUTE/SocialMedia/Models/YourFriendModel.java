@@ -28,4 +28,11 @@ public class YourFriendModel {
         this.username = fullName;
     }
 
+    @Override
+    public String toString() {
+        return "YourFriendModel{" +
+                "avatar='" + avatar + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }
