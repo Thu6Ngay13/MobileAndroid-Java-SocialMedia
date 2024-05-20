@@ -21,27 +21,31 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp">
-
-        <EditText
-            android:id="@+id/etEmailOrUsername"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tfEmail"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="25dp"
-            android:background="@drawable/custom_edittext"
-            android:hint="Email or Username"
-            android:paddingLeft="15dp"
-            android:maxLines="1"
-            android:inputType="textEmailAddress"/>
+            android:layout_marginBottom="25dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmailOrUsername"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Email"
+                android:paddingLeft="15dp"
+                android:maxLines="1"
+                android:inputType="textPassword"
+                style="?attr/textInputOutlinedStyle"/>
+        </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tfPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="25dp"
-            android:layout_below="@+id/etEmailOrUsername"
+            android:layout_below="@+id/tfEmail"
             app:endIconMode="password_toggle">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPassword"
@@ -49,11 +53,11 @@
                 android:layout_height="50dp"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/etEmailOrUsername"
-                android:background="@drawable/custom_edittext"
                 android:hint="Password"
                 android:paddingLeft="15dp"
                 android:maxLines="1"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                style="?attr/textInputOutlinedStyle"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

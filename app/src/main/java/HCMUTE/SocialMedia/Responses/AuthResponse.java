@@ -12,9 +12,10 @@ public class AuthResponse {
     private String username;
     private String email;
     private String avatarurl;
+    private int isBanned;
     private Role role;
 
-    public AuthResponse(String accessToken, String refreshToken, boolean error, boolean success, String message, String fullName, String username, String email, String avatarurl, Role role) {
+    public AuthResponse(String accessToken, String refreshToken, boolean error, boolean success, String message, String fullName, String username, String email, String avatarurl, int isBanned, Role role) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.error = error;
@@ -24,6 +25,7 @@ public class AuthResponse {
         this.username = username;
         this.email = email;
         this.avatarurl = avatarurl;
+        this.isBanned = isBanned;
         this.role = role;
     }
 
@@ -105,5 +107,13 @@ public class AuthResponse {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public int getIsBanned() {
+        return isBanned;
+    }
+
+    public void setIsBanned(int isBanned) {
+        this.isBanned = isBanned;
     }
 }

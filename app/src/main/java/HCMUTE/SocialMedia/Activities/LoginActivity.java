@@ -1,5 +1,6 @@
 package HCMUTE.SocialMedia.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -13,9 +14,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import HCMUTE.SocialMedia.Consts.Const;
+import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.R;
 import HCMUTE.SocialMedia.Requests.AuthRequest;
 import HCMUTE.SocialMedia.Responses.AuthResponse;
@@ -107,10 +110,24 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         if (response.body() != null){
                             AuthResponse authResponse = response.body();
-                            PrefManager.getInstance(LoginActivity.this).login(authResponse.getUsername(), authResponse.getEmail(), authResponse.getAccessToken(), authResponse.getRole().name(), authResponse.getAvatarurl(), authResponse.getFullName());
-                            finish();
-                            startMainActivity(PrefManager.getRole());
-                            pbWait.setVisibility(View.GONE);
+                            if (response.body().getIsBanned() == 1){
+                                AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+                                alert.setTitle("Information");
+                                alert.setMessage("Your account is banned");
+                                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                });
+                                alert.show();
+                            }
+                            else{
+                                PrefManager.getInstance(LoginActivity.this).login(authResponse.getUsername(), authResponse.getEmail(), authResponse.getAccessToken(), authResponse.getRole().name(), authResponse.getAvatarurl(), authResponse.getFullName());
+                                finish();
+                                startMainActivity(PrefManager.getRole());
+                                pbWait.setVisibility(View.GONE);
+                            }
                         }
                     }
                     else {
