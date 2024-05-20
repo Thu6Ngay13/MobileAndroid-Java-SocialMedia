@@ -151,6 +151,12 @@ public interface APIService {
     @PUT("comment/delete/{commentId}")
     Call<CommentCardModel> deleteComment(@Path("commentId") Long commentId);
 
+    @PUT("comment/update")
+    Call<SimpleResponse<CommentCardModel>> updateComment(
+            @Query("commentId") long commentId,
+            @Query("commentText") String commentText
+    );
+
     //    Call API GROUP
     @GET("group/posts/{username}")
     Call<ResponseModel<PostCardModel>> getPostInGroupsByUsername(@Path("username") String username);

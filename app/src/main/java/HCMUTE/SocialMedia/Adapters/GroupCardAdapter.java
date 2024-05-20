@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import HCMUTE.SocialMedia.Activities.GroupActivity;
+import HCMUTE.SocialMedia.Activities.MainActivity;
 import HCMUTE.SocialMedia.Activities.ProfileGroupActivity;
 import HCMUTE.SocialMedia.Holders.GroupCardHolder;
 import HCMUTE.SocialMedia.Models.GroupModel;
@@ -70,11 +72,16 @@ public class GroupCardAdapter extends RecyclerView.Adapter<GroupCardHolder> {
                 bundle.putString("GROUP_USERNAME", groupCardModel.getHolderUsername());
                 bundle.putString("GROUP_FULLNAME", groupCardModel.getHolderFullName());
                 intent.putExtras(bundle);
+                closeActivity();
                 context.startActivity(intent);
             }
         });
     }
-
+    private void closeActivity() {
+        if (context instanceof GroupActivity) {
+            ((GroupActivity) context).finish();
+        }
+    }
     @Override
     public int getItemCount() {
         if (groupCards != null)
