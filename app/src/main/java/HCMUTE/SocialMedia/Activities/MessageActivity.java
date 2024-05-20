@@ -153,8 +153,13 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private final Emitter.Listener onReceiveMessage = args -> {
+
         try {
             JSONObject jsonReceive = new JSONObject(args[0].toString());
+
+            long ConversationIdReceive = jsonReceive.getLong("conversationId");
+            Log.d("XXX", ": " + ConversationIdReceive + "|" + conversationId);
+            if (conversationId != ConversationIdReceive) return;
 
             String typeReceiveString = jsonReceive.getString("typeSender");
             TypeMessageEnum typeReceive = TypeMessageEnum.fromString(typeReceiveString);
