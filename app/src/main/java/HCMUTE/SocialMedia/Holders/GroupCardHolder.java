@@ -16,13 +16,13 @@ public class GroupCardHolder extends RecyclerView.ViewHolder {
     public ImageView avatar;
     public TextView groupName;
     public TextView holderFullName;
-    public TextView groupId;
+    public ImageView ivMode;
 
     public GroupCardHolder(@NonNull View itemView) {
         super(itemView);
         this.avatar = itemView.findViewById(R.id.ivAvatar);
         this.groupName = itemView.findViewById(R.id.tvGroupName);
-        this.groupId = itemView.findViewById(R.id.groupId);
+        this.ivMode = itemView.findViewById(R.id.ivMode);
         this.holderFullName = itemView.findViewById(R.id.tvHolderFullName);
 /*
         itemView.setOnClickListener(new View.OnClickListener() {

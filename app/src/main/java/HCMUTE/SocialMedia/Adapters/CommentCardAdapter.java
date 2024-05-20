@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.CommentActivity;
+import HCMUTE.SocialMedia.Activities.MainActivity;
 import HCMUTE.SocialMedia.Consts.Const;
 import HCMUTE.SocialMedia.Holders.CommentCardHolder;
 import HCMUTE.SocialMedia.Models.CommentCardModel;
@@ -76,6 +77,8 @@ public class CommentCardAdapter extends RecyclerView.Adapter<CommentCardHolder> 
         ibDeleteComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("TAG", "onClick: "+ commentCardModel.getUsername() + PrefManager.getUsername());
+                if (commentCardModel.getUsername().equals(PrefManager.getUsername())){
                 apiService = RetrofitClient.getRetrofit().create(APIService.class);
                 Call<CommentCardModel> call = apiService.deleteComment(commentCardModel.getCommentId());
                 call.enqueue(new Callback<CommentCardModel>() {
@@ -87,6 +90,7 @@ public class CommentCardAdapter extends RecyclerView.Adapter<CommentCardHolder> 
                             Intent intent = new Intent(context, CommentActivity.class);
                             intent.putExtra("postId", String.valueOf(commentCardModel.getPostId()));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            closeActivity();
                             context.startActivity(intent);
                         }
                         else {
@@ -98,12 +102,19 @@ public class CommentCardAdapter extends RecyclerView.Adapter<CommentCardHolder> 
                         Log.d("Activity", "Request failed: " + t.getMessage());
                     }
                 });
-            }
-        });
+            } else {
+                    Toast.makeText(context, "Không thể xóa bình luận của người khác!!!", Toast.LENGTH_SHORT).show();
+
+                }
+        } });
 
 
     }
-
+    private void closeActivity() {
+        if (context instanceof CommentActivity) {
+            ((CommentActivity) context).finish();
+        }
+    }
 
 
     @Override

@@ -43,12 +43,16 @@ public class GroupCardAdapter extends RecyclerView.Adapter<GroupCardHolder> {
                 .load(groupCardModel.getAvatarURL())
                 .into(holder.avatar);
 
+        if (groupCardModel.getModeId() == 1){
+            holder.ivMode.setImageResource(R.mipmap.ic_global_72_dark);
+        } else if (groupCardModel.getModeId() == 2) {
+            holder.ivMode.setImageResource(R.mipmap.ic_friend_72_full);
+        }
         String holderFullName = groupCardModel.getHolderFullName();
         String groupName = groupCardModel.getGroupName();
 
         holder.holderFullName.setText(holderFullName);
         holder.groupName.setText(groupName);
-        holder.groupId.setText(String.valueOf(groupCardModel.getGroupId()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

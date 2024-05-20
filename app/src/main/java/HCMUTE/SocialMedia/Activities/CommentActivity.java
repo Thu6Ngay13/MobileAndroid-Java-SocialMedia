@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class CommentActivity extends AppCompatActivity {
     private String commentImage = "";
     private ImageView ivCommentImage, ivMedia, ivSent;
     private EditText etComment;
+    private ImageButton ibBack;
     long postId = -1;
 
     private RecyclerView recyclerView;
@@ -69,6 +71,8 @@ public class CommentActivity extends AppCompatActivity {
         initialize();
         createComment();
         loadComments();
+        ibBack = findViewById(R.id.ibBack);
+        ibBack.setOnClickListener(v -> finish());
     }
 
     public void loadComments()

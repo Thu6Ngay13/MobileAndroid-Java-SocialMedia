@@ -3,6 +3,7 @@ package HCMUTE.SocialMedia.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileGroupActivity extends AppCompatActivity {
+    private SwipeRefreshLayout slProfileGroup;
     private ImageButton ibBack;
     private LinearLayout llSearch;
     private RecyclerView recyclerView;
@@ -46,6 +48,12 @@ public class ProfileGroupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile_group);
         ibBack = findViewById(R.id.ibBack);
         llSearch = findViewById(R.id.llSearch);
+
+        slProfileGroup = findViewById(R.id.slProfileGroup);
+        slProfileGroup.setOnRefreshListener(() -> {
+            slProfileGroup.setRefreshing(true);
+            reloadActivity();
+        });
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +84,12 @@ public class ProfileGroupActivity extends AppCompatActivity {
             Log.d("", groupModel.toString());
         }
         getProfile(groupModel.getGroupId());
+    }
+
+    private void reloadActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 
     private void getProfile(Long groupId) {
