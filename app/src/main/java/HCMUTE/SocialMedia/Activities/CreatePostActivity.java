@@ -63,7 +63,7 @@ public class CreatePostActivity extends AppCompatActivity implements AdapterView
     private String avatar = PrefManager.getAvatarURL();
     private String username = PrefManager.getUsername();
     private String postMedia = "";
-    private long modeId = 0;
+    private long modeId = 1;
     private ImageView ivBack, ivAvatar, ivPostImage, ivMedia;
     private Button btPost;
     private TextView tvFullName;

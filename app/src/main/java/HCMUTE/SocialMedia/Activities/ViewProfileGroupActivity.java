@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -28,10 +29,8 @@ import retrofit2.Response;
 public class ViewProfileGroupActivity extends AppCompatActivity {
 
     private ImageButton ibBack;
-    private EditText etGroupName, etDescription;
-    private ImageButton ibCreate;
+    private TextView etGroupName, etDescription;
     private RadioButton rbPublic, rbPrivate;
-    private APIService apiService;
 
     private ImageView ivGroupImage;
 
