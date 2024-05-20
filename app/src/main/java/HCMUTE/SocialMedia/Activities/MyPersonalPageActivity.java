@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,12 +44,19 @@ public class MyPersonalPageActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private APIService apiService;
     private MyPersonalPageAdapter adapter;
+    private SwipeRefreshLayout slMyPersonalPage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_personal_page);
         ibBack = findViewById(R.id.ibBack);
         llSearch = findViewById(R.id.llSearch);
+        slMyPersonalPage = findViewById(R.id.slMyPersonalPage);
+        slMyPersonalPage.setOnRefreshListener(() -> {
+            slMyPersonalPage.setRefreshing(true);
+            reloadActivity();
+        });
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +71,12 @@ public class MyPersonalPageActivity extends AppCompatActivity {
             }
         });
         getProfile(PrefManager.getUsername());
+    }
+
+    private void reloadActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 
     private AccountCardModel getProfile(String username) {

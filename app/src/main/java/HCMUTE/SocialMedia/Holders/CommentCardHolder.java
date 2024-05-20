@@ -12,7 +12,6 @@ import HCMUTE.SocialMedia.R;
 public class CommentCardHolder extends RecyclerView.ViewHolder {
 
     public ImageView avatar;
-
     public TextView fullName;
     public TextView commentText;
     public ImageView commentImage;

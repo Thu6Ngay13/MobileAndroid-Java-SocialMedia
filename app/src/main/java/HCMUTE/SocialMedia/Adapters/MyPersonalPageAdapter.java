@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 
@@ -22,8 +23,10 @@ import java.util.List;
 
 import HCMUTE.SocialMedia.Activities.CreatePostActivity;
 import HCMUTE.SocialMedia.Activities.EditProfileActivity;
+import HCMUTE.SocialMedia.Activities.MainActivity;
 import HCMUTE.SocialMedia.Activities.MyPersonalPageActivity;
 import HCMUTE.SocialMedia.Activities.SeeAllFriendActivity;
+import HCMUTE.SocialMedia.Activities.SetAvatarActivity;
 import HCMUTE.SocialMedia.Activities.YourPersonalPageActivity;
 import HCMUTE.SocialMedia.Models.AccountCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
@@ -33,6 +36,7 @@ import HCMUTE.SocialMedia.SharePreferances.PrefManager;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyPersonalPageAdapter extends RecyclerView.Adapter<MyPersonalPageAdapter.MyPersonalPageHolder>{
+    private static final int REQUEST_CODE = 1;
     private Context context;
     private AccountCardModel accountModel;
     private List<YourFriendModel> yourFriends;
@@ -103,6 +107,13 @@ public class MyPersonalPageAdapter extends RecyclerView.Adapter<MyPersonalPageAd
             public void onClick(View v) {
                 Intent intent = new Intent(context, SeeAllFriendActivity.class);
                 intent.putExtra("SEE_FRIEND", PrefManager.getUsername());
+                context.startActivity(intent);
+            }
+        });
+        holder.civAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SetAvatarActivity.class);
                 context.startActivity(intent);
             }
         });

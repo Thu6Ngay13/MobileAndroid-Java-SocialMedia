@@ -48,7 +48,7 @@ public class AdminBanAccountActivity extends AppCompatActivity {
 
         banAccountModels = new ArrayList<>();
         APIService apiService = (APIService) RetrofitClient.getRetrofit().create(APIService.class);
-        apiService.getBanAccount().enqueue(new Callback<ResponseModel<BanAccountModel>>() {
+        apiService.getAllAccount().enqueue(new Callback<ResponseModel<BanAccountModel>>() {
             @Override
             public void onResponse(Call<ResponseModel<BanAccountModel>> call, Response<ResponseModel<BanAccountModel>> response) {
                 if (response.isSuccessful()) {

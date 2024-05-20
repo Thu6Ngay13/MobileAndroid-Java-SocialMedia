@@ -36,7 +36,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:text="Back"
+            android:text="Friend"
             android:textColor="@color/green_dark"
             android:textSize="22sp"
             android:textStyle="bold"

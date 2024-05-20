@@ -11,7 +11,7 @@ import HCMUTE.SocialMedia.Models.GroupModel;
 import HCMUTE.SocialMedia.Models.MessageModel;
 import HCMUTE.SocialMedia.Models.NotifyCardModel;
 import HCMUTE.SocialMedia.Models.PostCardModel;
-import HCMUTE.SocialMedia.Models.ReportModel;
+import HCMUTE.SocialMedia.Models.ReportPostModel;
 import HCMUTE.SocialMedia.Models.ResponseModel;
 import HCMUTE.SocialMedia.Models.SearchModel;
 import HCMUTE.SocialMedia.Models.YourFriendModel;
@@ -139,6 +139,8 @@ public interface APIService {
             @Query("isSingle") boolean isSingle,
             @Query("username") String username
     );
+    @PUT("user/my-account/{username}/updateAvatar")
+    Call<SimpleResponse<String>> updateAvatar(@Query("username") String username, @Body Map<String, String> reqBody);
 
     @GET("comment/{postId}")
     Call<ResponseModel<CommentCardModel>> getCommentWithPostId(@Path("postId") Long postId);
@@ -222,19 +224,14 @@ public interface APIService {
     Call<ResponseModel<SearchModel>> search(@Path("username") String username, @Path("keyword") String keyword);
 
     //    Call API REPORT
-    @GET("report")
-    Call<ResponseModel<ReportModel>> getAllReports();
-
     @Multipart
     @POST("report/{username}/report/{postId}")
     Call<ResponseModel<String>> reportPost(@Path("username") String username, @Path("postId") long postId, @Part("jsonBody") RequestBody jsonBody);
 
-    @POST("report/{username}/report/{postId}")
-    Call<ResponseModel<String>> handleReport(@Path("reportId") String reportId);
-
     //    Call API ADMIN
+    //    Call API ACCOUNT
     @GET("v1/admin/banaccount")
-    Call<ResponseModel<BanAccountModel>> getBanAccount();
+    Call<ResponseModel<BanAccountModel>> getAllAccount();
 
     @POST("v1/admin/banaccount/ban/{username}")
     Call<ResponseModel<String>> banAccount(@Path("username") String username);
@@ -242,4 +239,16 @@ public interface APIService {
     @POST("v1/admin/banaccount/unban/{username}")
     Call<ResponseModel<String>> unbanAccount(@Path("username") String username);
 
+    //    Call API POST
+    @GET("v1/admin/procesreport")
+    Call<ResponseModel<ReportPostModel>> getAllReports();
+
+    @GET("v1/admin/procesreport/{postId}")
+    Call<ResponseModel<ReportPostModel>> getAllReportsWithPostId(@Path("postId") long postId);
+
+    @POST("v1/admin/procesreport/{postId}/delete")
+    Call<ResponseModel<String>> deletePost(@Path("postId") long postId);
+
+    @POST("v1/admin/procesreport/{postId}/ignore")
+    Call<ResponseModel<String>> ignoreAllReportOfPost(@Path("postId") long postId);
 }
