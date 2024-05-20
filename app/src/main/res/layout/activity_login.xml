@@ -36,8 +36,7 @@
                 android:hint="Email"
                 android:paddingLeft="15dp"
                 android:maxLines="1"
-                android:inputType="textPassword"
-                style="?attr/textInputOutlinedStyle"/>
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tfPassword"
