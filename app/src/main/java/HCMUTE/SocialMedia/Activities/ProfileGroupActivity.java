@@ -125,23 +125,25 @@ public class ProfileGroupActivity extends AppCompatActivity {
             }
         });
 
-        final List<YourFriendModel> accountCardModels = new ArrayList<>();
-        apiService.getMembersInGroup( groupId).enqueue(new Callback<ResponseModel<YourFriendModel>>() {
+        final List<AccountCardModel> accountCardModels = new ArrayList<>();
+        apiService.getMembersInGroup( groupId).enqueue(new Callback<ResponseModel<AccountCardModel>>() {
             @Override
-            public void onResponse(Call<ResponseModel<YourFriendModel>> call, Response<ResponseModel<YourFriendModel>> response) {
+            public void onResponse(Call<ResponseModel<AccountCardModel>> call, Response<ResponseModel<AccountCardModel>> response) {
                 if (response.isSuccessful()) {
-                    ResponseModel<YourFriendModel> responseModel = response.body();
-                    List<YourFriendModel> responseModelResult = new ArrayList<>();
+                    ResponseModel<AccountCardModel> responseModel = response.body();
+                    List<AccountCardModel> responseModelResult = new ArrayList<>();
                     if (responseModel != null && responseModel.isSuccess()) {
                         responseModelResult = responseModel.getResult();
                         accountCardModels.addAll(responseModelResult);
-                        if (!accountCardModels.isEmpty()) {
-                            Log.d("First Element", accountCardModels.get(0).toString());
-                        } else {
-                            Log.d("List Check", "postCardModels is empty");
+                        List<YourFriendModel> yourFriendModels = new ArrayList<>();
+                        for (AccountCardModel a: accountCardModels) {
+                            YourFriendModel yourFriend = new YourFriendModel();
+                            yourFriend.setAvatar(a.getAvatarURL());
+                            yourFriend.setUsername(a.getUsername());
+                            yourFriendModels.add(yourFriend);
                         }
                         recyclerView = findViewById(R.id.rvProfileGroupArea);
-                        adapter = new ProfileGroupAdapter(ProfileGroupActivity.this, groupModel, accountCardModels, postCardModels);
+                        adapter = new ProfileGroupAdapter(ProfileGroupActivity.this, groupModel, yourFriendModels, postCardModels);
                         LinearLayoutManager layoutManager = new LinearLayoutManager(ProfileGroupActivity.this, LinearLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
@@ -153,7 +155,7 @@ public class ProfileGroupActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseModel<YourFriendModel>> call, Throwable t) {
+            public void onFailure(Call<ResponseModel<AccountCardModel>> call, Throwable t) {
             }
         });
 
