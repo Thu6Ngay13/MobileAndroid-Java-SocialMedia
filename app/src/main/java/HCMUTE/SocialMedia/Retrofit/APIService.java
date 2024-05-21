@@ -39,7 +39,9 @@ public interface APIService {
 
     //    Call API POST
     @GET("post/{username}/{page}/{pageSize}")
-    Call<ResponseModel<PostCardModel>> getPostOfNewFeedWithUsername(@Path("username") String username, @Path("page") int page, @Path("pageSize") int pageSize);
+    Call<ResponseModel<PostCardModel>> getPostOfNewFeedWithUsername(@Path("username") String username,
+                                                                    @Path("page") int page,
+                                                                    @Path("pageSize") int pageSize);
 
     @POST("post/{username}/like/{postId}")
     Call<ResponseModel<String>> likePost(@Path("username") String username, @Path("postId") long postId);
@@ -182,7 +184,7 @@ public interface APIService {
             @Query("groupImage") String groupImage
     );
     @GET("group/memberInOneGroup")
-    Call<ResponseModel<YourFriendModel>> getMembersInGroup(
+    Call<ResponseModel<AccountCardModel>> getMembersInGroup(
             @Query("groupId") long groupId);
 
     @GET("group/listAcceptMemberGroup")
